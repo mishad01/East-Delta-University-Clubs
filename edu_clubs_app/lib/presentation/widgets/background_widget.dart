@@ -11,7 +11,10 @@ class BackgroundWidget extends StatelessWidget {
     return Stack(
       children: [
         SizedBox.expand(
-          child: SvgPicture.asset(AssetsPath.bgSvg),
+          child: SvgPicture.asset(
+            AssetsPath.bgSvg,
+            fit: BoxFit.cover,
+          ),
         ),
         child,
       ],
