@@ -1,5 +1,7 @@
+import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/otp_screen.dart';
 import 'package:edu_clubs_app/presentation/widgets/background_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -17,13 +19,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordTEController = TextEditingController();
   final TextEditingController _confirmPasswordTEController =
       TextEditingController();
-
-  // FocusNodes for next option
-  final FocusNode _emailFocusNode = FocusNode();
-  final FocusNode _mobileFocusNode = FocusNode();
-  final FocusNode _studentFocusNode = FocusNode();
-  final FocusNode _passwordFocusNode = FocusNode();
-  final FocusNode _confirmPasswordFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +140,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      if (_formState.currentState!.validate()) {
-                        // Perform sign up action
-                      }
+                      if (_formState.currentState!.validate()) {}
+                      Get.to(() => OtpScreen());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xffFDEBB9),
