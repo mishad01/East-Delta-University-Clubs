@@ -4,4 +4,5 @@ class AssetsPath {
   static const String splashBgSvg = "$images/splash_screen_bg.svg";
   static const String bgSvg = "$images/background_svg.svg";
   static const String eduLogo = "$images/edu_logo.svg";
+  static const String eduLogo2 = "$images/edu_logo_2.svg";
 }
