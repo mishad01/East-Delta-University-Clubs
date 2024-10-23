@@ -67,7 +67,6 @@ class _OtpScreenState extends State<OtpScreen> {
                     controller: otpTEController,
                     keyboardType: TextInputType.number,
                   ),
-                  SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () {
                       if (_formState.currentState!.validate()) {
@@ -87,7 +86,23 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 15),
+                  RichText(
+                    text: TextSpan(
+                      text: "The code will be sent in ",
+                      style: textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 17,
+                      ),
+                      children: const [
+                        TextSpan(
+                          text: "1:00",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
                       text: "Didn't receive code? ",
