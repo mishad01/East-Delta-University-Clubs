@@ -1,8 +1,11 @@
+import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/sign_up_screen.dart';
 import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
 import 'package:edu_clubs_app/presentation/widgets/background_widget.dart';
 import 'package:edu_clubs_app/presentation/widgets/positioned_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -75,10 +78,10 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                       PositionedWidget(
-                        top: 350,
+                        top: 320,
                         child: Container(
                           width: 352,
-                          height: 180,
+                          height: 220,
                           decoration: BoxDecoration(
                             color: const Color(0xffD0D9FC).withOpacity(0.20),
                             borderRadius: const BorderRadius.all(
@@ -87,57 +90,62 @@ class _SignInScreenState extends State<SignInScreen> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(20.0),
-                            child: Column(
-                              children: [
-                                TextFormField(
-                                  controller: _emailTEController,
-                                  decoration:
-                                      InputDecoration(hintText: "Email"),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Please Input Correct Email";
-                                    }
-                                    String pattern =
-                                        r'^[a-zA-Z0-9._%+-]+@[eastdelta\.edu\.bd]$';
-                                    RegExp regex = RegExp(pattern);
-                                    if (!regex.hasMatch(value)) {
-                                      return 'Please enter a valid email address';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                SizedBox(height: 30),
-                                TextFormField(
-                                  controller: _passwordTEController,
-                                  decoration: const InputDecoration(
-                                      hintText: "Password"),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Please Input Correct Email";
-                                    }
-                                    if (value.length < 8) {
-                                      return 'Password must be at least 8 characters long';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ],
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  TextFormField(
+                                    textInputAction: TextInputAction.next,
+                                    controller: _emailTEController,
+                                    decoration:
+                                        InputDecoration(hintText: "Email"),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please Input Correct Email";
+                                      }
+                                      String pattern =
+                                          r'^[a-zA-Z0-9._%+-]+@[eastdelta\.edu\.bd]$';
+                                      RegExp regex = RegExp(pattern);
+                                      if (!regex.hasMatch(value)) {
+                                        return 'Please enter a valid email address';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(height: 30),
+                                  TextFormField(
+                                    controller: _passwordTEController,
+                                    decoration: const InputDecoration(
+                                        hintText: "Password"),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Please Input Correct Email";
+                                      }
+                                      if (value.length < 8) {
+                                        return 'Password must be at least 8 characters long';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
                       PositionedWidget(
-                        top: 550,
+                        top: 535,
                         child: Center(
                           // Center aligns the button within the available space
                           child: Container(
                             width: 108,
                             height: 40,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (_formState.currentState!.validate()) {}
+                              },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffFDEBB9),
-                                  minimumSize: Size(108, 40)),
+                                  minimumSize: Size(108, 50)),
                               child: const Text(
                                 "Login",
                                 style: TextStyle(
@@ -150,7 +158,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                       PositionedWidget(
-                        top: 600,
+                        top: 590,
                         child: Center(
                           // Center aligns the button within the available space
                           child: RichText(
@@ -158,10 +166,14 @@ class _SignInScreenState extends State<SignInScreen> {
                               text: "Don't Have an account? ",
                               style: textTheme.bodyLarge!.copyWith(
                                   fontWeight: FontWeight.w400, fontSize: 17),
-                              children: const [
+                              children: [
                                 TextSpan(
                                   text: "Sign Up",
                                   style: TextStyle(fontWeight: FontWeight.bold),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Get.to(() => SignUpScreen());
+                                    },
                                 ),
                               ],
                             ),

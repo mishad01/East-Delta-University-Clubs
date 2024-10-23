@@ -30,7 +30,7 @@ class EduClubs extends StatelessWidget {
           borderSide: BorderSide(color: Colors.black, width: 1.5),
         ),
         enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(width: 0.9),
+          borderSide: BorderSide(width: 1),
         ),
         errorBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 1.5),
