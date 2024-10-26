@@ -1,10 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HighLightSlider extends StatefulWidget {
-  const HighLightSlider({
-    super.key,
-  });
+  const HighLightSlider({super.key});
 
   @override
   State<HighLightSlider> createState() => _HighLightSliderState();
@@ -27,42 +26,93 @@ class _HighLightSliderState extends State<HighLightSlider> {
         child: Column(
           children: [
             CarouselSlider(
-              options: CarouselOptions(height: 286.0),
+              options: CarouselOptions(
+                height: 320.0,
+                viewportFraction: 0.8,
+              ),
               items: images.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
+                      width: double.infinity,
+                      height: 286,
+                      margin: EdgeInsets.symmetric(horizontal: 8.0),
                       decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(13)),
-                      child: Stack(
+                        borderRadius: BorderRadius.circular(13),
+                        color: Color(0xff2D342F),
+                      ),
+                      child: Column(
                         children: [
-                          Positioned(
-                            top: 2,
-                            bottom: 2,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              height: 237,
-                              width: 229,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(21)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Prize Giving \nCeremony",
+                                  style: GoogleFonts.sourceSerif4(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: 100,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(23),
+                                  ),
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: Colors.white, width: 2),
+                                ),
+                                child: Center(
+                                  child: Container(
+                                    width: 85,
+                                    height: 33,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(23),
+                                      color: Color(
+                                          0xff2D342F), // Inner container color
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "14th November, 2023",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                            width: 270,
+                            height: 237,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(21),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(21),
                               child: Image.asset(
                                 i,
-                                width: 229,
-                                height: 237,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
+                          )
                         ],
                       ),
                     );
                   },
                 );
               }).toList(),
-            )
+            ),
           ],
         ),
       ),

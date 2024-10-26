@@ -15,8 +15,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        toolbarHeight: 80,
+        backgroundColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.only(left: 40),
           child: Transform.scale(
@@ -80,11 +81,76 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Text("RECENT HIGHLIGHT",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-              HighLightSlider()
+              HighLightSlider(),
+              SizedBox(height: 10),
+              Text(
+                "WHAT OUT MEMBER SAYS",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Column(
+                children: [
+                  buildMembersOpinion(
+                    "Asif Jofa",
+                    "GM of commuter club",
+                    "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
+                    null,
+                    Color(0xffFDEBB9),
+                  ),
+                  SizedBox(height: 15),
+                  buildMembersOpinion(
+                    "Asif Jofa",
+                    "GM of commuter club",
+                    "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
+                    Spacer(),
+                    Color(0xffD0D9FC),
+                  ),
+                  SizedBox(height: 15),
+                  buildMembersOpinion(
+                    "Asif Jofa",
+                    "GM of commuter club",
+                    "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
+                    null,
+                    Color(0xffD5D0FB),
+                  ),
+                ],
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildMembersOpinion(
+      String name, String club, String opinion, Widget? spacer, Color color) {
+    return Row(
+      children: [
+        if (spacer != null) spacer,
+        Container(
+          height: 110,
+          width: 270,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            color: color,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name,
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+                Text(club,
+                    style:
+                        TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                Text(opinion, style: TextStyle(fontSize: 12))
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 
