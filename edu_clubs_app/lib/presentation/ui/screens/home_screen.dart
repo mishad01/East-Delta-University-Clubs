@@ -5,6 +5,7 @@ import 'package:edu_clubs_app/presentation/widgets/home_banner_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
       endDrawer: buildDrawer(context),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
               HomeBannerSlider(),
@@ -85,13 +86,14 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Text("RECENT HIGHLIGHT",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+              SizedBox(height: 2.h),
               HighLightSlider(),
-              SizedBox(height: 10),
+              SizedBox(height: 2.h),
               Text(
                 "WHAT OUT MEMBER SAYS",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 2.h),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(

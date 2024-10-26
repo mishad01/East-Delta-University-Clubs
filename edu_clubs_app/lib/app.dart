@@ -1,19 +1,28 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 class EduClubs extends StatelessWidget {
   const EduClubs({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: _themeData(),
-      initialRoute: '/',
-      getPages: [
-        GetPage(name: '/', page: () => SplashScreen()),
-      ],
+    return Sizer(
+      builder: (p0, p1, p2) {
+        return GetMaterialApp(
+          useInheritedMediaQuery: true,
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          theme: _themeData(),
+          initialRoute: '/',
+          getPages: [
+            GetPage(name: '/', page: () => SplashScreen()),
+          ],
+        );
+      },
     );
   }
 
