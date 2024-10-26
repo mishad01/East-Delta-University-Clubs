@@ -1,8 +1,10 @@
+import 'package:edu_clubs_app/presentation/ui/screens/all_club_screens.dart';
 import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
 import 'package:edu_clubs_app/presentation/widgets/highlight_slider.dart';
 import 'package:edu_clubs_app/presentation/widgets/home_banner_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -45,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(() => AllClubScreens());
+                      },
                       child: Text("See All"),
                     ),
                   ],
@@ -88,32 +92,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
-              Column(
-                children: [
-                  buildMembersOpinion(
-                    "Asif Jofa",
-                    "GM of commuter club",
-                    "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
-                    null,
-                    Color(0xffFDEBB9),
-                  ),
-                  SizedBox(height: 15),
-                  buildMembersOpinion(
-                    "Asif Jofa",
-                    "GM of commuter club",
-                    "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
-                    Spacer(),
-                    Color(0xffD0D9FC),
-                  ),
-                  SizedBox(height: 15),
-                  buildMembersOpinion(
-                    "Asif Jofa",
-                    "GM of commuter club",
-                    "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
-                    null,
-                    Color(0xffD5D0FB),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    buildMembersOpinion(
+                      "Asif Jofa",
+                      "GM of commuter club",
+                      "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
+                      null,
+                      Color(0xffFDEBB9),
+                    ),
+                    SizedBox(height: 15),
+                    buildMembersOpinion(
+                      "Asif Jofa",
+                      "GM of commuter club",
+                      "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
+                      Spacer(),
+                      Color(0xffD0D9FC),
+                    ),
+                    SizedBox(height: 15),
+                    buildMembersOpinion(
+                      "Asif Jofa",
+                      "GM of commuter club",
+                      "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
+                      null,
+                      Color(0xffD5D0FB),
+                    ),
+                  ],
+                ),
               )
             ],
           ),

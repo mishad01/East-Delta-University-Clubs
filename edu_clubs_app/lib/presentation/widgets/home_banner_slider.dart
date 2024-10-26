@@ -89,15 +89,16 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
                         i < images.length;
                         i++) // Updated to images.length
                       Container(
-                        height: 10,
-                        width: 10,
+                        height: 13,
+                        width: 13,
                         margin: EdgeInsets.only(right: 8),
                         decoration: BoxDecoration(
                             color: _selectedIndex.value == i
                                 ? Colors.white
-                                : Colors.green,
+                                : Colors.amberAccent.withOpacity(0.8),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey)),
+                            border: Border.all(
+                                color: Colors.grey.withOpacity(0.5))),
                       )
                   ],
                 );
