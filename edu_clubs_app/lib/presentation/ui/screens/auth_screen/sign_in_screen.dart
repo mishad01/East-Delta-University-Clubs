@@ -1,4 +1,5 @@
 import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/sign_up_screen.dart';
+import 'package:edu_clubs_app/presentation/ui/screens/home_screen.dart';
 import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
 import 'package:edu_clubs_app/presentation/widgets/background_widget.dart';
 import 'package:edu_clubs_app/presentation/widgets/positioned_widget.dart';
@@ -142,6 +143,9 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (_formState.currentState!.validate()) {}
+                                Get.to(
+                                  () => HomeScreen(),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: const Color(0xffFDEBB9),
