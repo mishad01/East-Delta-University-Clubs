@@ -1,4 +1,5 @@
 import 'package:edu_clubs_app/presentation/ui/screens/all_club_screens.dart';
+import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/club_details_screen.dart';
 import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
 import 'package:edu_clubs_app/presentation/widgets/highlight_slider.dart';
 import 'package:edu_clubs_app/presentation/widgets/home_banner_slider.dart';
@@ -71,14 +72,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSpacing: 30,
                     ),
                     itemBuilder: (context, index) {
-                      return Container(
-                        height: 115,
-                        width: 135,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color(0xff8983B2FF),
+                      return InkWell(
+                        onTap: () => Get.to(() => ClubDetailsScreen()),
+                        child: Container(
+                          height: 115,
+                          width: 135,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xff8983B2FF),
+                          ),
+                          child: SvgPicture.asset(AssetsPath.eduLogo),
                         ),
-                        child: SvgPicture.asset(AssetsPath.eduLogo),
                       );
                     }, // Set an item count
                   ),
