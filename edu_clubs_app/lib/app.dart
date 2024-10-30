@@ -28,10 +28,9 @@ class EduClubs extends StatelessWidget {
 
   ThemeData _themeData() {
     return ThemeData(
-      textTheme: GoogleFonts.robotoTextTheme().copyWith(
-        bodySmall: GoogleFonts.roboto(color: Colors.black),
-        bodyLarge: GoogleFonts.roboto(color: Colors.black),
-        titleSmall: GoogleFonts.roboto(color: Colors.black),
+      textTheme: GoogleFonts.robotoTextTheme().apply(
+        bodyColor: Colors.black, // Sets default color for body text
+        displayColor: Colors.black, // Sets default color for headings
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: GoogleFonts.roboto(color: Colors.grey, fontSize: 15),
