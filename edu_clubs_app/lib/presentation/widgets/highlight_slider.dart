@@ -28,54 +28,62 @@ class _HighLightSliderState extends State<HighLightSlider> {
         enlargeFactor: 0.4,
         enlargeStrategy: CenterPageEnlargeStrategy.zoom,
         height: 320.0,
-        viewportFraction: 0.72,
+        viewportFraction: 0.75,
       ),
       items: images.map((i) {
         return Builder(
           builder: (BuildContext context) {
             //return buildContainer(i);
-            return Stack(
-              children: [
-                SvgPicture.asset(
-                  AssetsPath.card,
-                  width: 300,
-                  height: 320,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 25, top: 15),
-                  child: Text(
-                    "Prize Giving \nCeremony",
-                    style: GoogleFonts.sourceSerif4(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+            return Container(
+              child: Stack(
+                children: [
+                  SvgPicture.asset(
+                    AssetsPath.card,
+                    width: 300,
+                    height: 320,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 190, top: 18),
-                  child: Text(
-                    "14th November",
-                    style: GoogleFonts.sourceSerif4(
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25, top: 15),
+                    child: Text(
+                      "Prize Giving \nCeremony",
+                      style: GoogleFonts.sourceSerif4(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 7),
-                  ),
-                ),
-                Positioned(
-                  top: 57,
-                  child: Container(
-                    height: 237,
-                    width: 240,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(21),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(21),
-                      child: Image.asset(i),
+                      ),
                     ),
                   ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 215, top: 13),
+                    child: Text(
+                      "14th November",
+                      style: GoogleFonts.sourceSerif4(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 7),
+                    ),
+                  ),
+                  Positioned(
+                    top: 57,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(21),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(21),
+                        child: Image.asset(
+                          i,
+                          height: 255,
+                          width: 260,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             );
           },
         );
