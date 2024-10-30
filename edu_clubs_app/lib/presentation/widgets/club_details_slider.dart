@@ -3,6 +3,7 @@ import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
 
 class ClubDetailsSlider extends StatefulWidget {
   const ClubDetailsSlider({super.key});
@@ -13,85 +14,138 @@ class ClubDetailsSlider extends StatefulWidget {
 
 class _ClubDetailsSliderState extends State<ClubDetailsSlider> {
   ValueNotifier<int> _selectedIndex = ValueNotifier(0);
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
 
   final List<String> images = [
+    "assets/images/h2.png",
     "assets/images/h1.jpg",
-    "assets/images/h1.jpg",
-    "assets/images/h1.jpg",
+    "assets/images/h3.png",
   ];
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
-        enlargeCenterPage: true,
-        enlargeFactor: 0.4,
-        enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-        height: 320.0,
-        viewportFraction: 0.75,
-      ),
-      items: images.map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            //return buildContainer(i);
-            return Container(
-              child: Stack(
+    return Column(
+      children: [
+        CarouselSlider(
+          carouselController: _carouselController,
+          options: CarouselOptions(
+            enlargeCenterPage: true,
+            enlargeFactor: 0.4,
+            enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+            height: 320.0,
+            viewportFraction: 0.75,
+            onPageChanged: (index, reason) {
+              _selectedIndex.value = index;
+            },
+          ),
+          items: images.map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  child: Stack(
+                    children: [
+                      SvgPicture.asset(
+                        AssetsPath.card,
+                        width: 300,
+                        height: 320,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, top: 10),
+                        child: Text(
+                          "Prize Giving \nCeremony",
+                          style: GoogleFonts.sourceSerif4(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 212, top: 10),
+                        child: Text(
+                          "14th November",
+                          style: GoogleFonts.sourceSerif4(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 8),
+                        ),
+                      ),
+                      Positioned(
+                        top: 57,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(21),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(21),
+                            child: Image.asset(
+                              i,
+                              height: 255,
+                              width: 260,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            );
+          }).toList(),
+        ),
+        SizedBox(height: 3.h),
+        ValueListenableBuilder(
+          valueListenable: _selectedIndex,
+          builder: (context, value, child) {
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    AssetsPath.card,
-                    width: 300,
-                    height: 320,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25, top: 10),
-                    child: Text(
-                      "Prize Giving \nCeremony",
-                      style: GoogleFonts.sourceSerif4(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 215, top: 13),
-                    child: Text(
-                      "14th November",
-                      style: GoogleFonts.sourceSerif4(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 7),
-                    ),
-                  ),
-                  Positioned(
-                    top: 57,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(21),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(21),
-                        child: Image.asset(
-                          i,
-                          height: 255,
-                          width: 260,
-                          fit: BoxFit.fitWidth,
+                  for (int i = 0; i < images.length; i++)
+                    GestureDetector(
+                      onTap: () async {
+                        _selectedIndex.value = i; // Update the selected index
+                        await Future.delayed(
+                            Duration(milliseconds: 100)); // Small delay
+                        _carouselController
+                            .animateToPage(i); // Change carousel page
+                      },
+                      child: Container(
+                        height: value == i ? 110 : 94,
+                        width: value == i ? 110 : 94,
+                        margin: EdgeInsets.only(right: 8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: value == i
+                              ? Color(0xffD6D0FE)
+                              : Color(0xffFEECBA),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Wildlife \nphotography",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: value == i ? 12 : 10,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  )
                 ],
               ),
             );
           },
-        );
-      }).toList(),
+        )
+      ],
     );
   }
 
-  Container buildContainer(String i) {
+  Widget buildContainer(String i) {
     return Container(
       width: double.infinity,
       height: 286,

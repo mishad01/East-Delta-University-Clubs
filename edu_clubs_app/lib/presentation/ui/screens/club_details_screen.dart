@@ -19,7 +19,7 @@ class _ClubDetailsScreenState extends State<ClubDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              const Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Text(
                   "Photography Club",
@@ -27,22 +27,22 @@ class _ClubDetailsScreenState extends State<ClubDetailsScreen> {
                 ),
               ),
               SizedBox(height: 2.h),
-              ClubDetailsSlider(),
+              const ClubDetailsSlider(),
               SizedBox(height: 2.h),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "What We Do",
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
-                    Text(
+                    const Text(
                         "Being part of this club has been an incredible journey of growth,teamwork, and unforgettable experiencesBeing part of this club has been an incredible journey of growth,teamwork, and unforgettable experiences"),
                     SizedBox(height: 1.h),
-                    Text(
+                    const Text(
                       "Why Join Us",
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),

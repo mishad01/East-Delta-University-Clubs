@@ -16,8 +16,8 @@ class _HighLightSliderState extends State<HighLightSlider> {
 
   final List<String> images = [
     "assets/images/h1.jpg",
-    "assets/images/2.png",
-    "assets/images/3.jpg",
+    "assets/images/h2.png",
+    "assets/images/h3.png",
   ];
 
   @override
