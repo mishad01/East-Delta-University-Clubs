@@ -1,3 +1,4 @@
+import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
 import 'package:edu_clubs_app/presentation/widgets/club_details_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -41,11 +42,51 @@ class _ClubDetailsScreenState extends State<ClubDetailsScreen> {
                     ),
                     const Text(
                         "Being part of this club has been an incredible journey of growth,teamwork, and unforgettable experiencesBeing part of this club has been an incredible journey of growth,teamwork, and unforgettable experiences"),
-                    SizedBox(height: 1.h),
+                    SizedBox(height: 2.h),
                     const Text(
                       "Why Join Us",
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Image.asset(
+                              AssetsPath.join_us_card,
+                            ),
+                          ),
+                          Positioned(
+                            left: 40,
+                            right: 40,
+                            top: 120,
+                            child: Text(
+                              "Being part of this club has been an incredible journey of growth,teamwork, and unforgettable Being part of this club has been an incredible journey of growth, Being part of this club has been an Being part of this club has been an incredible journey of growth,teamwork, and unforgettable",
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 5,
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                          Positioned(
+                            left: 120,
+                            right: 40,
+                            top: 200,
+                            child: Text(
+                              "Being part of this club has been an incredible journey of growth,teamwork, and unforgettable Being part of this club has been an incredible journey of growth, Being part of this club has been an Being part of this club has been an incredible journey of growth,teamwork, and unforgettable",
+                              style: TextStyle(
+                                fontSize: 10,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 4,
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

@@ -21,6 +21,9 @@ class _ClubDetailsSliderState extends State<ClubDetailsSlider> {
     "assets/images/h2.png",
     "assets/images/h1.jpg",
     "assets/images/h3.png",
+    "assets/images/h2.png",
+    "assets/images/h1.jpg",
+    "assets/images/h3.png",
   ];
 
   @override
@@ -97,46 +100,53 @@ class _ClubDetailsSliderState extends State<ClubDetailsSlider> {
             );
           }).toList(),
         ),
-        SizedBox(height: 3.h),
+        SizedBox(height: 2.h),
+        Text(
+          "Activates & Achievements",
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
         ValueListenableBuilder(
           valueListenable: _selectedIndex,
           builder: (context, value, child) {
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  for (int i = 0; i < images.length; i++)
-                    GestureDetector(
-                      onTap: () async {
-                        _selectedIndex.value = i; // Update the selected index
-                        await Future.delayed(
-                            Duration(milliseconds: 100)); // Small delay
-                        _carouselController
-                            .animateToPage(i); // Change carousel page
-                      },
-                      child: Container(
-                        height: value == i ? 110 : 94,
-                        width: value == i ? 110 : 94,
-                        margin: EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: value == i
-                              ? Color(0xffD6D0FE)
-                              : Color(0xffFEECBA),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Wildlife \nphotography",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: value == i ? 12 : 10,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (int i = 0; i < images.length; i++)
+                      GestureDetector(
+                        onTap: () async {
+                          _selectedIndex.value = i; // Update the selected index
+                          await Future.delayed(
+                              Duration(milliseconds: 100)); // Small delay
+                          _carouselController
+                              .animateToPage(i); // Change carousel page
+                        },
+                        child: Container(
+                          height: value == i ? 110 : 94,
+                          width: value == i ? 110 : 94,
+                          margin: EdgeInsets.only(right: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: value == i
+                                ? Color(0xffD6D0FE)
+                                : Color(0xffFEECBA),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Wildlife \nphotography",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: value == i ? 12 : 10,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             );
           },
@@ -186,7 +196,7 @@ class _ClubDetailsSliderState extends State<ClubDetailsSlider> {
                     height: 33,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(23),
-                      color: Color(0xff2D342F), // Inner container color
+                      color: Color(0xff2D342F),
                     ),
                     child: Center(
                       child: Text(
