@@ -16,8 +16,8 @@ class _HighLightSliderState extends State<HighLightSlider> {
 
   final List<String> images = [
     "assets/images/h1.jpg",
-    "assets/images/2.png",
-    "assets/images/3.jpg",
+    "assets/images/h2.png",
+    "assets/images/h3.png",
   ];
 
   @override
@@ -43,7 +43,11 @@ class _HighLightSliderState extends State<HighLightSlider> {
                     height: 320,
                   ),
                   Padding(
+
+                    padding: const EdgeInsets.only(left: 25, top: 10),
+
                     padding: const EdgeInsets.only(left: 25, top: 15),
+
                     child: Text(
                       "Prize Giving \nCeremony",
                       style: GoogleFonts.sourceSerif4(
