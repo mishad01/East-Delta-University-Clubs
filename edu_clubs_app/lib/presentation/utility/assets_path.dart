@@ -6,4 +6,5 @@ class AssetsPath {
   static const String eduLogo = "$images/edu_logo.svg";
   static const String eduLogo2 = "$images/edu_logo_2.svg";
   static const String eduCC = "$images/cc.png";
+  static const String card = "$images/card.svg";
 }
