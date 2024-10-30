@@ -43,7 +43,11 @@ class _HighLightSliderState extends State<HighLightSlider> {
                     height: 320,
                   ),
                   Padding(
+
                     padding: const EdgeInsets.only(left: 25, top: 10),
+
+                    padding: const EdgeInsets.only(left: 25, top: 15),
+
                     child: Text(
                       "Prize Giving \nCeremony",
                       style: GoogleFonts.sourceSerif4(

@@ -9,4 +9,5 @@ class AssetsPath {
   static const String card = "$images/card.svg";
   static const String join_us_card = "$images/join_us_card.png";
   static const String news_card = "$images/news_card.svg";
+
 }
