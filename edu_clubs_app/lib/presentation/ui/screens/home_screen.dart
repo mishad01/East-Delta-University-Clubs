@@ -1,5 +1,5 @@
 import 'package:edu_clubs_app/presentation/ui/screens/all_club_screens.dart';
-import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/club_details_screen.dart';
+import 'package:edu_clubs_app/presentation/ui/screens/club_details_screen.dart';
 import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
 import 'package:edu_clubs_app/presentation/widgets/highlight_slider.dart';
 import 'package:edu_clubs_app/presentation/widgets/home_banner_slider.dart';
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: () => Get.to(() => ClubDetailsScreen()),
+                        onTap: () => Get.to(() => const ClubDetailsScreen()),
                         child: Container(
                           height: 115,
                           width: 135,
