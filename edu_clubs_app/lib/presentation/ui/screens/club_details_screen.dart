@@ -12,6 +12,7 @@ class ClubDetailsScreen extends StatefulWidget {
 }
 
 class _ClubDetailsScreenState extends State<ClubDetailsScreen> {
+  bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,40 +187,41 @@ class _ClubDetailsScreenState extends State<ClubDetailsScreen> {
                     ListView.builder(
                       shrinkWrap: true,
                       itemCount: 4,
+                      physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.only(right: 20),
                       itemBuilder: (context, index) {
                         return Card(
-                          elevation: 3,
+                          shadowColor: Colors.blue,
                           color: Color(0xffD2D8D4),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: ExpansionTile(
-                            title: Text(
-                              "What does our members do?",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  "Being part of this club has been an incredible journey of growth Being part of this club has been an incredible journey of growth Being part of this club has been an incredible journey of growth",
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.black54),
-                                  textAlign: TextAlign.justify,
+                          child: Theme(
+                            data: ThemeData()
+                                .copyWith(dividerColor: Colors.transparent),
+                            child: ExpansionTile(
+                              trailing: Icon(Icons.more_vert_rounded),
+                              title: Text(
+                                "What does our members do?",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              )
-                            ],
-                            backgroundColor: Colors.transparent,
-                            collapsedBackgroundColor: Colors.transparent,
+                              ),
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 8, right: 8, bottom: 8),
+                                  child: Text(
+                                    "Being part of this club has been an incredible journey of growth. Being part of this club has been an incredible journey of growth. Being part of this club has been an incredible journey of growth.",
+                                    style: TextStyle(
+                                        fontSize: 14, color: Colors.black54),
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
