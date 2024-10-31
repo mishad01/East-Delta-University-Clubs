@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:edu_clubs_app/presentation/ui/screens/payment_screen/payment_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomeBannerSlider extends StatefulWidget {
   const HomeBannerSlider({
@@ -37,42 +39,47 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
               items: images.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
-                    return Column(
-                      children: [
-                        SizedBox(height: 10),
-                        Stack(
-                          children: [
-                            Container(
-                              height: 212, // Updated container height
-                              width: 368, // Updated container width
-                              margin: EdgeInsets.symmetric(horizontal: 8.0),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Image.asset(
-                                i,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Container(
-                              height: 27,
-                              width: 71,
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: const Center(
-                                child: Text(
-                                  "Current \nActivites",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.bold),
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(() => PaymentDetailsScreen(image: i));
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10),
+                          Stack(
+                            children: [
+                              Container(
+                                height: 212, // Updated container height
+                                width: 368, // Updated container width
+                                margin: EdgeInsets.symmetric(horizontal: 8.0),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Image.asset(
+                                  i,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              Container(
+                                height: 27,
+                                width: 71,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    "Current \nActivites",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     );
                   },
                 );
