@@ -1,9 +1,5 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/splash_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:sizer/sizer.dart';
+import 'package:edu_clubs_app/utils/export.dart';
 
 class EduClubs extends StatelessWidget {
   const EduClubs({super.key});
@@ -19,7 +15,7 @@ class EduClubs extends StatelessWidget {
           theme: _themeData(),
           initialRoute: '/',
           getPages: [
-            GetPage(name: '/', page: () => SplashScreen()),
+            GetPage(name: '/', page: () => SplashView()),
           ],
         );
       },
