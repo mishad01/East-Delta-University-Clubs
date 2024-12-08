@@ -1,7 +1,5 @@
-import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
-import 'package:edu_clubs_app/presentation/widgets/positioned_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/auth/sign_in/widget/positioned_widget.dart';
 
 class SignInLogoWidget extends StatelessWidget {
   const SignInLogoWidget({

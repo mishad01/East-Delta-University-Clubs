@@ -1,21 +1,15 @@
-import 'package:edu_clubs_app/presentation/ui/screens/all_club_screens.dart';
-import 'package:edu_clubs_app/presentation/ui/screens/club_details_screen.dart';
-import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
-import 'package:edu_clubs_app/presentation/widgets/highlight_slider.dart';
-import 'package:edu_clubs_app/presentation/widgets/home_banner_slider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
-import 'package:sizer/sizer.dart';
+import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/home/widget/highlight_slider.dart';
+import 'package:edu_clubs_app/view/home/widget/home_banner_slider.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Get.to(() => AllClubScreens());
+                        Get.to(() => AllClubView());
                       },
                       child: Text("See All"),
                     ),
@@ -73,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: () => Get.to(() => const ClubDetailsScreen()),
+                        onTap: () => Get.to(() => ClubDetailsView()),
                         child: Container(
                           height: 115,
                           width: 135,

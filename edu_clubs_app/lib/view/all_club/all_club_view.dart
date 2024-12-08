@@ -1,15 +1,15 @@
-import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
+import 'package:edu_clubs_app/resources/assets_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AllClubScreens extends StatefulWidget {
-  const AllClubScreens({super.key});
+class AllClubView extends StatefulWidget {
+  const AllClubView({super.key});
 
   @override
-  State<AllClubScreens> createState() => _AllClubScreensState();
+  State<AllClubView> createState() => _AllClubViewState();
 }
 
-class _AllClubScreensState extends State<AllClubScreens> {
+class _AllClubViewState extends State<AllClubView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

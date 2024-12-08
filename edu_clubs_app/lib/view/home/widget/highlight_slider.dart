@@ -1,8 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:edu_clubs_app/utils/export.dart';
 
 class HighLightSlider extends StatefulWidget {
   const HighLightSlider({super.key});
@@ -16,8 +13,8 @@ class _HighLightSliderState extends State<HighLightSlider> {
 
   final List<String> images = [
     "assets/images/h1.jpg",
-    "assets/images/h2.png",
-    "assets/images/h3.png",
+    "assets/images/2.png",
+    "assets/images/3.jpg",
   ];
 
   @override
@@ -43,11 +40,7 @@ class _HighLightSliderState extends State<HighLightSlider> {
                     height: 320,
                   ),
                   Padding(
-
-                    padding: const EdgeInsets.only(left: 25, top: 10),
-
                     padding: const EdgeInsets.only(left: 25, top: 15),
-
                     child: Text(
                       "Prize Giving \nCeremony",
                       style: GoogleFonts.sourceSerif4(

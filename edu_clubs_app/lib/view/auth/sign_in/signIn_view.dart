@@ -1,22 +1,21 @@
-import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/sign_up_screen.dart';
-import 'package:edu_clubs_app/presentation/ui/screens/home_screen.dart';
-import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
-import 'package:edu_clubs_app/presentation/widgets/background_widget.dart';
-import 'package:edu_clubs_app/presentation/widgets/positioned_widget.dart';
+import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/auth/sign_in/widget/background_widget.dart';
+import 'package:edu_clubs_app/view/auth/sign_in/widget/positioned_widget.dart';
+import 'package:edu_clubs_app/view/home/home_view.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignInView extends StatefulWidget {
+  const SignInView({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignInView> createState() => _SignInViewState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInViewState extends State<SignInView> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final _formState = GlobalKey<FormState>();
@@ -144,7 +143,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               onPressed: () {
                                 if (_formState.currentState!.validate()) {}
                                 Get.to(
-                                  () => HomeScreen(),
+                                  () => HomeView(),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
@@ -176,7 +175,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      Get.to(() => SignUpScreen());
+                                      Get.to(() => SignUpView());
                                     },
                                 ),
                               ],

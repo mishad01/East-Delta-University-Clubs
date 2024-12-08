@@ -1,16 +1,14 @@
-import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/otp_screen.dart';
-import 'package:edu_clubs_app/presentation/widgets/background_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/auth/sign_in/widget/background_widget.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignUpView> createState() => _SignUpViewState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpViewState extends State<SignUpView> {
   final _formState = GlobalKey<FormState>();
   final TextEditingController _fullNameTEController = TextEditingController();
   final TextEditingController _emailTEController = TextEditingController();
@@ -141,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (_formState.currentState!.validate()) {}
-                      Get.to(() => OtpScreen());
+                      Get.to(() => OtpView());
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xffFDEBB9),

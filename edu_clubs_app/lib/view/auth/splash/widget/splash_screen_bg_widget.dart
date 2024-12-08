@@ -1,8 +1,4 @@
-import 'package:edu_clubs_app/presentation/ui/screens/auth_screen/sign_in_screen.dart';
-import 'package:edu_clubs_app/presentation/utility/assets_path.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:edu_clubs_app/utils/export.dart';
 
 class SplashScreenBgWidget extends StatefulWidget {
   const SplashScreenBgWidget({super.key, required this.child});
@@ -39,7 +35,7 @@ class _SplashScreenBgWidgetState extends State<SplashScreenBgWidget>
   Future<void> _moveToNextScreen() async {
     await Future.delayed(Duration(seconds: 3));
     if (mounted) {
-      Get.offAll(() => SignInScreen());
+      Get.offAll(() => SignInView());
     }
   }
 

@@ -1,16 +1,15 @@
-import 'package:edu_clubs_app/presentation/widgets/background_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/auth/sign_in/widget/background_widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+class OtpView extends StatefulWidget {
+  const OtpView({super.key});
 
   @override
-  State<OtpScreen> createState() => _OtpScreenState();
+  State<OtpView> createState() => _OtpViewState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class _OtpViewState extends State<OtpView> {
   final TextEditingController otpTEController = TextEditingController();
   final _formState = GlobalKey<FormState>();
   @override
