@@ -1,4 +1,5 @@
 import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/auth/sign_in/sign_In_view.dart';
 
 class SplashScreenBgWidget extends StatefulWidget {
   const SplashScreenBgWidget({super.key, required this.child});

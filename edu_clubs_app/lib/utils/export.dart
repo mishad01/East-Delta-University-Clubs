@@ -5,7 +5,6 @@ export 'package:edu_clubs_app/view/auth/otp/otp_view.dart';
 //view
 
 //Auth
-export 'package:edu_clubs_app/view/auth/sign_in/signIn_view.dart';
 export 'package:edu_clubs_app/view/auth/sign_up/signUp_view.dart';
 export 'package:edu_clubs_app/view/auth/splash/splash_view.dart';
 export 'package:edu_clubs_app/view/club_profile/club_profile_view.dart';
