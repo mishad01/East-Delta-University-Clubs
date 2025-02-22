@@ -1,5 +1,9 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/admin/admin_club_categories_view.dart';
+import 'package:edu_clubs_app/view/admin/admin_club_details_view.dart';
+import 'package:edu_clubs_app/view/admin/admin_club_even_view.dart';
+import 'package:edu_clubs_app/view/admin/admin_club_faq_view.dart';
 
 class EduClubs extends StatelessWidget {
   const EduClubs({super.key});
@@ -15,7 +19,7 @@ class EduClubs extends StatelessWidget {
           theme: _themeData(),
           initialRoute: '/',
           getPages: [
-            GetPage(name: '/', page: () => SplashView()),
+            GetPage(name: '/', page: () => AdminClubEventView()),
           ],
         );
       },
