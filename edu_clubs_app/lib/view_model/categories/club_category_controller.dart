@@ -1,18 +1,24 @@
 import 'dart:io';
-import 'package:edu_clubs_app/repository/club_category_repository.dart';
+import 'package:edu_clubs_app/repository/admin/club_category_repository.dart';
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view_model/categories/categories_model.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ClubCategoryController extends GetxController {
+class ClubCategoriesController extends GetxController {
   final ClubCategoryRepository _repository = ClubCategoryRepository();
-  final TextEditingController clubNameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-
   var isLoading = false.obs;
   var iconImage = Rx<File?>(null);
 
   final ImagePicker _picker = ImagePicker();
+
+  var errorMessage = ''.obs;
+  var clubCategories = <Map<String, dynamic>>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchClubCategories(); // Fetch categories when the controller is initialized
+  }
 
   void pickIconImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -21,10 +27,8 @@ class ClubCategoryController extends GetxController {
     }
   }
 
-  Future<void> addClubCategory() async {
-    if (clubNameController.text.isEmpty ||
-        descriptionController.text.isEmpty ||
-        iconImage.value == null) {
+  Future<void> addClubCategory(String clubName, String description) async {
+    if (clubName.isEmpty || description.isEmpty || iconImage.value == null) {
       Get.snackbar("Error", "Please fill in all fields and select an image");
       return;
     }
@@ -34,16 +38,16 @@ class ClubCategoryController extends GetxController {
     final iconImageUrl = await _repository.uploadIconImage(iconImage.value!);
     if (iconImageUrl != null) {
       final newCategory = ClubCategoryModel(
-        clubName: clubNameController.text,
+        clubName: clubName,
         createdAt: DateTime.now().toIso8601String(),
         iconImg: iconImageUrl,
-        description: descriptionController.text,
+        description: description,
       );
 
       final success = await _repository.addClubCategory(newCategory);
       if (success) {
         Get.snackbar("Success", "Club category added successfully!");
-        clearFields();
+        fetchClubCategories(); // Fetch categories again after adding a new one
       } else {
         Get.snackbar("Error", "Failed to add club category.");
       }
@@ -54,9 +58,19 @@ class ClubCategoryController extends GetxController {
     isLoading.value = false;
   }
 
+  Future<void> fetchClubCategories() async {
+    isLoading.value = true;
+    try {
+      final response = await _repository.fetchClubCategories();
+      clubCategories.value = response;
+    } catch (e) {
+      errorMessage.value = 'Failed to load data: $e';
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   void clearFields() {
-    clubNameController.clear();
-    descriptionController.clear();
     iconImage.value = null;
   }
 }

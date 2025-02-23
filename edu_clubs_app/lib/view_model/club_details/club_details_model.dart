@@ -15,7 +15,6 @@ class ClubDetailsModel {
     required this.whyJoinUs,
     required this.recentOpenings,
     required this.upcomingActivities,
-
   });
 
   Map<String, dynamic> toMap() {

@@ -1,10 +1,13 @@
 import 'package:edu_clubs_app/utils/custom_scaffold.dart';
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view/admin/admin_club_categories_view.dart';
-import 'package:edu_clubs_app/view/admin/admin_club_details_view.dart';
-import 'package:edu_clubs_app/view/admin/admin_club_event_view.dart';
-import 'package:edu_clubs_app/view/admin/admin_club_faq_view.dart';
+import 'package:edu_clubs_app/view/admin/admin_club_event/admin_club_event_grid.dart';
+import 'package:edu_clubs_app/view/admin/admin_club_faq/admin_club_faq_grid.dart';
+import 'package:edu_clubs_app/view/admin/all_club_details/admin_club_details_view.dart';
+import 'package:edu_clubs_app/view/admin/admin_club_event/admin_club_event_view.dart';
+import 'package:edu_clubs_app/view/admin/admin_club_faq/admin_club_faq_view.dart';
 import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/admin_home_view_content_add.dart';
+import 'package:edu_clubs_app/view/admin/all_club_details/admin_club_details_grid_view.dart';
 
 class AdminControl extends StatefulWidget {
   const AdminControl({super.key});
@@ -17,9 +20,9 @@ class _AdminControlState extends State<AdminControl> {
   final List<Widget> adminView = [
     AdminHomeViewContentAdd(),
     AdminClubCategoryView(),
-    AdminClubDetailsView(),
-    AdminClubEventView(),
-    AdminClubFAQView(),
+    AdminClubDetailsGridView(),
+    AdminClubEventGridView(),
+    AdminClubFaqGrid(),
   ];
 
   final List<String> text = [
