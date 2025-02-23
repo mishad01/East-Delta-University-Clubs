@@ -96,7 +96,7 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
                       onChanged: (value) =>
                           eventController.sessionName.value = value,
                       decoration: InputDecoration(
-                        labelText: 'Session Name',
+                        labelText: 'Session Name ',
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10)),
                         prefixIcon: const Icon(Icons.event),
