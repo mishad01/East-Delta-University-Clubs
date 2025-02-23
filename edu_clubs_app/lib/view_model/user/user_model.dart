@@ -3,7 +3,7 @@ class UserModel {
 
   final String fullName;
   final String emailAddress;
-  final String mobile;
+  final int mobile;
   final int studentId;
   final String password;
   final String memberType;

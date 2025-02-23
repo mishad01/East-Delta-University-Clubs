@@ -14,44 +14,16 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
   final TextEditingController _whatWeDoController = TextEditingController();
   final TextEditingController _whyJoinUsController = TextEditingController();
   final TextEditingController _recentOpeningsController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController _upcomingActivitiesController =
-  TextEditingController();
+      TextEditingController();
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  final bool _isLoading = false;
-
-  /*Future<void> _addClubDetails() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    final response = await _supabase.from('clubs').insert({
-      'category_id': '6d03e8b6-fb63-4b55-8ffd-be06eba94abb',
-      'club_name': _clubNameController.text,
-      'what_we_do': _whatWeDoController.text,
-      'why_join_us': _whyJoinUsController.text,
-      'recent_openings': _recentOpeningsController.text,
-      'upcoming_activities': _upcomingActivitiesController.text,
-      'created_at': DateTime.now().toIso8601String(),
-    });
-
-    if (response.error == null) {
-      _clearFields();
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Club details added successfully!')));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content:
-              Text('Failed to add club details: ${response.error!.message}')));
-    }
-
-    setState(() {
-      _isLoading = false;
-    });
-  }*/
+  bool _isLoading = false;
 
   Future<void> _addClubDetails() async {
+    setState(() => _isLoading = true);
+
     final newClubDetails = ClubDetailsModel(
       categoryId: '3a157201-0e6a-468e-9d19-fe84f45a1b2a',
       clubName: _clubNameController.text,
@@ -59,13 +31,21 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
       whyJoinUs: _whyJoinUsController.text,
       recentOpenings: _recentOpeningsController.text,
       upcomingActivities: _upcomingActivitiesController.text,
-
-
     );
 
-    await Supabase.instance.client
-        .from("club_details")
-        .insert(newClubDetails.toMap());
+    try {
+      await _supabase.from("club_details").insert(newClubDetails.toMap());
+      _clearFields();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Club details added successfully!')),
+      );
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to add club details: $error')),
+      );
+    }
+
+    setState(() => _isLoading = false);
   }
 
   void _clearFields() {
@@ -79,34 +59,61 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Admin Club Details')),
-      body: Padding(
+      appBar: AppBar(
+        title: const Text('Admin Club Details'),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-                controller: _clubNameController,
-                decoration: const InputDecoration(labelText: 'Club Name')),
-            TextField(
-                controller: _whatWeDoController,
-                decoration: const InputDecoration(labelText: 'What We Do')),
-            TextField(
-                controller: _whyJoinUsController,
-                decoration: const InputDecoration(labelText: 'Why Join Us')),
-            TextField(
-                controller: _recentOpeningsController,
-                decoration: const InputDecoration(labelText: 'Recent Openings')),
-            TextField(
-                controller: _upcomingActivitiesController,
-                decoration: const InputDecoration(labelText: 'Upcoming Activities')),
-            const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-              onPressed: _addClubDetails,
-              child: const Text('Submit'),
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          elevation: 4,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildTextField(_clubNameController, 'Club Name'),
+                _buildTextField(_whatWeDoController, 'What We Do'),
+                _buildTextField(_whyJoinUsController, 'Why Join Us'),
+                _buildTextField(_recentOpeningsController, 'Recent Openings'),
+                _buildTextField(
+                    _upcomingActivitiesController, 'Upcoming Activities'),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : _addClubDetails,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: _isLoading
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text('Submit',
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.white)),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String label) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         ),
       ),
     );

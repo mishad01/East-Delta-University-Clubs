@@ -17,12 +17,18 @@ class _AdminClubFAQViewState extends State<AdminClubFAQView> {
   bool _isLoading = false;
 
   Future<void> _addClubFAQ() async {
-    setState(() {
-      _isLoading = true;
-    });
+    if (_questionController.text.isEmpty || _answerController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
 
     final newClubFAQ = ClubFAQModel(
-      clubDetailsId: '656c5b7f-fbd1-4807-a620-b878c3c1c583', // Replace with actual ID
+      clubDetailsId:
+          '656c5b7f-fbd1-4807-a620-b878c3c1c583', // Replace with actual ID
       createdAt: DateTime.now(),
       question: _questionController.text,
       answer: _answerController.text,
@@ -30,13 +36,12 @@ class _AdminClubFAQViewState extends State<AdminClubFAQView> {
 
     await _supabase.from('club_faq').insert(newClubFAQ.toMap());
     _clearFields();
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('FAQ added successfully!')),
     );
 
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() => _isLoading = false);
   }
 
   void _clearFields() {
@@ -48,22 +53,62 @@ class _AdminClubFAQViewState extends State<AdminClubFAQView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Club FAQs')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextField(
-                controller: _questionController,
-                decoration: const InputDecoration(labelText: 'Question')),
-            TextField(
-                controller: _answerController,
-                decoration: const InputDecoration(labelText: 'Answer')),
-            const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-              onPressed: _addClubFAQ,
-              child: const Text('Submit'),
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _questionController,
+                      decoration: InputDecoration(
+                        labelText: 'Question',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        prefixIcon: const Icon(Icons.question_answer),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _answerController,
+                      decoration: InputDecoration(
+                        labelText: 'Answer',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        prefixIcon: const Icon(Icons.edit),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : _addClubFAQ,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: _isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
+                            : const Text(
+                                'Submit',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.white),
+                              ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
