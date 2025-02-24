@@ -1,4 +1,3 @@
-import 'package:edu_clubs_app/app.dart';
 import 'package:edu_clubs_app/view_model/categories/club_category_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,21 +13,19 @@ class AdminClubCategoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Club Category Management')),
+      appBar: AppBar(title: const Text('Club Category Management')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Add Option
             buildAddCard(),
-            // Fetch Already stored data
-            SizedBox(height: 20),
-            Divider(),
-            Obx(
-              () {
-                if (controller.errorMessage.isNotEmpty) {
-                  return Center(child: Text(controller.errorMessage.value));
+            const SizedBox(height: 20),
+            const Divider(),
+            GetBuilder<ClubCategoriesController>(
+              builder: (controller) {
+                if (controller.errorMessage != null) {
+                  return Center(child: Text(controller.errorMessage!));
                 }
                 if (controller.clubCategories.isEmpty) {
                   return const Center(child: Text("No club categories found."));
@@ -73,21 +70,23 @@ class AdminClubCategoryView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Obx(() => controller.iconImage.value == null
-                ? ElevatedButton(
-                    onPressed: controller.pickIconImage,
-                    child: const Text('Pick Icon Image'),
-                  )
-                : Column(
-                    children: [
-                      Image.file(controller.iconImage.value!),
-                      const SizedBox(height: 10),
-                      TextButton(
-                        onPressed: controller.pickIconImage,
-                        child: const Text('Change Image'),
-                      ),
-                    ],
-                  )),
+            GetBuilder<ClubCategoriesController>(
+              builder: (controller) => controller.iconImage == null
+                  ? ElevatedButton(
+                      onPressed: controller.pickIconImage,
+                      child: const Text('Pick Icon Image'),
+                    )
+                  : Column(
+                      children: [
+                        Image.file(controller.iconImage!),
+                        const SizedBox(height: 10),
+                        TextButton(
+                          onPressed: controller.pickIconImage,
+                          child: const Text('Change Image'),
+                        ),
+                      ],
+                    ),
+            ),
             const SizedBox(height: 16),
             TextField(
               controller: descriptionController,
@@ -99,12 +98,12 @@ class AdminClubCategoryView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            Obx(
-              () => SizedBox(
+            GetBuilder<ClubCategoriesController>(
+              builder: (controller) => SizedBox(
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: controller.isLoading.value
+                  onPressed: controller.inProgress
                       ? null
                       : () {
                           controller.addClubCategory(
@@ -117,7 +116,7 @@ class AdminClubCategoryView extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: controller.isLoading.value
+                  child: controller.inProgress
                       ? const CircularProgressIndicator(color: Colors.white)
                       : const Text(
                           'Submit',

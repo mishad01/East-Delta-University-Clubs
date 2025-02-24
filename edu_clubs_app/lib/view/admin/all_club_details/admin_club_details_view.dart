@@ -29,9 +29,7 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
   @override
   Widget build(BuildContext context) {
     // Fetch club details when the widget is built
-    setState(() {
-      _clubController.fetchClubCategories(widget.categoryId);
-    });
+    _clubController.fetchClubCategories(widget.categoryId);
 
     return Scaffold(
       appBar: AppBar(
@@ -47,43 +45,48 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
                 child: Column(
                   children: [
                     buildAddCard(),
-                    Obx(() {
-                      if (_clubController.isLoading.value) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
+                    GetBuilder<ClubDetailsController>(
+                      builder: (controller) {
+                        if (controller.inProgress) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
 
-                      if (_clubController.errorMessage.isNotEmpty) {
-                        return Center(
-                            child: Text(_clubController.errorMessage.value));
-                      }
-
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: _clubController.clubDetails.length,
-                        itemBuilder: (context, index) {
-                          final club = _clubController.clubDetails[index];
-                          return Card(
-                            elevation: 3,
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: ListTile(
-                              title: Text(club['club_name']),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("What We Do: ${club['what_we_do']}"),
-                                  Text("Why Join Us: ${club['why_join_us']}"),
-                                  Text(
-                                      "Recent Openings: ${club['recent_openings']}"),
-                                  Text(
-                                      "Upcoming Activities: ${club['upcoming_activities']}"),
-                                ],
-                              ),
-                            ),
+                        if (controller.errorMessage != null &&
+                            controller.errorMessage!.isNotEmpty) {
+                          return Center(
+                            child: Text(controller.errorMessage!),
                           );
-                        },
-                      );
-                    }),
+                        }
+
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.clubDetails.length,
+                          itemBuilder: (context, index) {
+                            final club = controller.clubDetails[index];
+                            return Card(
+                              elevation: 3,
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              child: ListTile(
+                                title: Text(club['club_name']),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("What We Do: ${club['what_we_do']}"),
+                                    Text("Why Join Us: ${club['why_join_us']}"),
+                                    Text(
+                                        "Recent Openings: ${club['recent_openings']}"),
+                                    Text(
+                                        "Upcoming Activities: ${club['upcoming_activities']}"),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -128,25 +131,24 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
             _buildTextField(
                 _upcomingActivitiesController, 'Upcoming Activities'),
             const SizedBox(height: 20),
-            Obx(() => SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: _clubController.isLoading.value
-                        ? null
-                        : _submitClubDetails,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                    ),
-                    child: _clubController.isLoading.value
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text('Submit',
-                            style:
-                                TextStyle(fontSize: 16, color: Colors.white)),
+            GetBuilder<ClubDetailsController>(
+              builder: (controller) => SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: controller.inProgress ? null : _submitClubDetails,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
-                )),
+                  child: controller.inProgress
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text('Submit',
+                          style: TextStyle(fontSize: 16, color: Colors.white)),
+                ),
+              ),
+            ),
           ],
         ),
       ),

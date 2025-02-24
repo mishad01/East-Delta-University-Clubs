@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:edu_clubs_app/controller_binder.dart';
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view/admin/admin_club_categories_view.dart';
 import 'package:edu_clubs_app/view/admin/all_club_details/admin_club_details_view.dart';
@@ -18,6 +19,7 @@ class EduClubs extends StatelessWidget {
       builder: (p0, p1, p2) {
         return GetMaterialApp(
           useInheritedMediaQuery: true,
+          initialBinding: ControllerBinder(),
           locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
           theme: _themeData(),

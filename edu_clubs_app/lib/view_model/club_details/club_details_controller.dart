@@ -3,20 +3,28 @@ import 'package:edu_clubs_app/view_model/club_details/club_details_model.dart';
 import 'package:get/get.dart';
 
 class ClubDetailsController extends GetxController {
-  final AdminClubDetailsRepository _repository = AdminClubDetailsRepository();
-  var isLoading = false.obs;
+  final AdminClubDetailsRepository _repository =
+      Get.find<AdminClubDetailsRepository>();
 
-  var errorMessage = ''.obs;
+  bool _inProgress = false;
+  bool get inProgress => _inProgress;
+
+  // Use the reactive RxList for state management
   var clubDetails = <Map<String, dynamic>>[].obs;
 
-  Future<void> addClubDetails(
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  Future<bool> addClubDetails(
       String categoryId,
       String clubName,
       String whatWeDo,
       String whyJoinUs,
       String recentOpenings,
       String upcomingActivities) async {
-    isLoading.value = true;
+    bool isSuccess = false;
+    _inProgress = true;
+    update();
 
     final newClubDetails = ClubDetailsModel(
       categoryId: categoryId,
@@ -27,25 +35,36 @@ class ClubDetailsController extends GetxController {
       upcomingActivities: upcomingActivities,
     );
 
-    bool result = await _repository.addClubDetails(newClubDetails);
+    final bool response = await _repository.addClubDetails(newClubDetails);
 
-    if (result) {
-      Get.snackbar("Success", "Club details added successfully!");
+    if (response) {
+      isSuccess = true;
+      _errorMessage = null;
     } else {
-      Get.snackbar("Error", "Failed to add club details.");
+      _errorMessage = 'Failed to add club details';
     }
-    isLoading.value = false;
+
+    _inProgress = false;
+    update();
+    return isSuccess;
   }
 
-  Future<void> fetchClubCategories(String categoryId) async {
-    isLoading.value = true;
+  Future<bool> fetchClubCategories(String categoryId) async {
+    bool isSuccess = false;
+    _inProgress = true;
+    update();
+
     try {
-      final response = await _repository.fetchClubDetails(categoryId);
-      clubDetails.value = response;
+      clubDetails.value = await _repository
+          .fetchClubDetails(categoryId); // update the RxList directly
+      isSuccess = true;
+      _errorMessage = null;
     } catch (e) {
-      errorMessage.value = 'Failed to load data: $e';
-    } finally {
-      isLoading.value = false;
+      _errorMessage = 'Failed to load data: $e';
     }
+
+    _inProgress = false;
+    update();
+    return isSuccess;
   }
 }

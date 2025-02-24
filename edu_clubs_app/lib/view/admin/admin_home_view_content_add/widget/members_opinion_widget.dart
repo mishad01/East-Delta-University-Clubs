@@ -1,6 +1,6 @@
 import 'package:edu_clubs_app/utils/export.dart';
-import 'package:edu_clubs_app/view_model/home/club_member_opinion_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:edu_clubs_app/view_model/admin/home/member_opinion_controller.dart';
+import 'package:get/get.dart';
 
 class MemberOpinionsWidget extends StatefulWidget {
   @override
@@ -8,37 +8,9 @@ class MemberOpinionsWidget extends StatefulWidget {
 }
 
 class _MemberOpinionsWidgetState extends State<MemberOpinionsWidget> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController positionController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-  final SupabaseClient _supabase = Supabase.instance.client;
-
-  Future<void> _addMemberOpinion() async {
-    try {
-      final banner = ClubMemberOpinionModel(
-        userId: '4902e25b-18ab-43cd-8e86-5d0cd57cf737',
-        clubMemberName: nameController.text,
-        clubNameWithPosition: positionController.text,
-        clubOpinionDescription: descriptionController.text,
-      );
-
-      final response =
-          await _supabase.from("club_member_opinion").insert(banner.toMap());
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Banner uploaded successfully!')),
-      );
-
-      nameController.clear();
-      positionController.clear();
-      descriptionController.clear();
-      Navigator.of(context).pop();
-    } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${error.toString()}')),
-      );
-    }
-  }
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController positionController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +31,12 @@ class _MemberOpinionsWidgetState extends State<MemberOpinionsWidget> {
   }
 
   Widget buildMembersOpinion(
-      String name, String club, String opinion, Widget? spacer, Color color) {
+    String name,
+    String club,
+    String opinion,
+    Widget? spacer,
+    Color color,
+  ) {
     return GestureDetector(
       onTap: () => _showDialog(),
       child: Container(
@@ -103,6 +80,9 @@ class _MemberOpinionsWidgetState extends State<MemberOpinionsWidget> {
 
   // Method to show the AlertDialog
   void _showDialog() {
+    final MemberOpinionsController controller =
+        Get.find<MemberOpinionsController>();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -132,11 +112,37 @@ class _MemberOpinionsWidgetState extends State<MemberOpinionsWidget> {
               },
               child: Text('Cancel'),
             ),
-            TextButton(
-              onPressed: () {
-                _addMemberOpinion();
+            GetBuilder<MemberOpinionsController>(
+              builder: (controller) {
+                return TextButton(
+                  onPressed: controller.inProgress
+                      ? null
+                      : () async {
+                          bool success = await controller.addOpinion(
+                            "user_id", // Replace with actual user ID
+                            nameController.text,
+                            positionController.text,
+                            descriptionController.text,
+                          );
+
+                          if (success) {
+                            Get.snackbar(
+                                "Success", "Opinion added successfully!",
+                                snackPosition: SnackPosition.BOTTOM);
+                            nameController.clear();
+                            positionController.clear();
+                            descriptionController.clear();
+                            Navigator.of(context).pop();
+                          } else {
+                            Get.snackbar("Error", "Failed to add opinion!",
+                                snackPosition: SnackPosition.BOTTOM);
+                          }
+                        },
+                  child: controller.inProgress
+                      ? CircularProgressIndicator()
+                      : Text('Submit'),
+                );
               },
-              child: Text('Submit'),
             ),
           ],
         );

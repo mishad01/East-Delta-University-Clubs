@@ -40,48 +40,48 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            /*Obx(() {
-              if (detailsController.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
+            // GetBuilder for club details (commented code not needed)
+            // GetBuilder<ClubDetailsController>(
+            //   builder: (controller) {
+            //     if (controller.isLoading.value) {
+            //       return const Center(child: CircularProgressIndicator());
+            //     }
 
-              if (detailsController.clubDetails.isEmpty) {
-                return const Center(child: Text("No club details found."));
-              }
+            //     if (controller.clubDetails.isEmpty) {
+            //       return const Center(child: Text("No club details found."));
+            //     }
 
-              final club = detailsController.clubDetails.first;
+            //     final club = controller.clubDetails.first;
+            //     return Card(
+            //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            //       elevation: 4,
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(16.0),
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text(
+            //               "Club id: ${club['id']}",
+            //               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            //             ),
+            //             const SizedBox(height: 8),
+            //             Text("What We Do: ${club['what_we_do']}"),
+            //             const SizedBox(height: 8),
+            //             Text("Why Join Us: ${club['why_join_us']}"),
+            //             const SizedBox(height: 8),
+            //             Text("Recent Openings: ${club['recent_openings']}"),
+            //             const SizedBox(height: 8),
+            //             Text("Upcoming Activities: ${club['upcoming_activities']}"),
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
 
-              return Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Club id: ${club['id']}",
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 8),
-                      Text("What We Do: ${club['what_we_do']}"),
-                      const SizedBox(height: 8),
-                      Text("Why Join Us: ${club['why_join_us']}"),
-                      const SizedBox(height: 8),
-                      Text("Recent Openings: ${club['recent_openings']}"),
-                      const SizedBox(height: 8),
-                      Text(
-                          "Upcoming Activities: ${club['upcoming_activities']}"),
-                    ],
-                  ),
-                ),
-              );
-            }),
-            const SizedBox(height: 16),*/
+            const SizedBox(height: 16),
 
-            /// Event Adding Section
+            // Event Adding Section
             Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
@@ -92,8 +92,7 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
                   children: [
                     // Session Name Field
                     TextField(
-                      onChanged: (value) =>
-                          eventController.sessionName.value = value,
+                      onChanged: (value) => eventController.sessionName = value,
                       decoration: InputDecoration(
                         labelText: 'Session Name ',
                         border: OutlineInputBorder(
@@ -114,43 +113,49 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
                           ),
                         ),
                         const SizedBox(width: 16),
-                        Obx(() => eventController.sessionImage.value != null
-                            ? Image.file(
-                                eventController.sessionImage.value!,
-                                height: 100,
-                                width: 100,
-                                fit: BoxFit.cover,
-                              )
-                            : const SizedBox.shrink()),
+                        GetBuilder<ClubEventController>(
+                          builder: (controller) {
+                            return controller.sessionImage != null
+                                ? Image.file(
+                                    controller.sessionImage!,
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                  )
+                                : const SizedBox.shrink();
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
 
                     // Submit Button
-                    Obx(
-                      () => SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            eventController.addClubEvent(
-                                detailsController.clubDetails.first['id']);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueAccent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
+                    GetBuilder<ClubEventController>(
+                      builder: (controller) {
+                        return SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              eventController.addClubEvent(
+                                  detailsController.clubDetails.first['id']);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
+                            ),
+                            child: controller.inProgress
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white)
+                                : const Text(
+                                    'Submit',
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.white),
+                                  ),
                           ),
-                          child: eventController.isLoading.value
-                              ? const CircularProgressIndicator(
-                                  color: Colors.white)
-                              : const Text(
-                                  'Submit',
-                                  style: TextStyle(
-                                      fontSize: 16, color: Colors.white),
-                                ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -159,85 +164,88 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
 
             const SizedBox(height: 20),
 
-            /// Display Fetched Club Event Images
-            Obx(() {
-              if (eventController.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
+            // Display Fetched Club Event Images
+            GetBuilder<ClubEventController>(
+              builder: (controller) {
+                if (controller.inProgress) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
-              if (eventController.allEvents.isEmpty) {
-                return const Center(child: Text("No events found."));
-              }
+                if (controller.allEvents.isEmpty) {
+                  return const Center(child: Text("No events found."));
+                }
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Club Event Sessions",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1,
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Club Event Sessions",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    itemCount: eventController.allEvents.length,
-                    itemBuilder: (context, index) {
-                      final event = eventController.allEvents[index];
+                    const SizedBox(height: 10),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1,
+                      ),
+                      itemCount: controller.allEvents.length,
+                      itemBuilder: (context, index) {
+                        final event = controller.allEvents[index];
 
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 4,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: ClipRRect(
-                                borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(12)),
-                                child: Image.network(
-                                  event['session_images'],
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  },
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const Center(
-                                        child: Icon(Icons.error,
-                                            color: Colors.red));
-                                  },
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                      top: Radius.circular(12)),
+                                  child: Image.network(
+                                    event['session_images'],
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return const Center(
+                                          child: CircularProgressIndicator());
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Center(
+                                          child: Icon(Icons.error,
+                                              color: Colors.red));
+                                    },
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                event['session_name'],
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  event['session_name'],
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              );
-            }),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
           ],
         ),
       ),

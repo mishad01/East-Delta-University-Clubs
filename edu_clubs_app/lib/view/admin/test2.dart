@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:edu_clubs_app/view_model/club_details/club_details_controller.dart';
@@ -59,3 +60,4 @@ class Test2View extends StatelessWidget {
     );
   }
 }
+*/

@@ -6,74 +6,94 @@ import 'package:image_picker/image_picker.dart';
 
 class ClubEventController extends GetxController {
   final ClubEventRepository _repository = ClubEventRepository();
-  var sessionName = ''.obs;
-  var sessionImage = Rx<File?>(null);
-  var isLoading = false.obs;
+
+  bool _inProgress = false;
+  bool get inProgress => _inProgress;
+
+  String? _errorMessage;
+  String? get errorMessage => _errorMessage;
+
+  String sessionName = ''; // Just a normal String, no RxString
+  File? sessionImage;
+  List<Map<String, dynamic>> allEvents = [];
+
   final ImagePicker _picker = ImagePicker();
-  var errorMessage = ''.obs;
-  var allEvents = <Map<String, dynamic>>[].obs;
 
   void pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      sessionImage.value = File(pickedFile.path);
+      sessionImage = File(pickedFile.path);
     }
   }
 
-  Future<void> addClubEvent(String clubDetailsId) async {
-    if (sessionImage.value == null || sessionName.value.isEmpty) {
+  Future<bool> addClubEvent(String clubDetailsId) async {
+    bool isSuccess = false;
+    if (sessionImage == null || sessionName.isEmpty) {
       Get.snackbar(
           "Error", "Please select an image and provide a session name");
-      return;
+      return false;
     }
 
-    isLoading.value = true;
+    _inProgress = true;
+    update(); // Call update to refresh the UI after the change
 
     try {
       final sessionImageUrl =
-          await _repository.uploadImage(sessionImage.value!, 'session_images');
+          await _repository.uploadImage(sessionImage!, 'session_images');
 
       if (sessionImageUrl == null) {
         Get.snackbar("Error", "Image upload failed.");
-        return;
+        return false;
       }
 
       final newEvent = ClubEventModel(
         clubDetailsId: clubDetailsId,
         sessionImages: sessionImageUrl,
-        sessionName: sessionName.value,
+        sessionName: sessionName,
       );
 
       final success = await _repository.addClubEvent(newEvent);
       if (success) {
         Get.snackbar("Success", "Club event added successfully!");
         clearFields();
+        isSuccess = true;
       } else {
         Get.snackbar("Error", "Failed to add club event.");
       }
     } catch (e) {
-      Get.snackbar("Error", "An unexpected error occurred.");
+      _errorMessage = 'An unexpected error occurred';
+      Get.snackbar("Error", _errorMessage!);
       print("Add event error: $e");
     } finally {
-      isLoading.value = false;
+      _inProgress = false;
+      update();
     }
+
+    return isSuccess;
   }
 
   void clearFields() {
-    sessionName.value = '';
-    sessionImage.value = null;
+    sessionName = '';
+    sessionImage = null;
   }
 
-  Future<void> fetchEvents(String clubDetailsId) async {
-    isLoading.value = true;
+  Future<bool> fetchEvents(String clubDetailsId) async {
+    bool isSuccess = false;
+    _inProgress = true;
+    update();
+
     try {
       final response = await _repository.fetchEventDetails(clubDetailsId);
-      allEvents.value = response;
+      allEvents = response;
+      isSuccess = true;
     } catch (e) {
-      errorMessage.value = 'Failed to load data';
+      _errorMessage = 'Failed to load events.';
       print("Fetch events error: $e");
     } finally {
-      isLoading.value = false;
+      _inProgress = false;
+      update();
     }
+
+    return isSuccess;
   }
 }
