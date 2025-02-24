@@ -23,11 +23,10 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
     detailsController = Get.put(ClubDetailsController());
     detailsController.fetchClubCategories(widget.categoriesId);
 
-    /// Listen for club details update and fetch FAQs once data is available
+    /// Listen for club details update and fetch events once data is available
     ever(detailsController.clubDetails, (details) {
       if (details.isNotEmpty) {
-        eventController
-            .fetchEvents(details.first['id']); // Fetch FAQs using club ID
+        eventController.fetchEvents(details.first['id']);
       }
     });
   }
@@ -41,7 +40,7 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Obx(() {
+            /*Obx(() {
               if (detailsController.isLoading.value) {
                 return const Center(child: CircularProgressIndicator());
               }
@@ -80,7 +79,7 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
                 ),
               );
             }),
-            const SizedBox(height: 16),
+            const SizedBox(height: 16),*/
 
             /// Event Adding Section
             Card(
@@ -157,6 +156,88 @@ class _AdminClubEventViewState extends State<AdminClubEventView> {
                 ),
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            /// Display Fetched Club Event Images
+            Obx(() {
+              if (eventController.isLoading.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (eventController.allEvents.isEmpty) {
+                return const Center(child: Text("No events found."));
+              }
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Club Event Sessions",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1,
+                    ),
+                    itemCount: eventController.allEvents.length,
+                    itemBuilder: (context, index) {
+                      final event = eventController.allEvents[index];
+
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 4,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(12)),
+                                child: Image.network(
+                                  event['session_images'],
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Center(
+                                        child: Icon(Icons.error,
+                                            color: Colors.red));
+                                  },
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                event['session_name'],
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              );
+            }),
           ],
         ),
       ),
