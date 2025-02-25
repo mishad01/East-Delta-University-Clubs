@@ -1,8 +1,9 @@
 import 'package:edu_clubs_app/utils/custom_text_field.dart';
-import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/utils/email_and_password_validation.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/widget/background_widget.dart';
-import 'package:edu_clubs_app/view_model/user/user_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:edu_clubs_app/view_model/user/sign_up_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -21,47 +22,7 @@ class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _confirmPasswordTEController =
       TextEditingController();
 
-  final SupabaseClient supabase =
-      Supabase.instance.client; // Initialize Supabase
-
-  Future<void> _signUp() async {
-    if (!_formState.currentState!.validate()) return;
-
-    try {
-      // Sign up with Supabase Auth
-      final authResponse = await supabase.auth.signUp(
-        email: _emailTEController.text.trim(),
-        password: _passwordTEController.text.trim(),
-      );
-
-      if (authResponse.user != null) {
-        // Create user model
-        final newUser = UserModel(
-          id: authResponse.user!.id,
-          fullName: _fullNameTEController.text.trim(),
-          emailAddress: _emailTEController.text.trim(),
-          mobile: int.parse(_mobileTEController.text),
-          studentId: int.parse(_studentTEController.text.trim()),
-          password: _passwordTEController.text,
-          memberType: "student", // Default member type
-        );
-
-        // Insert user data into the database and handle errors properly
-        final response =
-            await supabase.from('user').insert(newUser.toMap()).select();
-
-        // Ensure response is not empty (insert was successful)
-        if (response.isEmpty) {
-          Get.snackbar("Error", "Failed to save user data.");
-          return;
-        }
-
-        Get.to(() => OtpView()); // Navigate to OTP Verification
-      }
-    } catch (e) {
-      Get.snackbar("Signup Failed", e.toString());
-    }
-  }
+  final SignUpController authController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -99,18 +60,10 @@ class _SignUpViewState extends State<SignUpView> {
                             ),
                             const SizedBox(height: 15),
                             CustomTextFormField(
-                              controller: _emailTEController,
-                              labelText: "Email",
-                              validator: (value) {
-                                if (value == null || value.isEmpty)
-                                  return "Please Input Correct Email";
-                                String pattern =
-                                    r'^[a-zA-Z0-9._%+-]+@eastdelta\.edu\.bd$';
-                                if (!RegExp(pattern).hasMatch(value))
-                                  return 'Please enter a valid email address';
-                                return null;
-                              },
-                            ),
+                                controller: _emailTEController,
+                                labelText: "Email",
+                                validator:
+                                    EmailAndPasswordValidation.validateEmail),
                             const SizedBox(height: 15),
                             CustomTextFormField(
                               controller: _mobileTEController,
@@ -160,31 +113,27 @@ class _SignUpViewState extends State<SignUpView> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _signUp,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffFDEBB9),
-                        minimumSize: const Size(108, 40),
-                      ),
-                      child: const Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            fontSize: 19, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    RichText(
-                      text: TextSpan(
-                        text: "Already have an account? ",
-                        style: textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.w400, fontSize: 17),
-                        children: const [
-                          TextSpan(
-                            text: "Login",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
+                    GetBuilder<SignUpController>(
+                      builder: (controller) {
+                        return ElevatedButton(
+                          onPressed: controller.isLoading
+                              ? null
+                              : () {
+                                  if (_formState.currentState!.validate()) {
+                                    controller.signUp(
+                                      fullName: _fullNameTEController.text,
+                                      email: _emailTEController.text,
+                                      mobile: _mobileTEController.text,
+                                      studentId: _studentTEController.text,
+                                      password: _passwordTEController.text,
+                                    );
+                                  }
+                                },
+                          child: controller.isLoading
+                              ? const CircularProgressIndicator()
+                              : const Text("Sign Up"),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -194,16 +143,5 @@ class _SignUpViewState extends State<SignUpView> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _fullNameTEController.dispose();
-    _emailTEController.dispose();
-    _mobileTEController.dispose();
-    _studentTEController.dispose();
-    _passwordTEController.dispose();
-    _confirmPasswordTEController.dispose();
-    super.dispose();
   }
 }

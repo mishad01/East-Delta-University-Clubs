@@ -10,8 +10,8 @@ import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/admin_home_
 import 'package:edu_clubs_app/view/admin/test.dart';
 import 'package:edu_clubs_app/view/admin/test2.dart';
 
-class EduClubs extends StatelessWidget {
-  const EduClubs({super.key});
+class EduClubsUser extends StatelessWidget {
+  const EduClubsUser({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class EduClubs extends StatelessWidget {
           theme: _themeData(),
           initialRoute: '/',
           getPages: [
-            GetPage(name: '/', page: () => AdminControl()),
+            GetPage(name: '/', page: () => SplashView()),
           ],
         );
       },

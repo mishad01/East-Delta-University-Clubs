@@ -6,7 +6,7 @@ class UserModel {
   final int mobile;
   final int studentId;
   final String password;
-  final String memberType;
+  final String? memberType;
 
   UserModel({
     this.id,
