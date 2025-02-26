@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:edu_clubs_app/view_model/admin/home/prize_giving_ceremony_model.dart';
+import 'package:edu_clubs_app/data/models/admin/home/prize_giving_ceremony_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PrizeGivingCeremonyRepository {

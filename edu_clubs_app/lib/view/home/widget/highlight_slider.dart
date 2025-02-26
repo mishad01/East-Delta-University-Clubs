@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view_model/admin/home/prize_giving_ceremony_controller.dart'; // Import the controller
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HighLightSlider extends StatefulWidget {
   const HighLightSlider({super.key});
@@ -9,159 +12,111 @@ class HighLightSlider extends StatefulWidget {
 }
 
 class _HighLightSliderState extends State<HighLightSlider> {
-  ValueNotifier<int> _selectedIndex = ValueNotifier(0);
+  final ValueNotifier<int> _selectedIndex = ValueNotifier(0);
+  final PrizeGivingCeremonyController _controller =
+      Get.put(PrizeGivingCeremonyController()); // Initialize the controller
 
-  final List<String> images = [
-    "assets/images/h1.jpg",
-    "assets/images/2.png",
-    "assets/images/3.jpg",
-  ];
+  @override
+  void initState() {
+    super.initState();
+    // Fetch ceremonies when the widget is initialized
+    _controller.fetchCeremonies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
-        enlargeCenterPage: true,
-        enlargeFactor: 0.4,
-        enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-        height: 320.0,
-        viewportFraction: 0.75,
-      ),
-      items: images.map((i) {
-        return Builder(
-          builder: (BuildContext context) {
-            //return buildContainer(i);
-            return Container(
-              child: Stack(
-                children: [
-                  SvgPicture.asset(
-                    AssetsPath.card,
-                    width: 300,
-                    height: 320,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25, top: 15),
-                    child: Text(
-                      "Prize Giving \nCeremony",
-                      style: GoogleFonts.sourceSerif4(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+    return GetBuilder<PrizeGivingCeremonyController>(
+      builder: (controller) {
+        if (controller.isUploading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (controller.ceremonies.isEmpty) {
+          return const Center(child: Text("No ceremonies found."));
+        }
+
+        return CarouselSlider(
+          options: CarouselOptions(
+            enlargeCenterPage: true,
+            enlargeFactor: 0.4,
+            enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+            height: 320.0,
+            viewportFraction: 0.75,
+            onPageChanged: (index, reason) {
+              _selectedIndex.value = index;
+            },
+          ),
+          items: controller.ceremonies.map((ceremony) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  child: Stack(
+                    children: [
+                      SvgPicture.asset(
+                        AssetsPath.card,
+                        width: 300,
+                        height: 320,
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 215, top: 13),
-                    child: Text(
-                      "14th November",
-                      style: GoogleFonts.sourceSerif4(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 7),
-                    ),
-                  ),
-                  Positioned(
-                    top: 57,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(21),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(21),
-                        child: Image.asset(
-                          i,
-                          height: 255,
-                          width: 260,
-                          fit: BoxFit.fitWidth,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, top: 15),
+                        child: Text(
+                          ceremony.prizeGivingCeremonyName,
+                          style: GoogleFonts.sourceSerif4(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          },
-        );
-      }).toList(),
-    );
-  }
-
-  Container buildContainer(String i) {
-    return Container(
-      width: double.infinity,
-      height: 286,
-      margin: EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(13),
-        color: Color(0xff2D342F),
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  "Prize Giving \nCeremony",
-                  style: GoogleFonts.sourceSerif4(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Container(
-                width: 100,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(23),
-                  ),
-                  color: Colors.white,
-                  border: Border.all(color: Colors.white, width: 2),
-                ),
-                child: Center(
-                  child: Container(
-                    width: 85,
-                    height: 33,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(23),
-                      color: Color(0xff2D342F), // Inner container color
-                    ),
-                    child: Center(
-                      child: Text(
-                        "14th November, 2023",
-                        style: TextStyle(
+                      Padding(
+                        padding: const EdgeInsets.only(left: 215, top: 13),
+                        child: Text(
+                          ceremony.prizeGivingDate,
+                          style: GoogleFonts.sourceSerif4(
                             color: Colors.white,
-                            fontSize: 8,
-                            fontWeight: FontWeight.w600),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 7,
+                          ),
+                        ),
                       ),
-                    ),
+                      Positioned(
+                        top: 57,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(21),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(21),
+                            child: Image.network(
+                              ceremony.prizeGivingImage,
+                              height: 255,
+                              width: 260,
+                              fit: BoxFit.fitWidth,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              },
+                              errorBuilder: (context, error, stackTrace) {
+                                return const Center(
+                                    child:
+                                        Icon(Icons.error, color: Colors.red));
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 10),
-          Container(
-            width: 270,
-            height: 237,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(21),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(21),
-              child: Image.asset(
-                i,
-                fit: BoxFit.cover,
-              ),
-            ),
-          )
-        ],
-      ),
+                );
+              },
+            );
+          }).toList(),
+        );
+      },
     );
   }
 }

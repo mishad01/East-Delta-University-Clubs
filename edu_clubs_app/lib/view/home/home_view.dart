@@ -1,6 +1,12 @@
 import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/widget/members_opinion_widget.dart';
+import 'package:edu_clubs_app/view/auth/sign_in/sign_In_view.dart';
+import 'package:edu_clubs_app/view/home/widget/all_categories_grid.dart';
 import 'package:edu_clubs_app/view/home/widget/highlight_slider.dart';
 import 'package:edu_clubs_app/view/home/widget/home_banner_slider.dart';
+import 'package:edu_clubs_app/view/home/widget/members_opinion_widget.dart';
+import 'package:edu_clubs_app/view_model/user/sign_in_controller.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -32,56 +38,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               HomeBannerSlider(),
               SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.only(left: 22, right: 22),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "All Clubs",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Get.to(() => AllClubView());
-                      },
-                      child: Text("See All"),
-                    ),
-                  ],
-                ),
-              ),
-              // Wrap GridView.builder in a Container or Expanded widget
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Container(
-                  height: 300, // Set a fixed height for the grid view
-                  child: GridView.builder(
-                    itemCount: 4,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 1.3,
-                      crossAxisSpacing: 30,
-                      mainAxisSpacing: 30,
-                    ),
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                        onTap: () => Get.to(() => ClubDetailsView()),
-                        child: Container(
-                          height: 115,
-                          width: 135,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Color(0xff8983B2FF),
-                          ),
-                          child: SvgPicture.asset(AssetsPath.eduLogo),
-                        ),
-                      );
-                    }, // Set an item count
-                  ),
-                ),
-              ),
+              AllCategoriesGrid(),
               Text("RECENT HIGHLIGHT",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
               SizedBox(height: 2.h),
@@ -92,36 +49,7 @@ class _HomeViewState extends State<HomeView> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 2.h),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    buildMembersOpinion(
-                      "Asif Jofa",
-                      "GM of commuter club",
-                      "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
-                      null,
-                      Color(0xffFDEBB9),
-                    ),
-                    SizedBox(height: 15),
-                    buildMembersOpinion(
-                      "Asif Jofa",
-                      "GM of commuter club",
-                      "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
-                      Spacer(),
-                      Color(0xffD0D9FC),
-                    ),
-                    SizedBox(height: 15),
-                    buildMembersOpinion(
-                      "Asif Jofa",
-                      "GM of commuter club",
-                      "Being part of this club has been an incredible journey of growth, teamwork, and unforgettable experiences",
-                      null,
-                      Color(0xffD5D0FB),
-                    ),
-                  ],
-                ),
-              )
+              MembersOpinionsWidgets()
             ],
           ),
         ),
@@ -186,6 +114,15 @@ class _HomeViewState extends State<HomeView> {
               title: Text('Contact Us'),
               onTap: () {
                 Navigator.pop(context); // Closes the drawer
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.exit_to_app),
+              title: Text('Sign Out'),
+              onTap: () async {
+                await Supabase.instance.client.auth.signOut();
+                print('User signed out successfully');
+                Get.offAll(() => SignInView());
               },
             ),
           ],

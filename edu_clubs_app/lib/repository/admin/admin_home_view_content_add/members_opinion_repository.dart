@@ -1,5 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:edu_clubs_app/view_model/admin/home/club_member_opinion_model.dart';
+import 'package:edu_clubs_app/data/models/admin/home/club_member_opinion_model.dart';
 
 class MemberOpinionRepository {
   final SupabaseClient _supabase = Supabase.instance.client;

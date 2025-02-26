@@ -1,231 +1,170 @@
+import 'package:edu_clubs_app/utils/custom_text.dart';
 import 'package:edu_clubs_app/utils/export.dart';
-import 'package:edu_clubs_app/view/club_profile/widget/club_details_slider.dart';
+import 'package:edu_clubs_app/view/club_profile/widget/club_events_slider.dart';
+import 'package:edu_clubs_app/view/club_profile/widget/faq_section.dart';
+import 'package:edu_clubs_app/view_model/club_details/club_details_controller.dart';
 
-class ClubDetailsView extends StatefulWidget {
-  const ClubDetailsView({super.key});
+class ClubDetailsView extends StatelessWidget {
+  const ClubDetailsView({
+    super.key,
+    required this.categoriesId,
+  });
+  final String categoriesId;
 
-  @override
-  State<ClubDetailsView> createState() => _ClubDetailsViewState();
-}
-
-class _ClubDetailsViewState extends State<ClubDetailsView> {
-  bool _isExpanded = false;
   @override
   Widget build(BuildContext context) {
+    final ClubDetailsController controller = Get.put(ClubDetailsController());
+
+    // Fetch data when the view is built
+    controller.fetchClubCategories(categoriesId);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: Text(
-                  "Photography Club",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-              ),
-              SizedBox(height: 2.h),
-              const ClubDetailsSlider(),
-              SizedBox(height: 2.h),
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "What We Do",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    const Text(
-                        "Being part of this club has been an incredible journey of growth,teamwork, and unforgettable experiencesBeing part of this club has been an incredible journey of growth,teamwork, and unforgettable experiences"),
-                    SizedBox(height: 2.h),
-                    const Text(
-                      "Why Join Us",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Image.asset(
-                              AssetsPath.join_us_card,
-                            ),
+          child: GetBuilder<ClubDetailsController>(
+            builder: (controller) {
+              return controller.inProgress
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CustomText(
+                            text: controller.clubDetails.isNotEmpty
+                                ? controller.clubDetails.first['club_name']
+                                : "Club Details",
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Positioned(
-                            left: 40,
-                            right: 40,
-                            top: 120,
-                            child: Text(
-                              "Being part of this club has been an incredible journey of growth,teamwork, and unforgettable Being part of this club has been an incredible journey of growth, Being part of this club has been an Being part of this club has been an incredible journey of growth,teamwork, and unforgettable",
-                              style: TextStyle(
-                                fontSize: 10,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 5,
-                              textAlign: TextAlign.justify,
-                            ),
-                          ),
-                          Positioned(
-                            left: 140,
-                            right: 40,
-                            top: 200,
-                            child: Text(
-                              "Being part of this club has been an incredible journey of growth,teamwork, and unforgettable Being part of this club has been an incredible journey of growth, Being part of this club has been an Being part of this club has been an incredible journey of growth,teamwork, and unforgettable",
-                              style: TextStyle(
-                                fontSize: 10,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 4,
-                              // textAlign: TextAlign.justify,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 1.h),
-                    Container(
-                      child: Center(
-                        child: Stack(
-                          children: [
-                            SvgPicture.asset(
-                              AssetsPath.newsCard,
-                              height: 350,
-                              width: double.infinity,
-                            ),
-                            Positioned(
-                              top: 28,
-                              left: 45,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Recent\nOpenings",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                      height: 1.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              top: 100,
-                              left: 45,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    height: 100,
-                                    child: Text(
-                                      "Being part of this club has bteamwork, and unforgettable experiences",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        height: 1.0,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 140,
-                              left: 250,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "Upcoming\nActivites",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                      height: 1.0,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 30,
-                              right: 10,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: 200,
-                                    height: 100,
-                                    child: Text(
-                                      "Being part of this club has bteamwork, and unforgettable experiences",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        height: 1.0,
-                                      ),
-                                      textAlign: TextAlign.start,
-                                      maxLines: 3,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
                         ),
-                      ),
-                    ),
-                    Text(
-                      "FAQ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                        height: 1.0,
-                      ),
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 4,
-                      physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.only(right: 20),
-                      itemBuilder: (context, index) {
-                        return Card(
-                          shadowColor: Colors.blue,
-                          color: Color(0xffD2D8D4),
-                          child: Theme(
-                            data: ThemeData()
-                                .copyWith(dividerColor: Colors.transparent),
-                            child: ExpansionTile(
-                              trailing: Icon(Icons.more_vert_rounded),
-                              title: Text(
-                                "What does our members do?",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        SizedBox(height: 2.h),
+                        ClubEventsSlider(
+                          clubDetailsId: controller.clubDetails.first['id'],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              const CustomText(
+                                text: "What We Do",
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
                               ),
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 8, right: 8, bottom: 8),
-                                  child: Text(
-                                    "Being part of this club has been an incredible journey of growth. Being part of this club has been an incredible journey of growth. Being part of this club has been an incredible journey of growth.",
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.black54),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              CustomText(
+                                text: controller.clubDetails.isNotEmpty
+                                    ? controller.clubDetails.first['what_we_do']
+                                    : "No information available",
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 2.h),
+                              const CustomText(
+                                text: "Why Join Us",
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              _buildImageTextOverlay(
+                                AssetsPath.join_us_card,
+                                controller.clubDetails.isNotEmpty
+                                    ? controller
+                                        .clubDetails.first['why_join_us']
+                                    : "No information available",
+                              ),
+                              _buildRecentOpeningsSection(controller),
+                              FAQSection(
+                                clubDetailsId:
+                                    controller.clubDetails.first['id'],
+                              )
+                            ],
                           ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                        ),
+                      ],
+                    );
+            },
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildImageTextOverlay(String imagePath, String text) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Image.asset(imagePath),
+        Positioned(
+          left: 40,
+          right: 40,
+          top: 120,
+          child: CustomText(
+            text: text,
+            fontSize: 10,
+            maxLine: 5,
+            customStyle: const TextStyle(overflow: TextOverflow.ellipsis),
+            textAlign: TextAlign.justify,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecentOpeningsSection(ClubDetailsController controller) {
+    return Stack(
+      children: [
+        SvgPicture.asset(
+          AssetsPath.newsCard,
+          height: 350,
+          width: double.infinity,
+        ),
+        Positioned(
+          top: 27,
+          left: 45,
+          child: const CustomText(
+            text: "Recent\nOpenings",
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Positioned(
+          top: 100,
+          left: 45,
+          child: SizedBox(
+            width: 200,
+            child: CustomText(
+              text: controller.clubDetails.isNotEmpty
+                  ? controller.clubDetails.first['recent_openings'] ??
+                      "No data available"
+                  : "No data available",
+              fontSize: 12,
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 140,
+          right: 45,
+          child: const CustomText(
+            text: "Upcoming\nActivities",
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Positioned(
+          bottom: 65,
+          right: 45,
+          child: SizedBox(
+            width: 200,
+            child: CustomText(
+              text: controller.clubDetails.isNotEmpty
+                  ? controller.clubDetails.first['upcoming_activities'] ??
+                      "No data available"
+                  : "No data available",
+              fontSize: 12,
+              maxLine: 3,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
