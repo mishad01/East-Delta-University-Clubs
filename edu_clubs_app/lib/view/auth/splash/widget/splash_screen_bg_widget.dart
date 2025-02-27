@@ -1,5 +1,7 @@
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/sign_In_view.dart';
+import 'package:edu_clubs_app/view/home/home_view.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SplashScreenBgWidget extends StatefulWidget {
   const SplashScreenBgWidget({super.key, required this.child});
@@ -35,8 +37,18 @@ class _SplashScreenBgWidgetState extends State<SplashScreenBgWidget>
 
   Future<void> _moveToNextScreen() async {
     await Future.delayed(Duration(seconds: 3));
+
+    final user = Supabase.instance.client.auth.currentUser;
+
     if (mounted) {
-      Get.offAll(() => SignInView());
+      // Check if the user is already logged in
+      if (user != null) {
+        // If the user is logged in, navigate to the HomeView
+        Get.offAll(() => HomeView());
+      } else {
+        // If the user is not logged in, navigate to the SignInView
+        Get.offAll(() => SignInView());
+      }
     }
   }
 

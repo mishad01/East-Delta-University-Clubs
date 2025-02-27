@@ -6,7 +6,6 @@ class ClubDetailsModel {
   final String whyJoinUs;
   final String recentOpenings;
   final String upcomingActivities;
-  final String createdAt;
 
   ClubDetailsModel({
     this.id,
@@ -16,7 +15,6 @@ class ClubDetailsModel {
     required this.whyJoinUs,
     required this.recentOpenings,
     required this.upcomingActivities,
-    required this.createdAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -27,7 +25,6 @@ class ClubDetailsModel {
       'why_join_us': whyJoinUs,
       'recent_openings': recentOpenings,
       'upcoming_activities': upcomingActivities,
-      'created_at': createdAt,
     };
   }
 
@@ -40,7 +37,6 @@ class ClubDetailsModel {
       whyJoinUs: map['why_join_us'] ?? '',
       recentOpenings: map['recent_openings'] ?? '',
       upcomingActivities: map['upcoming_activities'] ?? '',
-      createdAt: map['created_at'] ?? '',
     );
   }
 }

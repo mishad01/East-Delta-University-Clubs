@@ -1,6 +1,10 @@
 import 'package:edu_clubs_app/utils/custom_text_field.dart';
-import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/utils/email_and_password_validation.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/widget/background_widget.dart';
+import 'package:edu_clubs_app/view_model/user/sign_up_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -19,6 +23,8 @@ class _SignUpViewState extends State<SignUpView> {
   final TextEditingController _confirmPasswordTEController =
       TextEditingController();
 
+  final SignUpController authController = Get.put(SignUpController());
+
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
@@ -27,20 +33,18 @@ class _SignUpViewState extends State<SignUpView> {
         check: true,
         child: SafeArea(
           child: SingleChildScrollView(
-            // Wrap this widget in a SingleChildScrollView
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: Form(
                 key: _formState,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 190),
+                    SizedBox(height: 20.h), // Adjusted for responsiveness
                     Center(
                       child: Container(
-                        width: double.infinity, // Make the container responsive
-                        padding: const EdgeInsets.all(10.0),
+                        width: double.infinity,
+                        padding: EdgeInsets.all(3.w), // Responsive padding
                         decoration: BoxDecoration(
                           color: const Color(0xffD0D9FC).withOpacity(0.20),
                           borderRadius: BorderRadius.circular(20),
@@ -50,79 +54,58 @@ class _SignUpViewState extends State<SignUpView> {
                             CustomTextFormField(
                               controller: _fullNameTEController,
                               labelText: "Full Name",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please Enter Full Name";
-                                }
-                                return null;
-                              },
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? "Please Enter Full Name"
+                                      : null,
                             ),
-                            const SizedBox(height: 15),
+                            SizedBox(height: 2.h), // Adjusted spacing
                             CustomTextFormField(
-                              controller: _emailTEController,
-                              labelText: "Email",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please Input Correct Email";
-                                }
-                                String pattern =
-                                    r'^[a-zA-Z0-9._%+-]+@[eastdelta\.edu\.bd]$';
-                                RegExp regex = RegExp(pattern);
-                                if (!regex.hasMatch(value)) {
-                                  return 'Please enter a valid email address';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 15),
+                                controller: _emailTEController,
+                                labelText: "Email",
+                                validator:
+                                    EmailAndPasswordValidation.validateEmail),
+                            SizedBox(height: 2.h), // Adjusted spacing
                             CustomTextFormField(
                               controller: _mobileTEController,
                               labelText: "Mobile Number",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please Enter Mobile Number";
-                                }
-                                return null;
-                              },
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? "Please Enter Mobile Number"
+                                      : null,
                             ),
-                            const SizedBox(height: 20),
+                            SizedBox(height: 2.h), // Adjusted spacing
                             CustomTextFormField(
                               controller: _studentTEController,
                               labelText: "Student Id",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please Enter Student ID";
-                                }
-                                return null;
-                              },
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? "Please Enter Student ID"
+                                      : null,
                             ),
-                            const SizedBox(height: 15),
+                            SizedBox(height: 2.h), // Adjusted spacing
                             CustomTextFormField(
                               controller: _passwordTEController,
                               labelText: "Password",
                               obscureText: true,
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.isEmpty)
                                   return "Please Enter Password";
-                                }
-                                if (value.length < 8) {
+                                if (value.length < 8)
                                   return 'Password must be at least 8 characters long';
-                                }
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 15),
+                            SizedBox(height: 2.h), // Adjusted spacing
                             CustomTextFormField(
                               controller: _confirmPasswordTEController,
                               labelText: "Confirm Password",
                               obscureText: true,
                               validator: (value) {
-                                if (value == null || value.isEmpty) {
+                                if (value == null || value.isEmpty)
                                   return "Please Confirm Password";
-                                }
-                                if (value != _passwordTEController.text) {
+                                if (value != _passwordTEController.text)
                                   return 'Passwords do not match';
-                                }
                                 return null;
                               },
                             ),
@@ -130,39 +113,32 @@ class _SignUpViewState extends State<SignUpView> {
                         ),
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (_formState.currentState!.validate()) {
-                          Get.to(() => OtpView());
-                        }
+                    SizedBox(height: 3.h), // Adjusted for responsiveness
+                    GetBuilder<SignUpController>(
+                      builder: (controller) {
+                        return ElevatedButton(
+                          onPressed: controller.isLoading
+                              ? null
+                              : () {
+                                  if (_formState.currentState!.validate()) {
+                                    controller.signUp(
+                                      fullName: _fullNameTEController.text,
+                                      email: _emailTEController.text,
+                                      mobile: _mobileTEController.text,
+                                      studentId: _studentTEController.text,
+                                      password: _passwordTEController.text,
+                                    );
+                                  }
+                                },
+                          child: controller.isLoading
+                              ? const CircularProgressIndicator()
+                              : Text(
+                                  "Sign Up",
+                                  style: textTheme.bodyLarge!.copyWith(
+                                      fontSize: 16.sp), // Responsive text size
+                                ),
+                        );
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xffFDEBB9),
-                        minimumSize: const Size(108, 40),
-                      ),
-                      child: const Text(
-                        "Sign Up",
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    RichText(
-                      text: TextSpan(
-                        text: "Already have an account? ",
-                        style: textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 17,
-                        ),
-                        children: const [
-                          TextSpan(
-                            text: "Login",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),
@@ -172,16 +148,5 @@ class _SignUpViewState extends State<SignUpView> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _fullNameTEController.dispose();
-    _emailTEController.dispose();
-    _mobileTEController.dispose();
-    _studentTEController.dispose();
-    _passwordTEController.dispose();
-    _confirmPasswordTEController.dispose();
-    super.dispose();
   }
 }

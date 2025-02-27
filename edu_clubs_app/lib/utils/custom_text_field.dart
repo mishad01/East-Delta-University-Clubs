@@ -9,6 +9,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool readOnly;
   final IconData? prefixIcon;
   final IconData? suffixIcon;
+  final bool showUnderline; // New parameter to toggle underline
 
   const CustomTextFormField({
     super.key,
@@ -19,7 +20,8 @@ class CustomTextFormField extends StatelessWidget {
     this.onTap,
     this.readOnly = false,
     this.prefixIcon,
-    this.suffixIcon, // Initialize optional icon
+    this.suffixIcon,
+    this.showUnderline = true, // Default: underline is visible
   });
 
   @override
@@ -33,7 +35,11 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        suffixIcon: suffixIcon != null ? Icon(prefixIcon) : null,
+        suffixIcon:
+            suffixIcon != null ? Icon(suffixIcon) : null, // Fix suffix icon
+        border: showUnderline
+            ? const UnderlineInputBorder() // Show underline
+            : InputBorder.none, // Hide underline
       ),
     );
   }

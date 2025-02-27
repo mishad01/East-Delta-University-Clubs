@@ -1,6 +1,5 @@
 class ClubCategoryModel {
   final String? id;
-
   final String clubName;
   final String createdAt;
   final String iconImg;
