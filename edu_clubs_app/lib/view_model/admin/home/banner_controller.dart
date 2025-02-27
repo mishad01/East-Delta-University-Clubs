@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:edu_clubs_app/repository/admin/admin_home_view_content_add/banner_repository.dart';
+import 'package:edu_clubs_app/data/repositories/admin/admin_home_view_content_add/banner_repository.dart';
 import 'package:edu_clubs_app/data/models/admin/home/banner_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

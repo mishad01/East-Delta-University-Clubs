@@ -1,7 +1,9 @@
 import 'package:edu_clubs_app/utils/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:edu_clubs_app/view_model/club_faq/club_faq_controller.dart'; // Import the controller
+import 'package:edu_clubs_app/view_model/club_faq/club_faq_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart'; // Import the controller
 
 class FAQSection extends StatelessWidget {
   const FAQSection({
@@ -67,27 +69,33 @@ class FAQCard extends StatelessWidget {
       shadowColor: Colors.blue,
       color: const Color(0xffD2D8D4),
       child: Theme(
-        data: ThemeData().copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          trailing: const Icon(Icons.more_vert_rounded),
-          title: CustomText(
-            text: question,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: CustomText(
-                text: answer,
-                fontSize: 14,
-                color: Colors.black54,
-                textAlign: TextAlign.justify,
+          data: ThemeData().copyWith(dividerColor: Colors.transparent),
+          child: ExpansionTile(
+            trailing: const Icon(Icons.more_vert_rounded),
+            expandedCrossAxisAlignment: CrossAxisAlignment.end,
+            //childrenPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            title: CustomText(
+              text: question,
+              customStyle: GoogleFonts.roboto(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ],
-        ),
-      ),
+            children: [
+              Container(
+                padding: EdgeInsets.all(10),
+                color: Color(0xffcdd3ce),
+                child: CustomText(
+                  text: answer,
+                  customStyle: GoogleFonts.roboto(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black54,
+                  ),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }

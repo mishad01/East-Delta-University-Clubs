@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:edu_clubs_app/data/models/admin/home/prize_giving_ceremony_model.dart';
-import 'package:edu_clubs_app/repository/admin/admin_home_view_content_add/prize_giving_card_repository.dart';
+import 'package:edu_clubs_app/data/repositories/admin/admin_home_view_content_add/prize_giving_card_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';

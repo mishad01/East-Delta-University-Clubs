@@ -1,4 +1,4 @@
-import 'package:edu_clubs_app/repository/admin/admin_home_view_content_add/members_opinion_repository.dart';
+import 'package:edu_clubs_app/data/repositories/admin/admin_home_view_content_add/members_opinion_repository.dart';
 import 'package:get/get.dart';
 import 'package:edu_clubs_app/data/models/admin/home/club_member_opinion_model.dart';
 

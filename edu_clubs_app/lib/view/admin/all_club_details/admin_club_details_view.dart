@@ -20,7 +20,10 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
 
   final TextEditingController _clubNameController = TextEditingController();
   final TextEditingController _whatWeDoController = TextEditingController();
-  final TextEditingController _whyJoinUsController = TextEditingController();
+  final TextEditingController _whyJoinUsReason1Controller =
+      TextEditingController();
+  final TextEditingController _whyJoinUsReason2Controller =
+      TextEditingController();
   final TextEditingController _recentOpeningsController =
       TextEditingController();
   final TextEditingController _upcomingActivitiesController =
@@ -74,7 +77,10 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text("What We Do: ${club['what_we_do']}"),
-                                    Text("Why Join Us: ${club['why_join_us']}"),
+                                    Text(
+                                        "Why Join Us Reason 1: ${club['why_join_us_reason1']}"),
+                                    Text(
+                                        "Why Join Us Reason 2: ${club['why_join_us_reason2']}"),
                                     Text(
                                         "Recent Openings: ${club['recent_openings']}"),
                                     Text(
@@ -102,7 +108,8 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
       widget.categoryId,
       _clubNameController.text,
       _whatWeDoController.text,
-      _whyJoinUsController.text,
+      _whyJoinUsReason1Controller.text,
+      _whyJoinUsReason2Controller.text,
       _recentOpeningsController.text,
       _upcomingActivitiesController.text,
     );
@@ -110,7 +117,8 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
     // Optionally clear the fields after submission
     _clubNameController.clear();
     _whatWeDoController.clear();
-    _whyJoinUsController.clear();
+    _whyJoinUsReason1Controller.clear();
+    _whyJoinUsReason2Controller.clear();
     _recentOpeningsController.clear();
     _upcomingActivitiesController.clear();
   }
@@ -126,7 +134,10 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
           children: [
             _buildTextField(_clubNameController, 'Club Name'),
             _buildTextField(_whatWeDoController, 'What We Do'),
-            _buildTextField(_whyJoinUsController, 'Why Join Us'),
+            _buildTextField(
+                _whyJoinUsReason1Controller, 'Why Join Us Reason 1'),
+            _buildTextField(
+                _whyJoinUsReason2Controller, 'Why Join Us Reason 2'),
             _buildTextField(_recentOpeningsController, 'Recent Openings'),
             _buildTextField(
                 _upcomingActivitiesController, 'Upcoming Activities'),

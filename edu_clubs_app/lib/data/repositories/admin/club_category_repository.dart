@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:edu_clubs_app/view_model/categories/categories_model.dart';
+import 'package:edu_clubs_app/data/models/categories_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ClubCategoryRepository {

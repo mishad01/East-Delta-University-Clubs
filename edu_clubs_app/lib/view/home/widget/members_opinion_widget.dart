@@ -1,6 +1,7 @@
 import 'package:edu_clubs_app/view_model/admin/home/member_opinion_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class MembersOpinionsWidgets extends StatelessWidget {
   const MembersOpinionsWidgets({Key? key}) : super(key: key);
@@ -12,28 +13,33 @@ class MembersOpinionsWidgets extends StatelessWidget {
       children: [
         if (spacer != null) spacer,
         Container(
-          height: 110,
-          width: 270,
+          height: 15.h,
+          width: 70.w,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(21),
             color: color,
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.only(left: 4.w, top: 1.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   name,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   club,
-                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+                  style:
+                      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
                 ),
+                SizedBox(height: .5.h),
                 Text(
                   opinion,
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: 14.sp),
                 ),
               ],
             ),
@@ -69,7 +75,7 @@ class MembersOpinionsWidgets extends StatelessWidget {
         }
 
         return Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(2.w),
           child: Column(
             children: controller.memberOpinionList.map((opinion) {
               // Alternate colors for each opinion card
@@ -95,7 +101,7 @@ class MembersOpinionsWidgets extends StatelessWidget {
                     spacer,
                     color,
                   ),
-                  const SizedBox(height: 15),
+                  SizedBox(height: 1.h),
                 ],
               );
             }).toList(),

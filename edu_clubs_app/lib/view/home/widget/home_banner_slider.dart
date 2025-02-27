@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:edu_clubs_app/view/web/web_view.dart';
 import 'package:edu_clubs_app/view_model/admin/home/banner_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeBannerSlider extends StatefulWidget {
   const HomeBannerSlider({super.key});
@@ -18,111 +20,127 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(2.w)),
         child: Column(
           children: [
             GetBuilder<BannerController>(
-              builder: (bannerController) {
-                if (bannerController.banners.isEmpty) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+              builder: (controller) {
+                if (controller.banners.isEmpty) {
+                  return const Center(child: CircularProgressIndicator());
                 }
 
-                return CarouselSlider(
-                  options: CarouselOptions(
-                    viewportFraction: 1,
-                    height: 230.0,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        activeIndex = index; // Update the active index
-                      });
-                    },
-                  ),
-                  items: bannerController.banners.map((banner) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Column(
-                          children: [
-                            const SizedBox(height: 10),
-                            Stack(
-                              children: [
-                                Container(
-                                  height: 212,
-                                  width: 368,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 8.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Image.network(
-                                    banner.bannerImage,
-                                    fit: BoxFit.cover,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) return child;
-                                      return const Center(
-                                          child: CircularProgressIndicator());
-                                    },
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return const Center(
-                                          child: Icon(Icons.broken_image,
-                                              size: 50));
-                                    },
-                                  ),
-                                ),
-                                Container(
-                                  height: 27,
-                                  width: 71,
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(14),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      "Current \nActivities",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 9,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-            const SizedBox(height: 10),
-            GetBuilder<BannerController>(
-              builder: (controller) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    controller.banners.length,
-                    (i) => Container(
-                      height: 13,
-                      width: 13,
-                      margin: const EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                        color: i == activeIndex
-                            ? Colors.white // Change color based on activeIndex
-                            : Colors.amberAccent.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                      ),
-                    ),
-                  ),
+                return Column(
+                  children: [
+                    _buildCarousel(controller),
+                    SizedBox(height: 1.h),
+                    _buildIndicator(controller),
+                  ],
                 );
               },
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  /// Builds the carousel slider
+  Widget _buildCarousel(BannerController controller) {
+    return CarouselSlider.builder(
+      itemCount: controller.banners.length,
+      options: CarouselOptions(
+        viewportFraction: 2,
+        height: 27.h,
+        onPageChanged: (index, reason) {
+          setState(() {
+            activeIndex = index; // Update the active index
+          });
+        },
+      ),
+      itemBuilder: (context, index, realIndex) {
+        final banner = controller.banners[index];
+        return InkWell(
+          onTap: () {
+            Get.to(() => WebView(
+                link:
+                    "https://docs.google.com/forms/d/e/1FAIpQLScuXOHiC899P09-hdrJO3QfV87FSyeObRk7rjquHFVahqjMDg/viewform?usp=sharing"));
+          },
+          child: _buildBannerItem(banner.bannerImage),
+        );
+      },
+    );
+  }
+
+  /// Builds a single banner item
+  Widget _buildBannerItem(String imageUrl) {
+    return Column(
+      children: [
+        SizedBox(height: 1.h),
+        Stack(
+          children: [
+            SizedBox(
+              height: 25.h,
+              width: 93.w,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(
+                        child: Icon(Icons.broken_image, size: 50));
+                  },
+                ),
+              ),
+            ),
+            Positioned(
+              child: Container(
+                height: 4.h,
+                width: 20.w,
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: Text(
+                    "Current \nActivities",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  /// Builds the indicator dots
+  Widget _buildIndicator(BannerController controller) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: List.generate(
+        controller.banners.length,
+        (i) => Container(
+          height: 1.5.h,
+          width: 1.5.h,
+          margin: EdgeInsets.only(right: 1.w),
+          decoration: BoxDecoration(
+            color: i == activeIndex
+                ? Colors.amberAccent
+                    .withOpacity(0.8) // Change color based on activeIndex
+                : Colors.grey.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(2.w),
+          ),
         ),
       ),
     );

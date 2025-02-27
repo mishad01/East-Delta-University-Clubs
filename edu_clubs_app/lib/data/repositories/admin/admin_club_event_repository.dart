@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:edu_clubs_app/view_model/club_events/club_events.dart';
+import 'package:edu_clubs_app/data/models/club_events_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ClubEventRepository {

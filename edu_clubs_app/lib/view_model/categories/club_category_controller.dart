@@ -1,7 +1,7 @@
 import 'dart:io';
-import 'package:edu_clubs_app/repository/admin/club_category_repository.dart';
+import 'package:edu_clubs_app/data/models/categories_model.dart';
+import 'package:edu_clubs_app/data/repositories/admin/club_category_repository.dart';
 import 'package:edu_clubs_app/utils/export.dart';
-import 'package:edu_clubs_app/view_model/categories/categories_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ClubCategoriesController extends GetxController {

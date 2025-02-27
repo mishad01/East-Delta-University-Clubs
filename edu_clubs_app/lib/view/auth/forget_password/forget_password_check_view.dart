@@ -1,7 +1,5 @@
-import 'package:app_links/app_links.dart';
 import 'package:edu_clubs_app/utils/custom_text.dart';
 import 'package:edu_clubs_app/utils/custom_text_field.dart';
-import 'package:edu_clubs_app/utils/email_and_password_validation.dart';
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/widget/background_widget.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/widget/positioned_widget.dart';
@@ -25,8 +23,6 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return Scaffold(
       body: BackgroundWidget(
         child: SafeArea(
@@ -56,8 +52,8 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
       child: Center(
         child: SvgPicture.asset(
           AssetsPath.eduLogo,
-          height: 200,
-          width: 250,
+          height: 25.h,
+          width: 60.w,
         ),
       ),
     );
@@ -65,12 +61,13 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
 
   Widget _buildTitleText() {
     return PositionedWidget(
-      top: 170,
-      child: const Center(
+      top: 23.h,
+      child: Center(
         child: CustomText(
           text: "Forgot Password?",
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
+          customStyle: GoogleFonts.roboto(
+            fontSize: 25.sp,
+          ),
         ),
       ),
     );
@@ -78,11 +75,11 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
 
   Widget _buildSubtitleText() {
     return PositionedWidget(
-      top: 220,
-      child: const Center(
+      top: 29.h,
+      child: Center(
         child: CustomText(
           text: "Enter your email to reset your password",
-          fontSize: 15,
+          fontSize: 15.sp,
         ),
       ),
     );
@@ -90,9 +87,9 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
 
   Widget _buildEmailInput() {
     return PositionedWidget(
-      top: 280,
+      top: 36.h,
       child: Container(
-        width: 352,
+        width: 90.w,
         decoration: BoxDecoration(
           color: const Color(0xffD0D9FC).withOpacity(0.20),
           borderRadius: BorderRadius.circular(20),
@@ -102,8 +99,8 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
           child: CustomTextFormField(
             labelText: "Email",
             controller: _emailTEController,
-            //validator: EmailAndPasswordValidation.validateEmail,
             prefixIcon: Icons.email,
+            showUnderline: false,
           ),
         ),
       ),
@@ -112,25 +109,25 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
 
   Widget _buildResetButton() {
     return PositionedWidget(
-      top: 380,
+      top: 50.h,
       child: Center(
         child: GetBuilder<ForgetPasswordController>(
           builder: (controller) {
             return SizedBox(
-              width: 140,
-              height: 45,
+              width: 40.w,
+              height: 6.h,
               child: ElevatedButton(
                 onPressed:
                     controller.isLoading ? null : () => _onResetPressed(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffFDEBB9),
-                  minimumSize: const Size(140, 45),
+                  minimumSize: Size(40.w, 6.h),
                 ),
                 child: controller.isLoading
                     ? const CircularProgressIndicator()
-                    : const CustomText(
+                    : CustomText(
                         text: "Submit",
-                        fontSize: 19,
+                        fontSize: 19.sp,
                         fontWeight: FontWeight.bold,
                       ),
               ),

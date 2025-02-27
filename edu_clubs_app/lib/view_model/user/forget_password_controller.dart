@@ -1,5 +1,4 @@
-import 'package:edu_clubs_app/repository/auth/forget_password_repository.dart';
-import 'package:flutter/material.dart';
+import 'package:edu_clubs_app/data/repositories/auth/forget_password_repository.dart';
 import 'package:get/get.dart';
 
 class ForgetPasswordController extends GetxController {
@@ -11,7 +10,6 @@ class ForgetPasswordController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Configure deep link when the controller is initialized
     configureDeepLink();
   }
 

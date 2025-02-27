@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:edu_clubs_app/utils/export.dart';
-import 'package:edu_clubs_app/view_model/admin/home/prize_giving_ceremony_controller.dart'; // Import the controller
+import 'package:edu_clubs_app/utils/image_card.dart';
+import 'package:edu_clubs_app/view_model/admin/home/prize_giving_ceremony_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class HighLightSlider extends StatefulWidget {
   const HighLightSlider({super.key});
@@ -14,12 +16,11 @@ class HighLightSlider extends StatefulWidget {
 class _HighLightSliderState extends State<HighLightSlider> {
   final ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   final PrizeGivingCeremonyController _controller =
-      Get.put(PrizeGivingCeremonyController()); // Initialize the controller
+      Get.put(PrizeGivingCeremonyController());
 
   @override
   void initState() {
     super.initState();
-    // Fetch ceremonies when the widget is initialized
     _controller.fetchCeremonies();
   }
 
@@ -40,8 +41,8 @@ class _HighLightSliderState extends State<HighLightSlider> {
             enlargeCenterPage: true,
             enlargeFactor: 0.4,
             enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-            height: 320.0,
-            viewportFraction: 0.75,
+            height: 40.h,
+            viewportFraction: 0.83,
             onPageChanged: (index, reason) {
               _selectedIndex.value = index;
             },
@@ -49,37 +50,38 @@ class _HighLightSliderState extends State<HighLightSlider> {
           items: controller.ceremonies.map((ceremony) {
             return Builder(
               builder: (BuildContext context) {
-                return Container(
+                /*return Container(
                   child: Stack(
                     children: [
                       SvgPicture.asset(
                         AssetsPath.card,
-                        width: 300,
-                        height: 320,
+                        width: 80.w,
+                        height: 40.h,
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 25, top: 15),
+                        padding: EdgeInsets.only(left: 7.w, top: .8.h),
                         child: Text(
-                          ceremony.prizeGivingCeremonyName,
+                          "Prize giving\nCeremony",
                           style: GoogleFonts.sourceSerif4(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
+                            fontSize: 16.sp,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 215, top: 13),
+                        padding: EdgeInsets.only(left: 60.w, top: .5.h),
                         child: Text(
                           ceremony.prizeGivingDate,
                           style: GoogleFonts.sourceSerif4(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 7,
+                            fontSize: 17.sp,
                           ),
                         ),
                       ),
                       Positioned(
-                        top: 57,
+                        top: 7.h,
                         left: 0,
                         right: 0,
                         child: Container(
@@ -91,9 +93,9 @@ class _HighLightSliderState extends State<HighLightSlider> {
                             borderRadius: BorderRadius.circular(21),
                             child: Image.network(
                               ceremony.prizeGivingImage,
-                              height: 255,
-                              width: 260,
-                              fit: BoxFit.fitWidth,
+                              height: 32.h,
+                              width: 72.w,
+                              fit: BoxFit.cover,
                               loadingBuilder:
                                   (context, child, loadingProgress) {
                                 if (loadingProgress == null) return child;
@@ -102,8 +104,10 @@ class _HighLightSliderState extends State<HighLightSlider> {
                               },
                               errorBuilder: (context, error, stackTrace) {
                                 return const Center(
-                                    child:
-                                        Icon(Icons.error, color: Colors.red));
+                                    child: Icon(
+                                  Icons.error,
+                                  color: Colors.red,
+                                ));
                               },
                             ),
                           ),
@@ -111,6 +115,11 @@ class _HighLightSliderState extends State<HighLightSlider> {
                       ),
                     ],
                   ),
+                );*/
+                return EventImageCard(
+                  prizeGivingDate: ceremony.prizeGivingDate,
+                  prizeGivingImage: ceremony.prizeGivingImage,
+                  eventTitle: 'Prize giving\nCeremony',
                 );
               },
             );

@@ -1,5 +1,4 @@
-import 'package:edu_clubs_app/repository/admin/admin_club_details_repository.dart';
-import 'package:edu_clubs_app/repository/admin/admin_home_view_content_add/members_opinion_repository.dart';
+import 'package:edu_clubs_app/data/repositories/admin/admin_club_details_repository.dart';
 import 'package:edu_clubs_app/view_model/admin/home/banner_controller.dart';
 import 'package:edu_clubs_app/view_model/admin/home/member_opinion_controller.dart';
 import 'package:edu_clubs_app/view_model/categories/club_category_controller.dart';

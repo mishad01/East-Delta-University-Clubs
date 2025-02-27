@@ -9,6 +9,7 @@ import 'package:edu_clubs_app/view/admin/admin_control.dart';
 import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/admin_home_view_content_add.dart';
 import 'package:edu_clubs_app/view/admin/test.dart';
 import 'package:edu_clubs_app/view/admin/test2.dart';
+import 'package:edu_clubs_app/view/auth/forget_password/forget_password_new_password.dart';
 
 class EduClubsUser extends StatelessWidget {
   const EduClubsUser({super.key});
@@ -44,12 +45,13 @@ class EduClubsUser extends StatelessWidget {
         focusedBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.black, width: 1.5),
         ),
-        enabledBorder: const UnderlineInputBorder(
+        /*enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(width: 1),
-        ),
+        ),*/
         errorBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 1.5),
         ),
+        border: UnderlineInputBorder(borderSide: BorderSide.none),
       ),
     );
   }

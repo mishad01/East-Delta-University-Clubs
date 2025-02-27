@@ -1,4 +1,4 @@
-import 'package:edu_clubs_app/view_model/user/user_model.dart';
+import 'package:edu_clubs_app/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpRepository {

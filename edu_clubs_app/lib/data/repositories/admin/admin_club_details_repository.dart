@@ -1,4 +1,4 @@
-import 'package:edu_clubs_app/view_model/club_details/club_details_model.dart';
+import 'package:edu_clubs_app/data/models/club_details_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AdminClubDetailsRepository {
@@ -29,7 +29,8 @@ class AdminClubDetailsRepository {
           'category_id': dataModel.categoryId,
           'club_name': dataModel.clubName,
           'what_we_do': dataModel.whatWeDo,
-          'why_join_us': dataModel.whyJoinUs,
+          'why_join_us_reason1': dataModel.whyJoinUsReason1,
+          'why_join_us_reason2': dataModel.whyJoinUsReason2,
           'recent_openings': dataModel.recentOpenings,
           'upcoming_activities': dataModel.upcomingActivities,
         };

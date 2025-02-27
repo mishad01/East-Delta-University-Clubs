@@ -1,5 +1,5 @@
-import 'package:edu_clubs_app/repository/admin/admin_club_details_repository.dart';
-import 'package:edu_clubs_app/view_model/club_details/club_details_model.dart';
+import 'package:edu_clubs_app/data/models/club_details_model.dart';
+import 'package:edu_clubs_app/data/repositories/admin/admin_club_details_repository.dart';
 import 'package:get/get.dart';
 
 class ClubDetailsController extends GetxController {
@@ -19,7 +19,8 @@ class ClubDetailsController extends GetxController {
       String categoryId,
       String clubName,
       String whatWeDo,
-      String whyJoinUs,
+      String whyJoinUsReason1,
+      String whyJoinUsReason2,
       String recentOpenings,
       String upcomingActivities) async {
     bool isSuccess = false;
@@ -30,7 +31,8 @@ class ClubDetailsController extends GetxController {
       categoryId: categoryId,
       clubName: clubName,
       whatWeDo: whatWeDo,
-      whyJoinUs: whyJoinUs,
+      whyJoinUsReason1: whyJoinUsReason1,
+      whyJoinUsReason2: whyJoinUsReason2,
       recentOpenings: recentOpenings,
       upcomingActivities: upcomingActivities,
     );

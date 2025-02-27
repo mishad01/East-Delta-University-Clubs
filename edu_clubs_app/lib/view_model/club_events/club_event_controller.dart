@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:edu_clubs_app/repository/admin/admin_club_event_repository.dart';
-import 'package:edu_clubs_app/view_model/club_events/club_events.dart';
+import 'package:edu_clubs_app/data/repositories/admin/admin_club_event_repository.dart';
+import 'package:edu_clubs_app/data/models/club_events_model.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -43,7 +43,7 @@ class _AdminClubFAQViewState extends State<AdminClubFAQView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            /// **Club Details Card**
+            /*/// **Club Details Card**
             GetBuilder<ClubDetailsController>(
               builder: (controller) {
                 if (controller.inProgress) {
@@ -85,7 +85,7 @@ class _AdminClubFAQViewState extends State<AdminClubFAQView> {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 16),*/
 
             /// **FAQ Submission Form**
             Card(

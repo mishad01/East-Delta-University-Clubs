@@ -1,6 +1,6 @@
 import 'package:edu_clubs_app/view/auth/sign_in/sign_In_view.dart';
 import 'package:edu_clubs_app/view/home/home_view.dart';
-import 'package:edu_clubs_app/view_model/user/user_model.dart';
+import 'package:edu_clubs_app/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

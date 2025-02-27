@@ -1,4 +1,4 @@
-import 'package:edu_clubs_app/view_model/club_faq/club_faq_model.dart';
+import 'package:edu_clubs_app/data/models/club_faq_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ClubFAQRepository {
@@ -19,7 +19,7 @@ class ClubFAQRepository {
           .from('club_faq') // ✅ Corrected Table Name
           .select()
           .eq('club_details_id', clubDetailsId) // ✅ Corrected Filtering Column
-          .order('created_at', ascending: false); // Sorting by latest FAQ
+          .order('created_at', ascending: true); // Sorting by latest FAQ
 
       return response
           .map((item) => {

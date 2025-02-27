@@ -5,6 +5,7 @@ import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/widget/background_widget.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/widget/positioned_widget.dart';
 import 'package:edu_clubs_app/view_model/user/forget_password_controller.dart';
+import 'package:sizer/sizer.dart'; // Import Sizer
 
 class ForgetPasswordNewPasswordView extends StatefulWidget {
   const ForgetPasswordNewPasswordView({super.key});
@@ -32,7 +33,7 @@ class _ForgetPasswordNewPasswordViewState
       body: BackgroundWidget(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(4.w), // Use Sizer for padding
             child: Form(
               key: _formKey,
               child: Stack(
@@ -41,7 +42,6 @@ class _ForgetPasswordNewPasswordViewState
                   _buildTitleText(),
                   _buildSubtitleText(),
                   _buildNewPasswordInput(),
-                  _buildConfirmPasswordInput(),
                   _buildUpdateButton(),
                 ],
               ),
@@ -54,12 +54,12 @@ class _ForgetPasswordNewPasswordViewState
 
   Widget _buildLogo() {
     return PositionedWidget(
-      top: 1,
+      top: 1.h, // Use Sizer for position
       child: Center(
         child: SvgPicture.asset(
           AssetsPath.eduLogo,
-          height: 200,
-          width: 250,
+          height: 20.h, // Use Sizer for height
+          width: 50.w, // Use Sizer for width
         ),
       ),
     );
@@ -67,12 +67,13 @@ class _ForgetPasswordNewPasswordViewState
 
   Widget _buildTitleText() {
     return PositionedWidget(
-      top: 170,
-      child: const Center(
+      top: 20.h,
+      child: Center(
         child: CustomText(
           text: "Update Password",
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
+          customStyle: GoogleFonts.roboto(
+            fontSize: 22.sp,
+          ),
         ),
       ),
     );
@@ -80,11 +81,11 @@ class _ForgetPasswordNewPasswordViewState
 
   Widget _buildSubtitleText() {
     return PositionedWidget(
-      top: 220,
-      child: const Center(
+      top: 25.h, // Use Sizer for position
+      child: Center(
         child: CustomText(
           text: "Enter your new password",
-          fontSize: 15,
+          fontSize: 1.5.h, // Use Sizer for font size
         ),
       ),
     );
@@ -92,51 +93,48 @@ class _ForgetPasswordNewPasswordViewState
 
   Widget _buildNewPasswordInput() {
     return PositionedWidget(
-      top: 280,
-      child: Container(
-        width: 352,
-        decoration: BoxDecoration(
-          color: const Color(0xffD0D9FC).withOpacity(0.20),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: CustomTextFormField(
-            labelText: "New Password",
+      top: 30.h, // Use Sizer for position
+      child: Column(
+        children: [
+          _buildPasswordField(
             controller: _newPasswordTEController,
-            obscureText: true,
-            validator: (value) =>
-                EmailAndPasswordValidation.validatePassword(value),
-            prefixIcon: Icons.lock,
+            labelText: "New Password",
+            validator: EmailAndPasswordValidation.validatePassword,
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildConfirmPasswordInput() {
-    return PositionedWidget(
-      top: 350,
-      child: Container(
-        width: 352,
-        decoration: BoxDecoration(
-          color: const Color(0xffD0D9FC).withOpacity(0.20),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: CustomTextFormField(
-            labelText: "Confirm Password",
+          _buildPasswordField(
             controller: _confirmPasswordTEController,
-            obscureText: true,
+            labelText: "Confirm Password",
             validator: (value) {
               if (value != _newPasswordTEController.text) {
                 return "Passwords do not match";
               }
               return null;
             },
-            prefixIcon: Icons.lock,
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPasswordField({
+    required TextEditingController controller,
+    required String labelText,
+    required String? Function(String?) validator,
+  }) {
+    return Container(
+      width: 88.w, // Use Sizer for width
+      decoration: BoxDecoration(
+        color: const Color(0xffD0D9FC).withOpacity(0.20),
+        borderRadius: BorderRadius.circular(2.w), // Use Sizer for border radius
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(2.w), // Use Sizer for padding
+        child: CustomTextFormField(
+          labelText: labelText,
+          controller: controller,
+          obscureText: true,
+          validator: validator,
+          prefixIcon: Icons.lock,
         ),
       ),
     );
@@ -144,25 +142,24 @@ class _ForgetPasswordNewPasswordViewState
 
   Widget _buildUpdateButton() {
     return PositionedWidget(
-      top: 420,
+      top: 48.h, // Use Sizer for position
       child: Center(
         child: GetBuilder<ForgetPasswordController>(
           builder: (controller) {
             return SizedBox(
-              width: 140,
-              height: 45,
+              width: 40.w,
+              height: 5.5.h,
               child: ElevatedButton(
                 onPressed:
                     controller.isLoading ? null : () => _onUpdatePressed(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffFDEBB9),
-                  minimumSize: const Size(140, 45),
                 ),
                 child: controller.isLoading
                     ? const CircularProgressIndicator()
-                    : const CustomText(
+                    : CustomText(
                         text: "Update",
-                        fontSize: 19,
+                        fontSize: 19.sp, // Use Sizer for font size
                         fontWeight: FontWeight.bold,
                       ),
               ),

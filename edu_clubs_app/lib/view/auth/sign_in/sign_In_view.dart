@@ -7,6 +7,7 @@ import 'package:edu_clubs_app/view/auth/sign_in/widget/background_widget.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/widget/positioned_widget.dart';
 import 'package:edu_clubs_app/view_model/user/sign_in_controller.dart';
 import 'package:get/get.dart';
+import 'package:sizer/sizer.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({super.key});
@@ -29,7 +30,7 @@ class _SignInViewState extends State<SignInView> {
       body: BackgroundWidget(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
               child: Stack(
@@ -40,7 +41,7 @@ class _SignInViewState extends State<SignInView> {
                   _buildLoginForm(),
                   _buildLoginButton(),
                   _buildSignUpPrompt(textTheme),
-                  _buildForgetPassword(textTheme),
+                  // _buildForgetPassword(textTheme),
                 ],
               ),
             ),
@@ -56,8 +57,8 @@ class _SignInViewState extends State<SignInView> {
       child: Center(
         child: SvgPicture.asset(
           AssetsPath.eduLogo,
-          height: 241,
-          width: 288,
+          height: 26.h,
+          width: 29.8.w,
         ),
       ),
     );
@@ -65,26 +66,25 @@ class _SignInViewState extends State<SignInView> {
 
   Widget _buildWelcomeText() {
     return PositionedWidget(
-      top: 180,
+      top: 20.h, // Adjusted top position for responsiveness
       child: SizedBox(
-        height: 140,
+        height: 14.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const CustomText(
+            CustomText(
               text: "WELCOME BACK",
-              fontSize: 38,
-              fontWeight: FontWeight.bold,
+              fontSize: 25.sp,
+              fontWeight: FontWeight.normal,
             ),
             Baseline(
-              baseline: 80,
+              baseline: 8.h,
               baselineType: TextBaseline.alphabetic,
               child: CustomText(
                 text: "!",
-                fontSize: 120,
                 fontWeight: FontWeight.bold,
                 customStyle: GoogleFonts.gruppo(
-                  fontSize: 120,
+                  fontSize: 40.sp,
                 ),
               ),
             ),
@@ -96,11 +96,11 @@ class _SignInViewState extends State<SignInView> {
 
   Widget _buildSubtitleText() {
     return PositionedWidget(
-      top: 280,
-      child: const Center(
+      top: 30.h,
+      child: Center(
         child: CustomText(
           text: "Please sign in to continue",
-          fontSize: 15,
+          fontSize: 15.sp,
         ),
       ),
     );
@@ -108,16 +108,16 @@ class _SignInViewState extends State<SignInView> {
 
   Widget _buildLoginForm() {
     return PositionedWidget(
-      top: 320,
+      top: 34.h,
       child: Container(
-        width: 352,
-        height: 220,
+        height: 22.h, // Adjusted container height for responsiveness
         decoration: BoxDecoration(
+          //color: Colors.yellow,
           color: const Color(0xffD0D9FC).withOpacity(0.20),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(2.0.w),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -127,7 +127,7 @@ class _SignInViewState extends State<SignInView> {
                   validator: EmailAndPasswordValidation.validateEmail,
                   prefixIcon: Icons.email,
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 3.h),
                 CustomTextFormField(
                   labelText: "Password",
                   controller: _passwordTEController,
@@ -145,25 +145,25 @@ class _SignInViewState extends State<SignInView> {
 
   Widget _buildLoginButton() {
     return PositionedWidget(
-      top: 535,
+      top: 58.h, // Adjusted for screen height responsiveness
       child: Center(
         child: GetBuilder<SignInController>(
           builder: (controller) {
             return SizedBox(
-              width: 108,
-              height: 40,
+              width: 30.8.w, // Width is responsive to screen width
+              height: 4.5.h, // Height is responsive to screen height
               child: ElevatedButton(
                 onPressed:
                     controller.isLoading ? null : () => _onLoginPressed(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xffFDEBB9),
-                  minimumSize: const Size(108, 50),
+                  minimumSize: Size(30.w, 6.h),
                 ),
                 child: controller.isLoading
                     ? const CircularProgressIndicator()
-                    : const CustomText(
+                    : CustomText(
                         text: "Login",
-                        fontSize: 19,
+                        fontSize: 18.sp, // Font size is responsive
                         fontWeight: FontWeight.bold,
                       ),
               ),
@@ -176,48 +176,45 @@ class _SignInViewState extends State<SignInView> {
 
   Widget _buildSignUpPrompt(TextTheme textTheme) {
     return PositionedWidget(
-      top: 590,
+      top: 64.h, // Adjusted for screen height responsiveness
       child: Center(
-        child: RichText(
-          text: TextSpan(
-            text: "Don't Have an account? ",
-            style: textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.w400,
-              fontSize: 17,
-            ),
-            children: [
-              TextSpan(
-                text: "Sign Up",
-                style: const TextStyle(fontWeight: FontWeight.bold),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Get.to(() => SignUpView());
-                  },
+        child: Column(
+          children: [
+            RichText(
+              text: TextSpan(
+                text: "Don't Have an account? ",
+                style: textTheme.bodyLarge!.copyWith(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.sp // Font size adjusted for responsiveness
+                    ),
+                children: [
+                  TextSpan(
+                    text: "Sign Up",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Get.to(() => SignUpView());
+                      },
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildForgetPassword(TextTheme textTheme) {
-    return PositionedWidget(
-      left: 0,
-      right: 0,
-      bottom: 160,
-      child: InkWell(
-        onTap: () {
-          Get.to(() => ForgetPasswordCheckView());
-        },
-        child: Center(
-          child: Text(
-            "Forgot Password?",
-            style: textTheme.bodyLarge!.copyWith(
-              fontWeight: FontWeight.bold,
-              fontSize: 17,
             ),
-          ),
+            SizedBox(height: 1.h), // Responsive spacing
+            InkWell(
+              onTap: () {
+                Get.to(() => ForgetPasswordCheckView());
+              },
+              child: Center(
+                child: Text(
+                  "Forgot Password?",
+                  style: textTheme.bodyLarge!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.sp,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

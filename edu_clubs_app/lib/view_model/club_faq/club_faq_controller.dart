@@ -1,6 +1,6 @@
-import 'package:edu_clubs_app/repository/admin/admin_club_faq_repository.dart';
+import 'package:edu_clubs_app/data/repositories/admin/admin_club_faq_repository.dart';
 import 'package:edu_clubs_app/utils/export.dart';
-import 'package:edu_clubs_app/view_model/club_faq/club_faq_model.dart';
+import 'package:edu_clubs_app/data/models/club_faq_model.dart';
 
 class ClubFAQController extends GetxController {
   final ClubFAQRepository _repository = ClubFAQRepository();

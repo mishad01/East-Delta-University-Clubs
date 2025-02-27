@@ -1,6 +1,6 @@
-import 'package:edu_clubs_app/repository/sign_up_repository.dart';
+import 'package:edu_clubs_app/data/repositories/sign_up_repository.dart';
 import 'package:edu_clubs_app/utils/export.dart';
-import 'package:edu_clubs_app/view_model/user/user_model.dart';
+import 'package:edu_clubs_app/data/models/user_model.dart';
 
 class SignUpController extends GetxController {
   final SignUpRepository _authRepository = SignUpRepository();

@@ -1,11 +1,9 @@
 import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/club_details/club_details_view.dart';
 import 'package:edu_clubs_app/view_model/categories/club_category_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 
 class AllCategoriesGrid extends StatelessWidget {
-  const AllCategoriesGrid({Key? key}) : super(key: key);
+  const AllCategoriesGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +18,18 @@ class AllCategoriesGrid extends StatelessWidget {
                 children: [
                   Text(
                     "All Clubs",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
                   ),
                   TextButton(
                     onPressed: () {
                       Get.to(() => AllClubView());
                     },
-                    child: Text("See All"),
+                    child: Text(
+                      "See All",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16.sp),
+                    ),
                   ),
                 ],
               ),
@@ -35,7 +38,8 @@ class AllCategoriesGrid extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Container(
-                height: 300, // Set a fixed height for the grid view
+                height: 35.0.h, // Set a fixed height for the grid view
+
                 child: controller.inProgress
                     ? const Center(
                         child: CircularProgressIndicator(),
@@ -45,9 +49,9 @@ class AllCategoriesGrid extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 1.3,
-                          crossAxisSpacing: 30,
-                          mainAxisSpacing: 30,
+                          childAspectRatio: 1.2,
+                          crossAxisSpacing: 3.w,
+                          mainAxisSpacing: 3.w,
                         ),
                         itemBuilder: (context, index) {
                           final category = controller.clubCategories[index];
@@ -56,8 +60,8 @@ class AllCategoriesGrid extends StatelessWidget {
                                   categoriesId: category['id'],
                                 )),
                             child: Container(
-                              height: 115,
-                              width: 135,
+                              height: 12.5.h,
+                              width: 13.5.w,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
                                 color: Color(0xff8983B2FF),
@@ -69,16 +73,14 @@ class AllCategoriesGrid extends StatelessWidget {
                                   category['icon_img'] != null
                                       ? Image.network(
                                           category['icon_img'],
-                                          height: 115,
-                                          width: 135,
+                                          height: 15.5.h,
+                                          width: 30.5.w,
                                           fit: BoxFit.contain,
                                         )
                                       : SvgPicture.asset(
                                           AssetsPath.eduLogo,
-                                          height:
-                                              100, // Set height for the SVG if necessary
-                                          width:
-                                              100, // Set width for the SVG if necessary
+                                          height: 10.h,
+                                          width: 10.w,
                                         ),
                                 ],
                               ),

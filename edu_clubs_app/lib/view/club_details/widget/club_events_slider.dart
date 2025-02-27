@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'package:edu_clubs_app/view_model/club_events/club_event_controller.dart'; // Import your event controller
+import 'package:edu_clubs_app/view_model/club_events/club_event_controller.dart';
+import 'package:sizer/sizer.dart'; // Import your event controller
 
 class ClubEventsSlider extends StatefulWidget {
   const ClubEventsSlider({
@@ -36,9 +37,8 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
     return Column(
       children: [
         _buildCarouselSlider(),
-        const SizedBox(height: 16),
         _buildSectionTitle(),
-        const SizedBox(height: 8),
+        SizedBox(height: .8.h),
         _buildIndicatorRow(),
       ],
     );
@@ -61,7 +61,7 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
             enlargeCenterPage: true,
             enlargeFactor: 0.4,
             enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-            height: 320.0,
+            height: 42.h,
             viewportFraction: 0.75,
             onPageChanged: (index, reason) {
               _selectedIndex.value = index;
@@ -84,65 +84,70 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
   }
 
   Widget _buildCarouselItem(String image, String title, String date) {
-    return Container(
-      child: Stack(
-        children: [
-          SvgPicture.asset(
-            AssetsPath.card,
-            width: 300,
-            height: 320,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25, top: 10),
+    return Stack(
+      children: [
+        SvgPicture.asset(
+          AssetsPath.card,
+          width: 40.w,
+          height: 36.h,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 5.w, top: 1.2.h),
+          child: SizedBox(
+            width: 35.w, // You can adjust the width based on your layout
             child: Text(
               title,
+              maxLines: 2, // This allows the text to wrap after 2 lines
+              overflow: TextOverflow
+                  .ellipsis, // Adds ellipsis if the text exceeds two lines
               style: GoogleFonts.sourceSerif4(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
+                fontSize: 14.sp,
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 212, top: 10),
-            child: Text(
-              date,
-              style: GoogleFonts.sourceSerif4(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 8,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 55.w, top: 1.2.h),
+          child: Text(
+            date,
+            style: GoogleFonts.sourceSerif4(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 12.sp,
+            ),
+          ),
+        ),
+        Positioned(
+          top: 5.7.h,
+          left: 0,
+          right: 0,
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(21),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(21),
+              child: Image.network(
+                image,
+                height: 29.h,
+                width: 65.w,
+                fit: BoxFit.fitWidth,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return const Center(
+                      child: Icon(Icons.error, color: Colors.red));
+                },
               ),
             ),
           ),
-          Positioned(
-            top: 57,
-            left: 0,
-            right: 0,
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(21),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(21),
-                child: Image.network(
-                  image,
-                  height: 255,
-                  width: 260,
-                  fit: BoxFit.fitWidth,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return const Center(child: CircularProgressIndicator());
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Center(
-                        child: Icon(Icons.error, color: Colors.red));
-                  },
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -150,7 +155,7 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
     return Text(
       "Activities & Achievements",
       style: TextStyle(
-        fontSize: 28,
+        fontSize: 22.sp,
         fontWeight: FontWeight.bold,
       ),
     );
