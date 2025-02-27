@@ -40,6 +40,7 @@ class MembersOpinionsWidgets extends StatelessWidget {
                 Text(
                   opinion,
                   style: TextStyle(fontSize: 14.sp),
+                  maxLines: 3,
                 ),
               ],
             ),

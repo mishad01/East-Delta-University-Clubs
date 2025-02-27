@@ -1,6 +1,6 @@
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/widget/banner_widget.dart';
-import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/widget/prize_giving_card_widget.dart';
+import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/widget/highlight_card_widget.dart';
 import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/widget/members_opinion_widget.dart';
 import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/widget/section_title_widget.dart';
 import 'package:edu_clubs_app/view/home/widget/highlight_slider.dart';

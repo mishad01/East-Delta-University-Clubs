@@ -13,7 +13,7 @@ class ClubMemberOpinionModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'user_id': userId,
+      'user_id': "4902e25b-18ab-43cd-8e86-5d0cd57cf737",
       'club_member_name': clubMemberName,
       'club_name_with_position': clubNameWithPosition,
       'club_opinion_description': clubOpinionDescription,

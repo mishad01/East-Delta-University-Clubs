@@ -1,9 +1,6 @@
 import 'dart:io';
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view_model/admin/home/prize_giving_ceremony_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 
 class HighlightCardWidget extends StatelessWidget {
   final PrizeGivingCeremonyController controller =
@@ -14,7 +11,7 @@ class HighlightCardWidget extends StatelessWidget {
     return GetBuilder<PrizeGivingCeremonyController>(
       builder: (controller) {
         return GestureDetector(
-          onTap: () => _showPrizeGivingDialog(controller, context),
+          onTap: () => _showHighlightDialog(controller, context),
           child: Container(
             child: Stack(
               children: [
@@ -45,7 +42,7 @@ class HighlightCardWidget extends StatelessWidget {
     );
   }
 
-  void _showPrizeGivingDialog(
+  void _showHighlightDialog(
       PrizeGivingCeremonyController controller, BuildContext context) {
     showDialog(
       context: context,
@@ -63,10 +60,30 @@ class HighlightCardWidget extends StatelessWidget {
                     enabled: !controller.isUploading,
                   ),
                   SizedBox(height: 10),
-                  TextField(
-                    controller: controller.dateController,
-                    decoration: InputDecoration(labelText: 'Add Date'),
-                    enabled: !controller.isUploading,
+                  GestureDetector(
+                    onTap: () async {
+                      // Show the date picker dialog
+                      DateTime? selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101),
+                      );
+
+                      if (selectedDate != null) {
+                        // Update the dateController with the selected date
+                        controller.dateController.text =
+                            "${selectedDate.toLocal()}".split(' ')[0];
+                      }
+                    },
+                    child: AbsorbPointer(
+                      // This prevents the keyboard from popping up
+                      child: TextField(
+                        controller: controller.dateController,
+                        decoration: InputDecoration(labelText: 'Add Date'),
+                        enabled: !controller.isUploading,
+                      ),
+                    ),
                   ),
                   SizedBox(height: 10),
                   ElevatedButton(

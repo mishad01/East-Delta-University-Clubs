@@ -49,6 +49,7 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
     return CarouselSlider.builder(
       itemCount: controller.banners.length,
       options: CarouselOptions(
+        autoPlay: true,
         viewportFraction: 2,
         height: 27.h,
         onPageChanged: (index, reason) {

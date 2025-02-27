@@ -1,7 +1,4 @@
 import 'package:edu_clubs_app/utils/export.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class EventImageCard extends StatelessWidget {
   final String prizeGivingDate;
@@ -26,31 +23,34 @@ class EventImageCard extends StatelessWidget {
             height: 40.h,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 7.w, top: .8.h),
-            child: Text(
-              eventTitle,
-              style: GoogleFonts.sourceSerif4(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
+            padding: EdgeInsets.only(left: 3.5.w, top: 1.h),
+            child: SizedBox(
+              width: 200,
+              child: Text(
+                eventTitle,
+                style: GoogleFonts.sourceSerif4(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 60.w, top: .5.h),
+            padding: EdgeInsets.only(left: 58.w, top: 1.h),
             child: Text(
               prizeGivingDate,
               style: GoogleFonts.sourceSerif4(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 17.sp,
+                fontSize: 14.sp,
               ),
             ),
           ),
           Positioned(
             top: 7.h,
-            left: 0,
-            right: 0,
+            left: 1.w,
+            right: 1.w,
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(

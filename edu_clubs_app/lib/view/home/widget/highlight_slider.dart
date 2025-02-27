@@ -38,6 +38,7 @@ class _HighLightSliderState extends State<HighLightSlider> {
 
         return CarouselSlider(
           options: CarouselOptions(
+            autoPlay: true,
             enlargeCenterPage: true,
             enlargeFactor: 0.4,
             enlargeStrategy: CenterPageEnlargeStrategy.zoom,
@@ -119,7 +120,7 @@ class _HighLightSliderState extends State<HighLightSlider> {
                 return EventImageCard(
                   prizeGivingDate: ceremony.prizeGivingDate,
                   prizeGivingImage: ceremony.prizeGivingImage,
-                  eventTitle: 'Prize giving\nCeremony',
+                  eventTitle: ceremony.prizeGivingCeremonyName,
                 );
               },
             );
