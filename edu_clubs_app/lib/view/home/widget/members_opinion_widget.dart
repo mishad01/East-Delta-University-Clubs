@@ -4,11 +4,16 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 class MembersOpinionsWidgets extends StatelessWidget {
-  const MembersOpinionsWidgets({Key? key}) : super(key: key);
+  const MembersOpinionsWidgets({super.key});
 
   // Helper method to build a member opinion card
   Widget buildMembersOpinion(
-      String name, String club, String opinion, Widget? spacer, Color color) {
+    String name,
+    String club,
+    String opinion,
+    Widget? spacer,
+    Color color,
+  ) {
     return Row(
       children: [
         if (spacer != null) spacer,
@@ -27,7 +32,7 @@ class MembersOpinionsWidgets extends StatelessWidget {
                 Text(
                   name,
                   style: TextStyle(
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -75,25 +80,24 @@ class MembersOpinionsWidgets extends StatelessWidget {
           return const Center(child: Text("No opinions found."));
         }
 
-        return Padding(
-          padding: EdgeInsets.all(2.w),
-          child: Column(
-            children: controller.memberOpinionList.map((opinion) {
-              // Alternate colors for each opinion card
-              final color =
-                  controller.memberOpinionList.indexOf(opinion) % 3 == 0
-                      ? const Color(0xffFDEBB9)
-                      : controller.memberOpinionList.indexOf(opinion) % 3 == 1
-                          ? const Color(0xffD0D9FC)
-                          : const Color(0xffD5D0FB);
+        return Column(
+          children: controller.memberOpinionList.map((opinion) {
+            // Alternate colors for each opinion card
+            final color = controller.memberOpinionList.indexOf(opinion) % 3 == 0
+                ? const Color(0xffFDEBB9)
+                : controller.memberOpinionList.indexOf(opinion) % 3 == 1
+                    ? const Color(0xffD0D9FC)
+                    : const Color(0xffD5D0FB);
 
-              // Add a spacer for every second opinion
-              final spacer =
-                  controller.memberOpinionList.indexOf(opinion) % 2 == 1
-                      ? const Spacer()
-                      : null;
+            // Add a spacer for every second opinion
+            final spacer =
+                controller.memberOpinionList.indexOf(opinion) % 2 == 1
+                    ? const Spacer()
+                    : null;
 
-              return Column(
+            return Padding(
+              padding: EdgeInsets.only(left: 4.w, right: 4.w),
+              child: Column(
                 children: [
                   buildMembersOpinion(
                     opinion.clubMemberName,
@@ -104,9 +108,9 @@ class MembersOpinionsWidgets extends StatelessWidget {
                   ),
                   SizedBox(height: 1.h),
                 ],
-              );
-            }).toList(),
-          ),
+              ),
+            );
+          }).toList(),
         );
       },
     );

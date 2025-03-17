@@ -17,12 +17,12 @@ class CustomHeaderText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(
+          CustomTextForPdf(
             text: text1,
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
-          CustomText(
+          CustomTextForPdf(
             text: text2,
             fontWeight: FontWeight.bold,
             fontSize: 12,

@@ -84,7 +84,7 @@ class CustomButton extends StatelessWidget {
       children: [
         Expanded(
           child: Center(
-            child: CustomText(
+            child: CustomTextForPdf(
               text: text,
               color: textColor,
               fontSize: fontSize,

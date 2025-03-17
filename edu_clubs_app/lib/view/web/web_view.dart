@@ -38,14 +38,16 @@ class _WebViewState extends State<WebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          WebViewWidget(controller: controller),
-          if (isLoading)
-            const Center(
-              child: CircularProgressIndicator(), // Show loading indicator
-            ),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            WebViewWidget(controller: controller),
+            if (isLoading)
+              const Center(
+                child: CircularProgressIndicator(), // Show loading indicator
+              ),
+          ],
+        ),
       ),
     );
   }

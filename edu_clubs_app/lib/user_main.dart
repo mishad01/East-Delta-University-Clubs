@@ -1,7 +1,9 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:edu_clubs_app/data/repositories/admin/admin_club_details_repository.dart';
 import 'package:edu_clubs_app/data/repositories/admin/admin_home_view_content_add/members_opinion_repository.dart';
 import 'package:edu_clubs_app/user_app.dart';
 import 'package:edu_clubs_app/utils/export.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -15,5 +17,11 @@ void main() async {
 
   Get.lazyPut(() => AdminClubDetailsRepository());
   Get.lazyPut(() => MemberOpinionRepository());
-  runApp(EduClubsUser());
+
+  runApp(
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => EduClubsUser(), // Wrap your app
+    ),
+  );
 }

@@ -55,8 +55,8 @@ class AllCategoriesGrid extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Container(
-                height: 35.0.h,
+              child: SizedBox(
+                height: 38.0.h,
                 child: controller.inProgress
                     ? const Center(
                         child: CircularProgressIndicator(),
@@ -82,9 +82,9 @@ class AllCategoriesGrid extends StatelessWidget {
                                   categoriesId: category['id'],
                                 )),
                             child: Card(
-                              elevation: 3, // Subtle shadow
+                              elevation: 1, // Subtle shadow
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                               child: Container(
                                 decoration: BoxDecoration(
@@ -102,27 +102,35 @@ class AllCategoriesGrid extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      height: 14.h,
-                                      width: 30.w,
-                                      child: Column(
-                                        children: [
-                                          Image.network(
-                                            category['icon_img'],
-                                            height: 10.5.h,
-                                            width: 25.5.w,
-                                            fit: BoxFit.contain,
-                                          ),
-                                          CustomText(
-                                            text: category['club_name'],
-                                            customStyle: GoogleFonts.lato(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16.sp,
-                                              color:
-                                                  Colors.black87, // Black text
+                                    SizedBox(height: 1.h),
+                                    Flexible(
+                                      child: SizedBox(
+                                        height: 14.h,
+                                        width: 30.w,
+                                        child: Column(
+                                          children: [
+                                            Image.network(
+                                              category['icon_img'],
+                                              height: 10.5.h,
+                                              width: 25.5.w,
+                                              fit: BoxFit.contain,
                                             ),
-                                          ),
-                                        ],
+                                            Flexible(
+                                              child: SizedBox(
+                                                height: 2.h,
+                                                child: CustomTextForPdf(
+                                                  text: category['club_name'],
+                                                  customStyle: GoogleFonts.lato(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 14.sp,
+                                                    color: Colors.black87,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -134,6 +142,7 @@ class AllCategoriesGrid extends StatelessWidget {
                       ),
               ),
             ),
+            SizedBox(height: 2.h),
           ],
         );
       },

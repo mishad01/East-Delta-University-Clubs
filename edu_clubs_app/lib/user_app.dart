@@ -10,6 +10,9 @@ import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/admin_home_
 import 'package:edu_clubs_app/view/admin/test.dart';
 import 'package:edu_clubs_app/view/admin/test2.dart';
 import 'package:edu_clubs_app/view/auth/forget_password/forget_password_new_password.dart';
+import 'package:edu_clubs_app/view/club_details/club_details_view.dart';
+import 'package:edu_clubs_app/view/drawer/front_page_for_assignment.dart';
+import 'package:edu_clubs_app/view/home/home_view.dart';
 
 class EduClubsUser extends StatelessWidget {
   const EduClubsUser({super.key});

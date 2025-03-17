@@ -69,7 +69,7 @@ class _ForgetPasswordNewPasswordViewState
     return PositionedWidget(
       top: 20.h,
       child: Center(
-        child: CustomText(
+        child: CustomTextForPdf(
           text: "Update Password",
           customStyle: GoogleFonts.roboto(
             fontSize: 22.sp,
@@ -83,7 +83,7 @@ class _ForgetPasswordNewPasswordViewState
     return PositionedWidget(
       top: 25.h, // Use Sizer for position
       child: Center(
-        child: CustomText(
+        child: CustomTextForPdf(
           text: "Enter your new password",
           fontSize: 1.5.h, // Use Sizer for font size
         ),
@@ -157,7 +157,7 @@ class _ForgetPasswordNewPasswordViewState
                 ),
                 child: controller.isLoading
                     ? const CircularProgressIndicator()
-                    : CustomText(
+                    : CustomTextForPdf(
                         text: "Update",
                         fontSize: 19.sp, // Use Sizer for font size
                         fontWeight: FontWeight.bold,

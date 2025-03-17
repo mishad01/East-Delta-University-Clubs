@@ -3,7 +3,8 @@ class ClubDetailsModel {
   final String categoryId;
   final String clubName;
   final String whatWeDo;
-  final String whyJoinUs;
+  final String whyJoinUsReason1;
+  final String whyJoinUsReason2;
   final String recentOpenings;
   final String upcomingActivities;
 
@@ -12,7 +13,8 @@ class ClubDetailsModel {
     required this.categoryId,
     required this.clubName,
     required this.whatWeDo,
-    required this.whyJoinUs,
+    required this.whyJoinUsReason1,
+    required this.whyJoinUsReason2,
     required this.recentOpenings,
     required this.upcomingActivities,
   });
@@ -22,7 +24,8 @@ class ClubDetailsModel {
       'category_id': categoryId,
       'club_name': clubName,
       'what_we_do': whatWeDo,
-      'why_join_us': whyJoinUs,
+      'why_join_us_reason1': whyJoinUsReason1,
+      'why_join_us_reason2': whyJoinUsReason2,
       'recent_openings': recentOpenings,
       'upcoming_activities': upcomingActivities,
     };
@@ -34,7 +37,8 @@ class ClubDetailsModel {
       categoryId: map['category_id'] ?? '',
       clubName: map['club_name'] ?? '',
       whatWeDo: map['what_we_do'] ?? '',
-      whyJoinUs: map['why_join_us'] ?? '',
+      whyJoinUsReason1: map['why_join_us_reason1'] ?? '',
+      whyJoinUsReason2: map['why_join_us_reason2'] ?? '',
       recentOpenings: map['recent_openings'] ?? '',
       upcomingActivities: map['upcoming_activities'] ?? '',
     );

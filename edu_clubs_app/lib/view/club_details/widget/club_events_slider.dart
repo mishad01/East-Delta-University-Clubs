@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:edu_clubs_app/resources/assets_path.dart';
+import 'package:edu_clubs_app/utils/image_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,8 +12,8 @@ class ClubEventsSlider extends StatefulWidget {
   const ClubEventsSlider({
     super.key,
     required this.clubDetailsId,
-  }); // Change parameter name to clubDetailsId
-  final String clubDetailsId; // Use clubDetailsId instead of CategoryId
+  });
+  final String clubDetailsId;
 
   @override
   State<ClubEventsSlider> createState() => _ClubEventsSliderState();
@@ -22,8 +23,7 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
   final ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   final CarouselSliderController _carouselController =
       CarouselSliderController();
-  final ClubEventController _eventController =
-      Get.put(ClubEventController()); // Initialize the event controller
+  final ClubEventController _eventController = Get.put(ClubEventController());
 
   @override
   void initState() {
@@ -34,13 +34,15 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildCarouselSlider(),
-        _buildSectionTitle(),
-        SizedBox(height: .8.h),
-        _buildIndicatorRow(),
-      ],
+    return Center(
+      child: Column(
+        children: [
+          _buildCarouselSlider(),
+          _buildSectionTitle(),
+          SizedBox(height: .8.h),
+          _buildIndicatorRow(),
+        ],
+      ),
     );
   }
 
@@ -54,100 +56,38 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
         if (controller.allEvents.isEmpty) {
           return const Center(child: Text("No events found."));
         }
+        double viewportFraction =
+            MediaQuery.of(context).size.width > 600 ? 0.95 : 0.80;
+        return SizedBox(
+            width: 350, // Ensuring consistent width
+            child: CarouselSlider(
+              carouselController: _carouselController,
+              options: CarouselOptions(
+                height: 270,
+                //viewportFraction: viewportFraction,
+                enlargeCenterPage: true,
+                enlargeFactor: 0.3, // Adjust to control spacing
+                clipBehavior: Clip.none, // Prevents clipping issues
+                onPageChanged: (index, reason) {
+                  _selectedIndex.value = index;
+                },
+              ),
+              items: controller.allEvents.map((event) {
+                // Ensure that the event data is not null
+                final sessionImage = event['session_images'] ??
+                    'https://via.placeholder.com/300'; // Provide a fallback image URL
+                final sessionName = event['session_name'] ??
+                    'Unnamed Event'; // Provide a fallback name
+                final sessionDate = event['session_date'] ??
+                    'No Date'; // Provide a fallback date
 
-        return CarouselSlider(
-          carouselController: _carouselController,
-          options: CarouselOptions(
-            enlargeCenterPage: true,
-            enlargeFactor: 0.4,
-            enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-            height: 42.h,
-            viewportFraction: 0.75,
-            onPageChanged: (index, reason) {
-              _selectedIndex.value = index;
-            },
-          ),
-          items: controller.allEvents.map((event) {
-            // Ensure that the event data is not null
-            final sessionImage = event['session_images'] ??
-                'https://via.placeholder.com/300'; // Provide a fallback image URL
-            final sessionName = event['session_name'] ??
-                'Unnamed Event'; // Provide a fallback name
-            final sessionDate =
-                event['session_date'] ?? 'No Date'; // Provide a fallback date
-
-            return _buildCarouselItem(sessionImage, sessionName, sessionDate);
-          }).toList(),
-        );
+                return EventImageCard(
+                    prizeGivingDate: sessionDate,
+                    prizeGivingImage: sessionImage,
+                    eventTitle: sessionName);
+              }).toList(),
+            ));
       },
-    );
-  }
-
-  Widget _buildCarouselItem(String image, String title, String date) {
-    return Stack(
-      children: [
-        SvgPicture.asset(
-          AssetsPath.card,
-          width: 40.w,
-          height: 36.h,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 5.w, top: 1.2.h),
-          child: SizedBox(
-            width: 35.w, // You can adjust the width based on your layout
-            child: Text(
-              title,
-              maxLines: 2, // This allows the text to wrap after 2 lines
-              overflow: TextOverflow
-                  .ellipsis, // Adds ellipsis if the text exceeds two lines
-              style: GoogleFonts.sourceSerif4(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14.sp,
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 55.w, top: 1.2.h),
-          child: Text(
-            date,
-            style: GoogleFonts.sourceSerif4(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12.sp,
-            ),
-          ),
-        ),
-        Positioned(
-          top: 5.7.h,
-          left: 0,
-          right: 0,
-          child: Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(21),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(21),
-              child: Image.network(
-                image,
-                height: 29.h,
-                width: 65.w,
-                fit: BoxFit.fitWidth,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return const Center(child: CircularProgressIndicator());
-                },
-                errorBuilder: (context, error, stackTrace) {
-                  return const Center(
-                      child: Icon(Icons.error, color: Colors.red));
-                },
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 

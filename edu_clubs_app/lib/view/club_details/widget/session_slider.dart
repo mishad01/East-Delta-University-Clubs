@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-class HighLightSlider extends StatefulWidget {
-  const HighLightSlider({super.key});
+class SessionSlider extends StatefulWidget {
+  const SessionSlider({super.key});
 
   @override
-  State<HighLightSlider> createState() => _HighLightSliderState();
+  State<SessionSlider> createState() => _SessionSliderState();
 }
 
-class _HighLightSliderState extends State<HighLightSlider> {
+class _SessionSliderState extends State<SessionSlider> {
   final ValueNotifier<int> _selectedIndex = ValueNotifier(0);
   final PrizeGivingCeremonyController _controller =
       Get.put(PrizeGivingCeremonyController());
@@ -40,10 +40,10 @@ class _HighLightSliderState extends State<HighLightSlider> {
             MediaQuery.of(context).size.width > 600 ? 0.85 : 0.80;
 
         return SizedBox(
-          width: 350, // Ensuring consistent width
+          width: 85.w, // Ensuring consistent width
           child: CarouselSlider(
             options: CarouselOptions(
-              height: 270,
+              height: 40.h,
               viewportFraction: viewportFraction,
               enlargeCenterPage: true,
               enlargeFactor: 0.3, // Adjust to control spacing
@@ -57,11 +57,6 @@ class _HighLightSliderState extends State<HighLightSlider> {
                 prizeGivingDate: ceremony.prizeGivingDate,
                 prizeGivingImage: ceremony.prizeGivingImage,
                 eventTitle: ceremony.prizeGivingCeremonyName,
-              );
-              return Container(
-                width: 238,
-                height: 270,
-                color: Colors.black,
               );
             }).toList(),
           ),
