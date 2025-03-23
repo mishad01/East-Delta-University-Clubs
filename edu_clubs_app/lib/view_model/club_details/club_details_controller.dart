@@ -3,28 +3,36 @@ import 'package:edu_clubs_app/data/repositories/admin/admin_club_details_reposit
 import 'package:get/get.dart';
 
 class ClubDetailsController extends GetxController {
-  final AdminClubDetailsRepository _repository =
-      Get.find<AdminClubDetailsRepository>();
+  final AdminClubDetailsRepository _repository = AdminClubDetailsRepository();
 
   bool _inProgress = false;
   bool get inProgress => _inProgress;
 
-  // Use the reactive RxList for state management
-  var clubDetails = <Map<String, dynamic>>[].obs;
-
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  List<ClubDetailsModel> _clubDetails = [];
+  List<ClubDetailsModel> get clubDetails => _clubDetails;
+
   Future<bool> addClubDetails(
-      String categoryId,
-      String clubName,
-      String whatWeDo,
-      String whyJoinUsReason1,
-      String whyJoinUsReason2,
-      String recentOpenings,
-      String upcomingActivities) async {
+    String categoryId,
+    String clubName,
+    String whatWeDo,
+    String whyJoinUsReason1,
+    String whyJoinUsReason2,
+  ) async {
+    if (categoryId.isEmpty ||
+        clubName.isEmpty ||
+        whatWeDo.isEmpty ||
+        whyJoinUsReason1.isEmpty ||
+        whyJoinUsReason2.isEmpty) {
+      Get.snackbar("Error", "Please fill in all required fields.");
+      return false;
+    }
+
     bool isSuccess = false;
     _inProgress = true;
+    _errorMessage = null;
     update();
 
     final newClubDetails = ClubDetailsModel(
@@ -33,36 +41,66 @@ class ClubDetailsController extends GetxController {
       whatWeDo: whatWeDo,
       whyJoinUsReason1: whyJoinUsReason1,
       whyJoinUsReason2: whyJoinUsReason2,
-      recentOpenings: recentOpenings,
-      upcomingActivities: upcomingActivities,
     );
 
-    final bool response = await _repository.addClubDetails(newClubDetails);
+    print('Test: \$newClubDetails');
 
-    if (response) {
+    final success = await _repository.addClubDetails(newClubDetails);
+    if (success) {
       isSuccess = true;
-      _errorMessage = null;
+      Future.delayed(Duration.zero, () {
+        Get.snackbar("Success", "Club details added successfully!");
+      });
     } else {
-      _errorMessage = 'Failed to add club details';
+      _errorMessage = "Failed to add club details.";
+      Future.delayed(Duration.zero, () {
+        Get.snackbar("Error", _errorMessage!);
+      });
     }
 
+    fetchClubDetails(categoryId);
     _inProgress = false;
     update();
     return isSuccess;
   }
 
-  Future<bool> fetchClubCategories(String categoryId) async {
-    bool isSuccess = false;
+  Future<void> fetchClubDetails(String categoryId) async {
     _inProgress = true;
+    _errorMessage = null;
     update();
 
     try {
-      clubDetails.value = await _repository
-          .fetchClubDetails(categoryId); // update the RxList directly
-      isSuccess = true;
-      _errorMessage = null;
+      _clubDetails = await _repository.fetchClubDetails(categoryId);
+      print("Fetched club details: $_clubDetails");
     } catch (e) {
-      _errorMessage = 'Failed to load data: $e';
+      _errorMessage = 'Failed to load club details: $e';
+      Future.delayed(Duration.zero, () {
+        Get.snackbar("Error", _errorMessage!);
+      });
+    }
+
+    _inProgress = false;
+    update();
+  }
+
+  // New method to delete club details
+  Future<bool> deleteClubDetails(String clubId) async {
+    _inProgress = true;
+    _errorMessage = null;
+    update();
+
+    bool isSuccess = false;
+
+    final success = await _repository.deleteClubDetails(clubId);
+    if (success) {
+      isSuccess = true;
+      _clubDetails.removeWhere((club) => club.id == clubId);
+
+      Get.snackbar("Success", "Club details deleted successfully!");
+    } else {
+      Future.delayed(Duration.zero, () {
+        Get.snackbar("Error", _errorMessage!);
+      });
     }
 
     _inProgress = false;

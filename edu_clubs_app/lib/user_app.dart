@@ -1,18 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:edu_clubs_app/controller_binder.dart';
 import 'package:edu_clubs_app/utils/export.dart';
-import 'package:edu_clubs_app/view/admin/admin_club_categories_view.dart';
-import 'package:edu_clubs_app/view/admin/all_club_details/admin_club_details_view.dart';
-import 'package:edu_clubs_app/view/admin/admin_club_event/admin_club_event_view.dart';
-import 'package:edu_clubs_app/view/admin/admin_club_faq/admin_club_faq_view.dart';
-import 'package:edu_clubs_app/view/admin/admin_control.dart';
-import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/admin_home_view_content_add.dart';
-import 'package:edu_clubs_app/view/admin/test.dart';
-import 'package:edu_clubs_app/view/admin/test2.dart';
-import 'package:edu_clubs_app/view/auth/forget_password/forget_password_new_password.dart';
-import 'package:edu_clubs_app/view/club_details/club_details_view.dart';
-import 'package:edu_clubs_app/view/drawer/front_page_for_assignment.dart';
-import 'package:edu_clubs_app/view/home/home_view.dart';
 
 class EduClubsUser extends StatelessWidget {
   const EduClubsUser({super.key});
@@ -54,7 +42,7 @@ class EduClubsUser extends StatelessWidget {
         errorBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 1.5),
         ),
-        border: UnderlineInputBorder(borderSide: BorderSide.none),
+        border: const UnderlineInputBorder(borderSide: BorderSide.none),
       ),
     );
   }

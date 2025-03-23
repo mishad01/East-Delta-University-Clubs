@@ -1,4 +1,5 @@
 import 'package:edu_clubs_app/view_model/club_details/club_details_controller.dart';
+import 'package:edu_clubs_app/view_model/club_events/club_event_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,25 +16,26 @@ class AdminClubDetailsView extends StatefulWidget {
 }
 
 class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
-  final ClubDetailsController _clubController =
-      Get.put(ClubDetailsController());
-
   final TextEditingController _clubNameController = TextEditingController();
   final TextEditingController _whatWeDoController = TextEditingController();
   final TextEditingController _whyJoinUsReason1Controller =
       TextEditingController();
   final TextEditingController _whyJoinUsReason2Controller =
       TextEditingController();
-  final TextEditingController _recentOpeningsController =
-      TextEditingController();
-  final TextEditingController _upcomingActivitiesController =
-      TextEditingController();
+
+  final ClubDetailsController _controller = Get.put(ClubDetailsController());
+  final ClubEventController _eventController = Get.put(ClubEventController());
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch club details when the view is loaded
+    _controller.fetchClubDetails(widget.categoryId);
+    _eventController.fetchClubEvents(widget.categoryId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Fetch club details when the widget is built
-    _clubController.fetchClubCategories(widget.categoryId);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Club Details'),
@@ -48,51 +50,7 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
                 child: Column(
                   children: [
                     buildAddCard(),
-                    GetBuilder<ClubDetailsController>(
-                      builder: (controller) {
-                        if (controller.inProgress) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-
-                        if (controller.errorMessage != null &&
-                            controller.errorMessage!.isNotEmpty) {
-                          return Center(
-                            child: Text(controller.errorMessage!),
-                          );
-                        }
-
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: controller.clubDetails.length,
-                          itemBuilder: (context, index) {
-                            final club = controller.clubDetails[index];
-                            return Card(
-                              elevation: 3,
-                              margin: const EdgeInsets.symmetric(vertical: 8),
-                              child: ListTile(
-                                title: Text(club['club_name']),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("What We Do: ${club['what_we_do']}"),
-                                    Text(
-                                        "Why Join Us Reason 1: ${club['why_join_us_reason1']}"),
-                                    Text(
-                                        "Why Join Us Reason 2: ${club['why_join_us_reason2']}"),
-                                    Text(
-                                        "Recent Openings: ${club['recent_openings']}"),
-                                    Text(
-                                        "Upcoming Activities: ${club['upcoming_activities']}"),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
+                    fetchClubDetailsInfo(),
                   ],
                 ),
               ),
@@ -101,26 +59,6 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
         ),
       ),
     );
-  }
-
-  void _submitClubDetails() {
-    _clubController.addClubDetails(
-      widget.categoryId,
-      _clubNameController.text,
-      _whatWeDoController.text,
-      _whyJoinUsReason1Controller.text,
-      _whyJoinUsReason2Controller.text,
-      _recentOpeningsController.text,
-      _upcomingActivitiesController.text,
-    );
-
-    // Optionally clear the fields after submission
-    _clubNameController.clear();
-    _whatWeDoController.clear();
-    _whyJoinUsReason1Controller.clear();
-    _whyJoinUsReason2Controller.clear();
-    _recentOpeningsController.clear();
-    _upcomingActivitiesController.clear();
   }
 
   Widget buildAddCard() {
@@ -138,32 +76,87 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
                 _whyJoinUsReason1Controller, 'Why Join Us Reason 1'),
             _buildTextField(
                 _whyJoinUsReason2Controller, 'Why Join Us Reason 2'),
-            _buildTextField(_recentOpeningsController, 'Recent Openings'),
-            _buildTextField(
-                _upcomingActivitiesController, 'Upcoming Activities'),
             const SizedBox(height: 20),
+            // Submit button with logic for adding club details
             GetBuilder<ClubDetailsController>(
-              builder: (controller) => SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: controller.inProgress ? null : _submitClubDetails,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
+              builder: (controller) {
+                return SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: controller.inProgress
+                        ? null // Disable button if in progress
+                        : () async {
+                            final success = await controller.addClubDetails(
+                              widget.categoryId,
+                              _clubNameController.text,
+                              _whatWeDoController.text,
+                              _whyJoinUsReason1Controller.text,
+                              _whyJoinUsReason2Controller.text,
+                            );
+                            if (success) {
+                              _clearFields();
+                            }
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                    ),
+                    child: controller.inProgress
+                        ? const CircularProgressIndicator()
+                        : const Text(
+                            'Submit',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                   ),
-                  child: controller.inProgress
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Submit',
-                          style: TextStyle(fontSize: 16, color: Colors.white)),
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),
       ),
     );
+  }
+
+  Widget fetchClubDetailsInfo() {
+    return GetBuilder<ClubDetailsController>(builder: (_) {
+      if (_controller.inProgress) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      if (_controller.errorMessage != null) {
+        return Center(child: Text(_controller.errorMessage!));
+      }
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.5, // Ensure full display
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: _controller.clubDetails.length,
+          itemBuilder: (context, index) {
+            final category = _controller.clubDetails[index];
+            return ListTile(
+              title: Text(category.clubName),
+              subtitle: Column(
+                children: [
+                  Text(category.whatWeDo),
+                  Text(category.whyJoinUsReason1),
+                  Text(category.whyJoinUsReason2),
+                ],
+              ),
+              trailing: IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () async {
+                  await _controller.deleteClubDetails(category.id!);
+                  _controller.fetchClubDetails(
+                      category.categoryId); // Refresh list after delete
+                },
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 
   Widget _buildTextField(TextEditingController controller, String label) {
@@ -177,5 +170,12 @@ class _AdminClubDetailsViewState extends State<AdminClubDetailsView> {
         ),
       ),
     );
+  }
+
+  void _clearFields() {
+    _clubNameController.clear();
+    _whatWeDoController.clear();
+    _whyJoinUsReason1Controller.clear();
+    _whyJoinUsReason2Controller.clear();
   }
 }

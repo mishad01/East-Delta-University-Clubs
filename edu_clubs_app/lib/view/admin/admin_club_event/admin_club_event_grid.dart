@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 class AdminClubEventGridView extends StatelessWidget {
   AdminClubEventGridView({super.key});
 
-  final ClubCategoriesController controller =
-      Get.put(ClubCategoriesController());
+  final ClubCategoryController controller =
+      Get.put(ClubCategoryController()); // Corrected controller name
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,8 @@ class AdminClubEventGridView extends StatelessWidget {
       appBar: AppBar(title: const Text('Club Category Management')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: GetBuilder<ClubCategoriesController>(
+        child: GetBuilder<ClubCategoryController>(
+          // GetBuilder with the correct controller
           builder: (controller) {
             // Error handling
             if (controller.errorMessage != null) {
@@ -28,7 +29,7 @@ class AdminClubEventGridView extends StatelessWidget {
             }
 
             // Show message if no categories are available
-            if (controller.clubCategories.isEmpty) {
+            if (controller.categories.isEmpty) {
               return const Center(child: Text("No club categories found."));
             }
 
@@ -39,15 +40,15 @@ class AdminClubEventGridView extends StatelessWidget {
                 mainAxisSpacing: 12,
                 crossAxisSpacing: 12,
               ),
-              itemCount: controller.clubCategories.length,
+              itemCount: controller.categories.length,
               itemBuilder: (context, index) {
-                var category = controller.clubCategories[index];
-                var categoryId = category['id'];
+                var category = controller.categories[index];
+                var categoryId = category.id;
 
                 return GestureDetector(
                   onTap: () {
-                    // Navigate to club details view
-                    Get.to(() => AdminClubEventView(categoriesId: categoryId));
+                    Get.to(
+                        () => AdminClubEventView(clubDetailsId: categoryId!));
                   },
                   child: Card(
                     elevation: 6,
@@ -66,9 +67,9 @@ class AdminClubEventGridView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          category['icon_img'] != null
+                          category.iconImg != null
                               ? Image.network(
-                                  category['icon_img'],
+                                  category.iconImg,
                                   height: 50,
                                   width: 50,
                                   fit: BoxFit.cover,
@@ -77,7 +78,7 @@ class AdminClubEventGridView extends StatelessWidget {
                                   size: 50, color: Colors.white),
                           const SizedBox(height: 8),
                           Text(
-                            category['club_name'],
+                            category.clubName,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.white,

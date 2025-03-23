@@ -1,27 +1,33 @@
-import 'package:edu_clubs_app/data/repositories/admin/admin_club_faq_repository.dart';
-import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/data/models/club_faq_model.dart';
+import 'package:edu_clubs_app/data/repositories/admin/admin_club_faq_repository.dart';
+import 'package:get/get.dart';
 
 class ClubFAQController extends GetxController {
   final ClubFAQRepository _repository = ClubFAQRepository();
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+
+  bool _inProgress = false;
+  bool get inProgress => _inProgress;
 
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  List<Map<String, dynamic>> _allFAQ = [];
-  List<Map<String, dynamic>> get allFAQ => _allFAQ;
+  List<ClubFAQModel> _clubFAQs = [];
+  List<ClubFAQModel> get clubFAQs => _clubFAQs;
 
+  // Add a new FAQ to the club
   Future<bool> addClubFAQ(
-      String question, String answer, String clubDetailsId) async {
-    bool isSuccess = false;
-    if (question.isEmpty || answer.isEmpty) {
-      Get.snackbar("Error", "Please fill in all fields");
-      return isSuccess;
+    String clubDetailsId,
+    String question,
+    String answer,
+  ) async {
+    if (clubDetailsId.isEmpty || question.isEmpty || answer.isEmpty) {
+      Get.snackbar("Error", "Please fill in all required fields.");
+      return false;
     }
 
-    _isLoading = true;
+    bool isSuccess = false;
+    _inProgress = true;
+    _errorMessage = null;
     update();
 
     final newClubFAQ = ClubFAQModel(
@@ -32,32 +38,63 @@ class ClubFAQController extends GetxController {
 
     final success = await _repository.addClubFAQ(newClubFAQ);
     if (success) {
-      Get.snackbar("Success", "FAQ added successfully!");
-      await fetchFAQs(clubDetailsId); // ✅ Automatically refresh FAQs
       isSuccess = true;
+      Future.delayed(Duration.zero, () {
+        Get.snackbar("Success", "Club FAQ added successfully!");
+      });
     } else {
-      _errorMessage = "Failed to add FAQ.";
-      Get.snackbar("Error", _errorMessage!);
+      _errorMessage = "Failed to add club FAQ.";
+      Future.delayed(Duration.zero, () {
+        Get.snackbar("Error", _errorMessage!);
+      });
     }
 
-    _isLoading = false;
+    _inProgress = false;
     update();
     return isSuccess;
   }
 
-  Future<void> fetchFAQs(String clubDetailsId) async {
-    _isLoading = true;
+  // Fetch all FAQs for a specific club
+  Future<void> fetchClubFAQs(String clubDetailsId) async {
+    _inProgress = true;
+    _errorMessage = null;
     update();
+
     try {
-      final response = await _repository.fetchFAQ(clubDetailsId);
-      _allFAQ = response;
-      _errorMessage = null;
+      _clubFAQs = await _repository.fetchFAQ(clubDetailsId);
+      print("Fetched club FAQs: $_clubFAQs");
     } catch (e) {
-      _errorMessage = 'Failed to load data: $e';
-      Get.snackbar("Error", _errorMessage!);
-    } finally {
-      _isLoading = false;
-      update();
+      _errorMessage = 'Failed to load club FAQs: $e';
+      Future.delayed(Duration.zero, () {
+        Get.snackbar("Error", _errorMessage!);
+      });
     }
+
+    _inProgress = false;
+    update();
+  }
+
+  Future<bool> deleteClubDetails(String clubId) async {
+    _inProgress = true;
+    _errorMessage = null;
+    update();
+
+    bool isSuccess = false;
+
+    final success = await _repository.deleteFAQ(clubId);
+    if (success) {
+      isSuccess = true;
+      _clubFAQs.removeWhere((club) => club.id == clubId);
+
+      Get.snackbar("Success", "Club details deleted successfully!");
+    } else {
+      Future.delayed(Duration.zero, () {
+        Get.snackbar("Error", _errorMessage!);
+      });
+    }
+
+    _inProgress = false;
+    update();
+    return isSuccess;
   }
 }

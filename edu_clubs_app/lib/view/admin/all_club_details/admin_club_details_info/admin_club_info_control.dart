@@ -1,3 +1,4 @@
+/*
 import 'package:edu_clubs_app/utils/custom_scaffold.dart';
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/view/admin/Add_Club/add_clubs_view.dart';
@@ -8,34 +9,29 @@ import 'package:edu_clubs_app/view/admin/admin_club_event/admin_club_event_view.
 import 'package:edu_clubs_app/view/admin/admin_club_faq/admin_club_faq_view.dart';
 import 'package:edu_clubs_app/view/admin/admin_home_view_content_add/admin_home_view_content_add.dart';
 import 'package:edu_clubs_app/view/admin/all_club_details/admin_club_details_grid_view.dart';
-import 'package:edu_clubs_app/view/admin/club_advisors_info_for_club_details/admin_club_advisors_grid_view.dart';
-import 'package:edu_clubs_app/view/admin/recent_and_upcoming_activities_for_club_details/admin_activities_for_club_details.dart';
-import 'package:edu_clubs_app/view/admin/recent_and_upcoming_activities_for_club_details/admin_activities_grid_for_club_details.dart';
 
-class AdminControl extends StatefulWidget {
-  const AdminControl({super.key});
+class AdminClubDetailsInfoControl extends StatefulWidget {
+  const AdminClubDetailsInfoControl({super.key});
 
   @override
-  State<AdminControl> createState() => _AdminControlState();
+  State<AdminClubDetailsInfoControl> createState() =>
+      _AdminClubDetailsInfoControlState();
 }
 
-class _AdminControlState extends State<AdminControl> {
+class _AdminClubDetailsInfoControlState
+    extends State<AdminClubDetailsInfoControl> {
   final List<Widget> adminView = [
     AdminHomeViewContentAdd(),
     AddClub(),
     AdminClubDetailsGridView(),
-    AdminClubAdvisorsGridView(),
-    AdminActivitiesGridView(),
     AdminClubEventGridView(),
-    AdminClubFaqGridView(),
+    AdminClubFaqGrid(),
   ];
 
   final List<String> text = [
     'Home Screen',
-    'Add Clubs',
+    'Add Category',
     'Add Club Details',
-    'Add Club Advisors',
-    'Add Club Activities',
     'Add Club Event',
     'Add Club FAQ',
   ];
@@ -43,8 +39,6 @@ class _AdminControlState extends State<AdminControl> {
   final List<IconData> icons = [
     Icons.home,
     Icons.category,
-    Icons.work,
-    Icons.people,
     Icons.info,
     Icons.event,
     Icons.help,
@@ -118,3 +112,4 @@ class _AdminControlState extends State<AdminControl> {
     );
   }
 }
+*/

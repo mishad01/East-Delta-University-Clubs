@@ -1,3 +1,4 @@
+/*
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:edu_clubs_app/utils/export.dart';
 import 'package:edu_clubs_app/utils/image_card.dart';
@@ -65,3 +66,4 @@ class _SessionSliderState extends State<SessionSlider> {
     );
   }
 }
+*/

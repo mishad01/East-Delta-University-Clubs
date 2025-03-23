@@ -6,39 +6,48 @@ class AdminClubDetailsRepository {
 
   Future<bool> addClubDetails(ClubDetailsModel clubDetails) async {
     try {
-      await _supabase.from("club_details").insert(clubDetails.toMap());
+      final response =
+          await _supabase.from("club_details").insert(clubDetails.toMap());
+      print("Supabase Response: $response");
       return true;
-    } catch (error) {
-      print('Error adding club details: $error');
+    } catch (e) {
+      print('Error adding club details: $e');
       return false;
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchClubDetails(String categoryId) async {
+  Future<List<ClubDetailsModel>> fetchClubDetails(String categoryId) async {
     try {
       final response = await _supabase
           .from('club_details')
           .select()
-          .eq('category_id', categoryId) // Filter by category_id
-          .order('category_id', ascending: true);
+          .eq('category_id', categoryId);
 
-      List<Map<String, dynamic>> _data = response.map((item) {
-        final dataModel = ClubDetailsModel.fromMap(item);
-        return {
-          'id': dataModel.id,
-          'category_id': dataModel.categoryId,
-          'club_name': dataModel.clubName,
-          'what_we_do': dataModel.whatWeDo,
-          'why_join_us_reason1': dataModel.whyJoinUsReason1,
-          'why_join_us_reason2': dataModel.whyJoinUsReason2,
-          'recent_openings': dataModel.recentOpenings,
-          'upcoming_activities': dataModel.upcomingActivities,
-        };
-      }).toList();
-
-      return _data;
+      return response
+          .map<ClubDetailsModel>((data) => ClubDetailsModel.fromMap(data))
+          .toList();
     } catch (e) {
-      throw Exception('Failed to load data: $e');
+      print("Fetch club details error: $e");
+      return [];
+    }
+  }
+
+  // New method to delete club details
+  Future<bool> deleteClubDetails(String clubId) async {
+    try {
+      final response =
+          await _supabase.from('club_details').delete().eq('id', clubId);
+
+      if (response.error != null) {
+        print('Error deleting club details: ${response.error!.message}');
+        return false;
+      }
+
+      print('Successfully deleted club details');
+      return true;
+    } catch (e) {
+      print('Error deleting club details: $e');
+      return false;
     }
   }
 }

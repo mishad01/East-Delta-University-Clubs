@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomTextForPdf extends StatelessWidget {
+class CustomText extends StatelessWidget {
   final String text;
   final double fontSize;
   final FontWeight fontWeight;
@@ -10,7 +10,7 @@ class CustomTextForPdf extends StatelessWidget {
   final int? maxLine;
   final TextAlign? textAlign;
 
-  const CustomTextForPdf({
+  const CustomText({
     required this.text,
     this.fontSize = 14,
     this.fontWeight = FontWeight.normal,

@@ -76,7 +76,7 @@ class _FrontPageForAssignmentState extends State<FrontPageForAssignment> {
   }
 
   Widget buildCustomTextForPdf(String text, {Color color = Colors.black}) {
-    return CustomTextForPdf(
+    return CustomText(
       text: text,
       fontSize: 16,
       fontWeight: FontWeight.bold,

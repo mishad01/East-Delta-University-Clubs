@@ -29,7 +29,7 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
   void initState() {
     super.initState();
     // Fetch events based on the provided clubDetailsId
-    _eventController.fetchEvents(widget.clubDetailsId);
+    _eventController.fetchClubEvents(widget.clubDetailsId);
   }
 
   @override
@@ -53,7 +53,7 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (controller.allEvents.isEmpty) {
+        if (controller.clubEvents.isEmpty) {
           return const Center(child: Text("No events found."));
         }
         double viewportFraction =
@@ -63,7 +63,7 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
             child: CarouselSlider(
               carouselController: _carouselController,
               options: CarouselOptions(
-                height: 270,
+                height: 290,
                 //viewportFraction: viewportFraction,
                 enlargeCenterPage: true,
                 enlargeFactor: 0.3, // Adjust to control spacing
@@ -72,14 +72,14 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
                   _selectedIndex.value = index;
                 },
               ),
-              items: controller.allEvents.map((event) {
+              items: controller.clubEvents.map((event) {
                 // Ensure that the event data is not null
-                final sessionImage = event['session_images'] ??
+                final sessionImage = event.sessionImages ??
                     'https://via.placeholder.com/300'; // Provide a fallback image URL
-                final sessionName = event['session_name'] ??
+                final sessionName = event.sessionName ??
                     'Unnamed Event'; // Provide a fallback name
-                final sessionDate = event['session_date'] ??
-                    'No Date'; // Provide a fallback date
+                final sessionDate =
+                    event.sessionDate ?? 'No Date'; // Provide a fallback date
 
                 return EventImageCard(
                     prizeGivingDate: sessionDate,
@@ -104,7 +104,7 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
   Widget _buildIndicatorRow() {
     return GetBuilder<ClubEventController>(
       builder: (controller) {
-        if (controller.inProgress || controller.allEvents.isEmpty) {
+        if (controller.inProgress || controller.clubEvents.isEmpty) {
           return const SizedBox
               .shrink(); // Hide indicators if no events are available
         }
@@ -118,9 +118,10 @@ class _ClubEventsSliderState extends State<ClubEventsSlider> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(controller.allEvents.length, (index) {
-                    return _buildIndicatorItem(index, value,
-                        controller.allEvents[index]['session_name']);
+                  children:
+                      List.generate(controller.clubEvents.length, (index) {
+                    return _buildIndicatorItem(
+                        index, value, controller.clubEvents[index].sessionName);
                   }),
                 ),
               ),

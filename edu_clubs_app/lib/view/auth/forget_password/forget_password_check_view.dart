@@ -63,7 +63,7 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
     return PositionedWidget(
       top: 23.h,
       child: Center(
-        child: CustomTextForPdf(
+        child: CustomText(
           text: "Forgot Password?",
           customStyle: GoogleFonts.roboto(
             fontSize: 25.sp,
@@ -77,7 +77,7 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
     return PositionedWidget(
       top: 29.h,
       child: Center(
-        child: CustomTextForPdf(
+        child: CustomText(
           text: "Enter your email to reset your password",
           fontSize: 15.sp,
         ),
@@ -125,7 +125,7 @@ class _ForgetPasswordCheckViewState extends State<ForgetPasswordCheckView> {
                 ),
                 child: controller.isLoading
                     ? const CircularProgressIndicator()
-                    : CustomTextForPdf(
+                    : CustomText(
                         text: "Submit",
                         fontSize: 19.sp,
                         fontWeight: FontWeight.bold,

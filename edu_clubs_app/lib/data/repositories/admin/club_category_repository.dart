@@ -9,9 +9,11 @@ class ClubCategoryRepository {
     try {
       final String fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg';
       final String filePath = 'category_icons/$fileName';
+
       await _supabase.storage
           .from('club_category_images')
           .upload(filePath, imageFile);
+
       return _supabase.storage
           .from('club_category_images')
           .getPublicUrl(filePath);
@@ -31,27 +33,40 @@ class ClubCategoryRepository {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchClubCategories() async {
+  Future<List<ClubCategoryModel>> fetchClubCategories() async {
     try {
       final response = await _supabase
           .from('club_categories')
           .select()
           .order('created_at', ascending: true);
 
-      List<Map<String, dynamic>> _data = [];
-      for (var item in response) {
-        final dataModel = ClubCategoryModel.fromMap(item);
-        _data.add({
-          'id': dataModel.id,
-          'club_name': dataModel.clubName,
-          'created_at': dataModel.createdAt,
-          'icon_img': dataModel.iconImg,
-          'description': dataModel.description,
-        });
-      }
-      return _data;
+      print("API Response: $response"); // Add this line for debugging
+
+      return response.map((data) => ClubCategoryModel.fromMap(data)).toList();
     } catch (e) {
-      throw Exception('Failed to load data: $e');
+      print("Error fetching club categories: $e");
+      return [];
+    }
+  }
+
+  Future<bool> deleteClubCategory(String categoryId) async {
+    try {
+      final response =
+          await _supabase.from('club_categories').delete().eq('id', categoryId);
+
+      print("Response status: ${response.status}");
+      print("Response error: ${response.error?.message}");
+
+      if (response.status == 204) {
+        print("Category with id $categoryId deleted successfully");
+        return true;
+      } else {
+        print("Error deleting category: ${response.error?.message}");
+        return false;
+      }
+    } catch (e) {
+      print("Error deleting club category: $e");
+      return false;
     }
   }
 }

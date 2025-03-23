@@ -19,7 +19,7 @@ class AllCategoriesGrid extends StatelessWidget {
       Colors.yellow[50]!,
     ];
 
-    return GetBuilder<ClubCategoriesController>(
+    return GetBuilder<ClubCategoryController>(
       builder: (controller) {
         return Column(
           children: [
@@ -55,14 +55,14 @@ class AllCategoriesGrid extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
-              child: SizedBox(
-                height: 38.0.h,
+              child: Container(
+                height: 36.0.h,
                 child: controller.inProgress
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : GridView.builder(
-                        itemCount: controller.clubCategories.length,
+                        itemCount: controller.categories.length,
                         physics: NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
@@ -71,7 +71,7 @@ class AllCategoriesGrid extends StatelessWidget {
                           mainAxisSpacing: 3.w,
                         ),
                         itemBuilder: (context, index) {
-                          final category = controller.clubCategories[index];
+                          final category = controller.categories[index];
 
                           // Dynamically select the background color or gradient
                           Color backgroundColor = categoryBackgrounds[
@@ -79,10 +79,11 @@ class AllCategoriesGrid extends StatelessWidget {
 
                           return InkWell(
                             onTap: () => Get.to(() => ClubDetailsView(
-                                  categoriesId: category['id'],
+                                  categoriesId: category.id!,
+                                  clubName: category.clubName,
                                 )),
                             child: Card(
-                              elevation: 1, // Subtle shadow
+                              elevation: 2, // Subtle shadow
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -110,7 +111,7 @@ class AllCategoriesGrid extends StatelessWidget {
                                         child: Column(
                                           children: [
                                             Image.network(
-                                              category['icon_img'],
+                                              category.iconImg,
                                               height: 10.5.h,
                                               width: 25.5.w,
                                               fit: BoxFit.contain,
@@ -118,8 +119,8 @@ class AllCategoriesGrid extends StatelessWidget {
                                             Flexible(
                                               child: SizedBox(
                                                 height: 2.h,
-                                                child: CustomTextForPdf(
-                                                  text: category['club_name'],
+                                                child: CustomText(
+                                                  text: category.clubName,
                                                   customStyle: GoogleFonts.lato(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 14.sp,

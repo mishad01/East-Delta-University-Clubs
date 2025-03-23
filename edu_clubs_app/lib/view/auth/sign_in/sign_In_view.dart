@@ -72,7 +72,7 @@ class _SignInViewState extends State<SignInView> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomTextForPdf(
+            CustomText(
               text: "WELCOME BACK",
               fontSize: 25.sp,
               fontWeight: FontWeight.normal,
@@ -80,7 +80,7 @@ class _SignInViewState extends State<SignInView> {
             Baseline(
               baseline: 8.h,
               baselineType: TextBaseline.alphabetic,
-              child: CustomTextForPdf(
+              child: CustomText(
                 text: "!",
                 fontWeight: FontWeight.bold,
                 customStyle: GoogleFonts.gruppo(
@@ -98,7 +98,7 @@ class _SignInViewState extends State<SignInView> {
     return PositionedWidget(
       top: 30.h,
       child: Center(
-        child: CustomTextForPdf(
+        child: CustomText(
           text: "Please sign in to continue",
           fontSize: 15.sp,
         ),
@@ -161,7 +161,7 @@ class _SignInViewState extends State<SignInView> {
                 ),
                 child: controller.isLoading
                     ? const CircularProgressIndicator()
-                    : CustomTextForPdf(
+                    : CustomText(
                         text: "Login",
                         fontSize: 18.sp, // Font size is responsive
                         fontWeight: FontWeight.bold,

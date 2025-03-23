@@ -29,14 +29,14 @@ class CustomScaffold extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title!,
+              title ?? "Default Title",
               style: GoogleFonts.roboto(
                 fontWeight: FontWeight.w300,
                 fontSize: 24,
               ),
             ),
             Text(
-              title2!,
+              title2 ?? "Default Subtitle",
               style: GoogleFonts.roboto(
                 fontWeight: FontWeight.w300,
                 fontSize: 14,

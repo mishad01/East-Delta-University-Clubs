@@ -1,28 +1,40 @@
 import 'package:edu_clubs_app/view/admin/all_club_details/admin_club_details_view.dart';
-import 'package:edu_clubs_app/view_model/categories/club_category_controller.dart';
+import 'package:edu_clubs_app/view/admin/club_advisors_info_for_club_details/club_advisors_for_club_details.dart';
+import 'package:edu_clubs_app/view/admin/recent_and_upcoming_activities_for_club_details/admin_activities_for_club_details.dart';
+import 'package:edu_clubs_app/view_model/categories/club_category_controller.dart'; // Assuming you have a controller for this
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AdminClubDetailsGridView extends StatelessWidget {
   AdminClubDetailsGridView({super.key});
 
-  final ClubCategoriesController controller =
-      Get.put(ClubCategoriesController());
+  final ClubCategoryController controller =
+      Get.put(ClubCategoryController()); // Get controller for state management
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Club Category Management')),
+      appBar: AppBar(title: const Text('Club Advisors Management')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: GetBuilder<ClubCategoriesController>(
+        child: GetBuilder<ClubCategoryController>(
+          // Using GetBuilder to manage state
           builder: (controller) {
+            // Error handling
             if (controller.errorMessage != null) {
               return Center(child: Text(controller.errorMessage!));
             }
-            if (controller.clubCategories.isEmpty) {
-              return const Center(child: Text("No club categories found."));
+
+            // Display loading indicator while fetching data
+            if (controller.inProgress) {
+              return const Center(child: CircularProgressIndicator());
             }
+
+            // Show message if no data is available
+            if (controller.categories.isEmpty) {
+              return const Center(child: Text("No club advisors found."));
+            }
+
             return GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -30,13 +42,20 @@ class AdminClubDetailsGridView extends StatelessWidget {
                 mainAxisSpacing: 12,
                 crossAxisSpacing: 12,
               ),
-              itemCount: controller.clubCategories.length,
+              itemCount: controller.categories.length,
               itemBuilder: (context, index) {
-                var category = controller.clubCategories[index];
+                var category = controller.categories[index];
+                var advisorName = category.clubName;
+                var image = category.iconImg;
+                var clubCategoryId = category.id;
+
                 return GestureDetector(
                   onTap: () {
                     Get.to(
-                        () => AdminClubDetailsView(categoryId: category['id']));
+                      () => AdminClubDetailsView(
+                        categoryId: clubCategoryId!,
+                      ),
+                    );
                   },
                   child: Card(
                     elevation: 6,
@@ -55,9 +74,9 @@ class AdminClubDetailsGridView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          category['icon_img'] != null
+                          category.iconImg != null
                               ? Image.network(
-                                  category['icon_img'],
+                                  category.iconImg,
                                   height: 50,
                                   width: 50,
                                   fit: BoxFit.cover,
@@ -66,7 +85,7 @@ class AdminClubDetailsGridView extends StatelessWidget {
                                   size: 50, color: Colors.white),
                           const SizedBox(height: 8),
                           Text(
-                            category['club_name'],
+                            category.clubName,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.white,

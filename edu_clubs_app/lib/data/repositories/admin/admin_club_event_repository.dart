@@ -14,7 +14,11 @@ class ClubEventRepository {
           .from('club_event_images')
           .upload(filePath, imageFile);
 
-      return _supabase.storage.from('club_event_images').getPublicUrl(filePath);
+      final String imageUrl =
+          _supabase.storage.from('club_event_images').getPublicUrl(filePath);
+
+      print("Image uploaded successfully: $imageUrl");
+      return imageUrl;
     } catch (e) {
       print("Image upload error: $e");
       return null;
@@ -23,7 +27,9 @@ class ClubEventRepository {
 
   Future<bool> addClubEvent(ClubEventModel event) async {
     try {
-      await _supabase.from('club_events').insert(event.toMap());
+      final response =
+          await _supabase.from('club_events').insert(event.toMap());
+      print("Supabase Response: $response");
       return true;
     } catch (e) {
       print("Add club event error: $e");
@@ -31,28 +37,36 @@ class ClubEventRepository {
     }
   }
 
-  Future<List<Map<String, dynamic>>> fetchEventDetails(
-      String clubDetailsId) async {
+  Future<List<ClubEventModel>> fetchEventDetails(String clubDetailsId) async {
     try {
       final response = await _supabase
-          .from('club_events') // Fixed table name to match event data
+          .from('club_events')
           .select()
-          .eq('club_details_id', clubDetailsId) // Corrected filtering condition
+          .eq('club_details_id', clubDetailsId)
           .order('created_at', ascending: true);
 
-      List<Map<String, dynamic>> _data = response.map((item) {
-        final _data = ClubEventModel.fromMap(item);
-        return {
-          'club_details_id': clubDetailsId,
-          'session_images': _data.sessionImages,
-          'session_name': _data.sessionName,
-        };
-      }).toList();
-
-      return _data;
+      return response.map((data) => ClubEventModel.fromMap(data)).toList();
     } catch (e) {
       print("Fetch event details error: $e");
-      throw Exception('Failed to load data');
+      return [];
+    }
+  }
+
+  Future<bool> deleteClubEvent(String clubId) async {
+    try {
+      final response =
+          await _supabase.from('club_events').delete().eq('id', clubId);
+
+      if (response.error != null) {
+        print('Error deleting club details: ${response.error!.message}');
+        return false;
+      }
+
+      print('Successfully deleted club details');
+      return true;
+    } catch (e) {
+      print('Error deleting club details: $e');
+      return false;
     }
   }
 }

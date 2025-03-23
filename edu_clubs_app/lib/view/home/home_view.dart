@@ -1,6 +1,7 @@
 import 'package:edu_clubs_app/resources/app_colors.dart';
 import 'package:edu_clubs_app/utils/custom_scaffold.dart';
 import 'package:edu_clubs_app/utils/export.dart';
+import 'package:edu_clubs_app/view/admin/admin_control.dart';
 import 'package:edu_clubs_app/view/auth/sign_in/sign_In_view.dart';
 import 'package:edu_clubs_app/view/drawer/front_page_for_assignment.dart';
 import 'package:edu_clubs_app/view/home/widget/all_categories_grid.dart';
@@ -29,23 +30,23 @@ class _HomeViewState extends State<HomeView> {
           padding: EdgeInsets.all(2.w),
           child: Column(
             children: [
-              HomeBannerSlider(),
+              const HomeBannerSlider(),
               SizedBox(height: 1.h),
-              AllCategoriesGrid(),
+              const AllCategoriesGrid(),
               SizedBox(height: 2.h),
               Text(
                 "RECENT HIGHLIGHT",
                 style: TextStyle(fontSize: 5.w, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 2.h),
-              HighLightSlider(),
+              const HighLightSlider(),
               SizedBox(height: 2.h),
               Text(
                 "WHAT OUR MEMBERS SAY",
                 style: TextStyle(fontSize: 4.5.w, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 2.h),
-              MembersOpinionsWidgets(),
+              const MembersOpinionsWidgets(),
             ],
           ),
         ),
@@ -67,7 +68,7 @@ class _HomeViewState extends State<HomeView> {
                   color: Colors.black,
                 ),
               ),
-              accountEmail: Text("john.doe@example.com",
+              accountEmail: Text("",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black,
@@ -112,6 +113,11 @@ class _HomeViewState extends State<HomeView> {
                       () => WebView(
                           link: "https://www.eastdelta.edu.bd/faculty-members"),
                     ),
+                  ),
+                  _buildDrawerItem(
+                    icon: Icons.group,
+                    text: 'Admin Control',
+                    onTap: () => Get.to(() => AdminControl()),
                   ),
                   const Divider(), // A separator for better UI
                   _buildDrawerItem(

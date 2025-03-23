@@ -20,12 +20,12 @@ class FAQSection extends StatelessWidget {
 
     // Fetch FAQs when the widget is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.fetchFAQs(clubDetailsId);
+      controller.fetchClubFAQs(clubDetailsId);
     });
 
     return GetBuilder<ClubFAQController>(
       builder: (controller) {
-        if (controller.isLoading) {
+        if (controller.inProgress) {
           return const Center(child: CircularProgressIndicator());
         }
 
@@ -33,7 +33,7 @@ class FAQSection extends StatelessWidget {
           return Center(child: Text(controller.errorMessage!));
         }
 
-        if (controller.allFAQ.isEmpty) {
+        if (controller.clubFAQs.isEmpty) {
           return const Center(child: Text("No FAQs found."));
         }
 
@@ -46,13 +46,13 @@ class FAQSection extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: controller.allFAQ.length,
+              itemCount: controller.clubFAQs.length,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final faq = controller.allFAQ[index];
+                final faq = controller.clubFAQs[index];
                 return FAQCard(
-                  question: faq['question'],
-                  answer: faq['answer'],
+                  question: faq.question,
+                  answer: faq.answer,
                 );
               },
             ),
@@ -93,7 +93,7 @@ class FAQCard extends StatelessWidget {
                   child: Container(
                     height: 50,
                     width: 260,
-                    child: CustomTextForPdf(
+                    child: CustomText(
                       text: question,
                       customStyle: GoogleFonts.roboto(
                         fontSize: 15,
@@ -109,7 +109,7 @@ class FAQCard extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 30),
                 child: Container(
                   padding: const EdgeInsets.all(12),
-                  child: CustomTextForPdf(
+                  child: CustomText(
                     text: answer,
                     customStyle: GoogleFonts.roboto(
                       fontSize: 14,

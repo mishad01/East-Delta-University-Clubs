@@ -1,14 +1,14 @@
 class ClubCategoryModel {
   final String? id;
   final String clubName;
-  final String createdAt;
+  final String? createdAt;
   final String iconImg;
   final String description;
 
   ClubCategoryModel({
     this.id,
     required this.clubName,
-    required this.createdAt,
+    this.createdAt,
     required this.iconImg,
     required this.description,
   });
@@ -16,7 +16,6 @@ class ClubCategoryModel {
   Map<String, dynamic> toMap() {
     return {
       'club_name': clubName,
-      'created_at': createdAt,
       'icon_img': iconImg,
       'description': description,
     };

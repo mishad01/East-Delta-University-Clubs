@@ -30,7 +30,7 @@ class _AllClubViewState extends State<AllClubView> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(3.2.w),
-            child: GetBuilder<ClubCategoriesController>(
+            child: GetBuilder<ClubCategoryController>(
                 builder: (clubCategoriesController) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,8 +52,8 @@ class _AllClubViewState extends State<AllClubView> {
                               child: CircularProgressIndicator(),
                             )
                           : GridView.builder(
-                              itemCount: clubCategoriesController
-                                  .clubCategories.length,
+                              itemCount:
+                                  clubCategoriesController.categories.length,
                               physics: NeverScrollableScrollPhysics(),
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
@@ -63,8 +63,8 @@ class _AllClubViewState extends State<AllClubView> {
                                 mainAxisSpacing: 3.w,
                               ),
                               itemBuilder: (context, index) {
-                                final category = clubCategoriesController
-                                    .clubCategories[index];
+                                final category =
+                                    clubCategoriesController.categories[index];
 
                                 // Dynamically select the background color or gradient
                                 Color backgroundColor = categoryBackgrounds[
@@ -72,7 +72,8 @@ class _AllClubViewState extends State<AllClubView> {
 
                                 return InkWell(
                                   onTap: () => Get.to(() => ClubDetailsView(
-                                        categoriesId: category['id'],
+                                        categoriesId: category.id!,
+                                        clubName: category.clubName,
                                       )),
                                   child: Card(
                                     elevation: 3, // Subtle shadow
@@ -105,7 +106,7 @@ class _AllClubViewState extends State<AllClubView> {
                                               child: Column(
                                                 children: [
                                                   Image.network(
-                                                    category['icon_img'],
+                                                    category.iconImg,
                                                     height: 10.5.h,
                                                     width: 25.5.w,
                                                     fit: BoxFit.contain,
@@ -113,9 +114,8 @@ class _AllClubViewState extends State<AllClubView> {
                                                   Flexible(
                                                     child: SizedBox(
                                                       height: 2.h,
-                                                      child: CustomTextForPdf(
-                                                        text: category[
-                                                            'club_name'],
+                                                      child: CustomText(
+                                                        text: category.clubName,
                                                         customStyle:
                                                             GoogleFonts.lato(
                                                           fontWeight:

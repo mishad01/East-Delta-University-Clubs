@@ -1,23 +1,22 @@
-import 'package:edu_clubs_app/view/admin/admin_club_event/admin_club_event_view.dart';
-import 'package:edu_clubs_app/view/admin/admin_club_faq/admin_club_faq_view.dart';
-import 'package:edu_clubs_app/view_model/categories/club_category_controller.dart';
+import 'package:edu_clubs_app/view/admin/club_advisors_info_for_club_details/club_advisors_for_club_details.dart';
+import 'package:edu_clubs_app/view_model/categories/club_category_controller.dart'; // Assuming you have a controller for this
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AdminClubFaqGridView extends StatelessWidget {
-  AdminClubFaqGridView({super.key});
+class AdminClubAdvisorsGridView extends StatelessWidget {
+  AdminClubAdvisorsGridView({super.key});
 
   final ClubCategoryController controller =
-      Get.put(ClubCategoryController()); // Corrected controller name
+      Get.put(ClubCategoryController()); // Get controller for state management
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Club Category Management')),
+      appBar: AppBar(title: const Text('Club Advisors Management')),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: GetBuilder<ClubCategoryController>(
-          // GetBuilder with the correct controller
+          // Using GetBuilder to manage state
           builder: (controller) {
             // Error handling
             if (controller.errorMessage != null) {
@@ -29,9 +28,9 @@ class AdminClubFaqGridView extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
-            // Show message if no categories are available
+            // Show message if no data is available
             if (controller.categories.isEmpty) {
-              return const Center(child: Text("No club categories found."));
+              return const Center(child: Text("No club advisors found."));
             }
 
             return GridView.builder(
@@ -44,11 +43,16 @@ class AdminClubFaqGridView extends StatelessWidget {
               itemCount: controller.categories.length,
               itemBuilder: (context, index) {
                 var category = controller.categories[index];
-                var categoryId = category.id;
+                var advisorName = category.clubName;
+                var image = category.iconImg;
+                var clubCategoryId = category.id;
 
                 return GestureDetector(
                   onTap: () {
-                    Get.to(() => AdminClubFAQView(categoriesId: categoryId!));
+                    // Navigate to the club advisors details view
+                    Get.to(() => ClubAdvisorsForClubDetails(
+                        clubCategoryId:
+                            clubCategoryId!)); // Navigate to the correct view
                   },
                   child: Card(
                     elevation: 6,
